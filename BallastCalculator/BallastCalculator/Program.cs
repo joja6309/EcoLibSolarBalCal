@@ -252,20 +252,36 @@ namespace BallastCalculator
                 PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
 
                 grid.RunIFILocationChecks();
-                grid.CalculateNeighbors(1);
-                grid.CalculateBallastLocation();
-                List<PanelBase> baseList = grid.GetPanelBases();
+            grid.CalculateNeighbors(1);
+            grid.CalculateBallastLocation();
+
+            List<Panel> panel_list = grid.GetPanels();
+            //foreach (Panel panel in panel_list)
+            //{
+            //    Console.WriteLine(panel.PanelID);
+
+            //    foreach (var x in panel.NeighborHood)
+            //    {
+            //        Console.WriteLine(x);
+            //    }
+            //    foreach (var y in panel.DirectionList)
+            //    {
+            //        Console.WriteLine(y);
+            //    }
+
+            //    Console.ReadKey();
+            //}
+            List<PanelBase> baseList = grid.GetPanelBases();
                 grid.PrintPanelData();
-                
-                //foreach (var x in baseList)
-                //{
-                //    Console.WriteLine(x.BaseID);
-                //    Console.WriteLine(x.BallastLocation);
-                //    Console.WriteLine(x.EdgeID);
-                //}
+
+            foreach (var x in panel_list)
+            {
+                Console.WriteLine(x.BallastLocation);
+            }
+            Console.ReadKey(); 
 
 
-                List<Panel>  FinishedList = grid.GetPanels();
+            List<Panel>  FinishedList = grid.GetPanels();
 
                 string excel_filepath = @"C:\Users\Owner\Downloads\Threecocalcs 0_5_1.xlsx";
 

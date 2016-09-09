@@ -29,17 +29,17 @@ namespace BallastCalculator
                 //Console.ReadKey();
 
             }
-            foreach(Panel panel in PanelList )
+            foreach (Panel panel in PanelList)
             {
                 panel.Sliding = GetSlidingValue(panel);
             }
-            foreach(Panel panel in PanelList)
+            foreach (Panel panel in PanelList)
             {
-                panel.Uplift = GetUpliftValue(panel); 
+                panel.Uplift = GetUpliftValue(panel);
             }
-            foreach(Panel panel in PanelList)
+            foreach (Panel panel in PanelList)
             {
-                CalculatePanelCorners(panel); 
+                CalculatePanelCorners(panel);
             }
 
         }
@@ -47,26 +47,26 @@ namespace BallastCalculator
         {
             var x_start = Center.Item1;
             var y_start = Center.Item2;
-            Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5*(.5 + IFIBoarder.Width) ,y_start + .5*(17.494 + IFIBoarder.Height)); //NWest
-            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + IFIBoarder.Width), y_start + (17.494 + IFIBoarder.Height) );//NEast
-            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start +  .5 * (.5 + IFIBoarder.Width), y_start - (17.494 - IFIBoarder.Height)); //SEast
-            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5*(.5 + IFIBoarder.Width) , y_start - (17.494 - IFIBoarder.Height)); //SWest
-            List<Tuple<double,double>> temp_list = new List<Tuple<double, double>>();
+            Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5 * (.5 + IFIBoarder.Width), y_start + .5 * (17.494 + IFIBoarder.Height)); //NWest
+            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + IFIBoarder.Width), y_start + (17.494 + IFIBoarder.Height));//NEast
+            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + IFIBoarder.Width), y_start - (17.494 - IFIBoarder.Height)); //SEast
+            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5 * (.5 + IFIBoarder.Width), y_start - (17.494 - IFIBoarder.Height)); //SWest
+            List<Tuple<double, double>> temp_list = new List<Tuple<double, double>>();
 
             temp_list.Add(corner_neighbor_east);
             temp_list.Add(corner_neighbor_west);
             temp_list.Add(corner_neighbor_north);
             temp_list.Add(corner_neighbor_south);
             Random rand = new Random();
-            string random_number = Convert.ToString(rand.Next(0,10));
-            
-            foreach(var x in temp_list)
+            string random_number = Convert.ToString(rand.Next(0, 10));
+
+            foreach (var x in temp_list)
             {
                 PanelBase temp = new PanelBase();
                 temp.CenterPoint = x;
                 temp.EdgeID = random_number + RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
                 temp.PanelID = panel.PanelID;
-                temp.BallastLocation = panel.BallastLocation; 
+                temp.BallastLocation = panel.BallastLocation;
                 PanelBaseList.Add(temp);
             }
         }
@@ -82,84 +82,69 @@ namespace BallastCalculator
                 return Convert.ToString(let);
             }
         }
-
         BasicDimensions IFIBoarder = new BasicDimensions();
-
         private List<Panel> PanelList = new List<Panel>();
         public List<Panel> GetPanels()
         {
-            return PanelList; 
+            return PanelList;
         }
         public List<PanelBase> GetPanelBases()
         {
-            return PanelBaseList; 
+            return PanelBaseList;
         }
         public void CalculateBallastLocation()
         {
-            foreach(Panel panel in PanelList)
+            foreach (Panel panel in PanelList)
             {
+
                 //0W1N2S3E
-                    foreach(var d in panel.DirectionList)
+                if (panel.DirectionList.Contains(0) && panel.DirectionList.Contains(1))
                 {
-                    Console.WriteLine(d);
-                    Console.ReadKey();
-
+                    panel.BallastLocation = 0;
 
                 }
-
-
-
-                foreach (var neigh in panel.NeighborHood)
+                else if (panel.DirectionList.Contains(1) && panel.DirectionList.Contains(3))
                 {
-                   if(neigh.DirectionList.Contains(0) && neigh.DirectionList.Contains(1))
-                    {
-                        panel.BallastLocation = 0;
-
-                    }
-                   else if (neigh.DirectionList.Contains(1) && neigh.DirectionList.Contains(3))
-                    {
-                        panel.BallastLocation = 3;
-
-                    }
-                   else if (neigh.DirectionList.Contains(2) && neigh.DirectionList.Contains(3))
-                        {
-                        panel.BallastLocation = 9;
-
-                    }
-                   else if (neigh.DirectionList.Contains(2) && neigh.DirectionList.Contains(0))
-                    {
-                        panel.BallastLocation = 7;
-
-                    }
-                   else if (neigh.DirectionList.Contains(0) && neigh.DirectionList.Count == 1 )
-                    {
-                        panel.BallastLocation = 3;
-
-                    }
-                   else if (neigh.DirectionList.Contains(1) && neigh.DirectionList.Count == 1 )
-                    {
-                        panel.BallastLocation = 2;
-                    }
-                   else if (neigh.DirectionList.Contains(2) && neigh.DirectionList.Count == 1)
-                    {
-                        panel.BallastLocation = 1; 
-                    }
-                   else if (neigh.DirectionList.Contains(3) && neigh.DirectionList.Count == 1)
-                    {
-                        panel.BallastLocation = 6;
-                    }else if ((neigh.DirectionList.Contains(0)) && (neigh.DirectionList.Contains(1)) & (neigh.DirectionList.Contains(2)) & (neigh.DirectionList.Contains(3)))
-                    {
-                        panel.BallastLocation = 8; 
-                    }
-
-
-
+                    panel.BallastLocation = 3;
 
                 }
+                else if (panel.DirectionList.Contains(2) && panel.DirectionList.Contains(3))
+                {
+                    panel.BallastLocation = 9;
 
+                }
+                else if (panel.DirectionList.Contains(2) && panel.DirectionList.Contains(0))
+                {
+                    panel.BallastLocation = 7;
+
+                }
+                else if (panel.DirectionList.Contains(0) && panel.DirectionList.Count == 1)
+                {
+                    panel.BallastLocation = 3;
+
+                }
+                else if (panel.DirectionList.Contains(1) && panel.DirectionList.Count == 1)
+                {
+                    panel.BallastLocation = 2;
+                }
+                else if (panel.DirectionList.Contains(2) && panel.DirectionList.Count == 1)
+                {
+                    panel.BallastLocation = 1;
+                }
+                else if (panel.DirectionList.Contains(3) && panel.DirectionList.Count == 1)
+                {
+                    panel.BallastLocation = 6;
+                } else if ((panel.DirectionList.Contains(0)) && (panel.DirectionList.Contains(1)) & (panel.DirectionList.Contains(2)) & (panel.DirectionList.Contains(3)))
+                {
+                    panel.BallastLocation = 8;
+                }
 
             }
+
+
         }
+    
+
         private List<PanelBase> PanelBaseList = new List<PanelBase>();
         private int GetUpliftValue(Panel panel)
         {
@@ -205,7 +190,6 @@ namespace BallastCalculator
             }
             return total_matches;
         }
-
         public void RunIFILocationChecks()
         {
             foreach (var panel in PanelList)
@@ -236,101 +220,22 @@ namespace BallastCalculator
                     foreach (var x in PanelList)
                     {
                        
-
-
                         if ((Math.Abs(neighbor.Item1 - x.Center.Item1) <= .5) && (Math.Abs(neighbor.Item2 - x.Center.Item2) <= .5))
                         {
                             panel.NeighborHood.Add(x);
-                            Console.WriteLine(neighbor.Item3);
-                            Console.ReadKey();
-                            if (neighbor.Item3 == 0)
-                            {
-                                if (!panel.DirectionList.Contains(0))
-                                {
-                                    panel.DirectionList.Add(0);
+                            panel.DirectionList.Add(neighbor.Item3); 
+                           
                                 }
-                            }
-                            else if (neighbor.Item3 == 1)
-                            {
-                                if (!panel.DirectionList.Contains(1))
-                                    {
-                                    panel.DirectionList.Add(1);
-
-                                }
-
-                            }
-                            else if (neighbor.Item3 == 2 )
-                            {
-                                if(!panel.DirectionList.Contains(2))
-                                {
-                                    panel.DirectionList.Add(2); 
-                                }
-                            }
-                            else if (neighbor.Item3 == 3)
-                            {
-                                if (!panel.DirectionList.Contains(3))
-                                {
-                                    panel.DirectionList.Add(3);
-                                }
-                            }
-                                
-
-                                }
-                            }
-
-                        }
                     }
-        }
-        private List<Tuple<double, double, int>> GenerateNeighborhood2(int input_n, double Center.Item1, double y_start, int direction)
-        {
-            List<Tuple<double, double, int>> neighborhood = new List<Tuple<double, double, int>>(); 
-            for (int x = 0; x <= input_n; x++)
-            {
-                for (int y = 0; y <= input_n; y++)
-                {
-                    for (int i = -1; i <= 1; i += 2)
-                    {
-                        if (x.Equals(0))
-                            i = 1;
-
-
-                        for (int j = -1; j <= 1; j += 2)
-                        {
-                            if (y.Equals(0))
-                                j = 1;
-                            int temp_direction = 0;
-                            if (i == -1 && j == 0)
-                            {
-                                temp_direction = 3;
-                            }
-                            else if (i == 1 & j == 0)
-                            {
-                                temp_direction = 2;
-                            }
-                            else if (i == 0 & j == -1)
-                            {
-                                temp_direction = 3;
-                            }
-                            else
-                            {
-                                temp_direction = 1;
-                            }
-                            Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(Center.Item1 + (0.5 + IFIBoarder.Width) * i * x, y_start + (17.494 + IFIBoarder.Height) * j * y, temp_direction);
-                            neighborhood.Add(temp_neighbor);
-                        }
-
-                    }
+ 
                 }
+                IEnumerable<int> values  = panel.DirectionList.Cast<int>().Distinct();
+                panel.DirectionList = values.ToList<int>(); 
             }
-            return neighborhood;
         }
-        private List<Tuple<double, double,int >> GenerateNeighborhood(int input_n, double 
-            , double y_start, int direction)
+        private List<Tuple<double, double,int >> GenerateNeighborhood(int input_n, double x_start , double y_start, int direction)
         {
             List<Tuple<double, double,int>> neighborhood = new List<Tuple<double, double,int>>();
-           
-            
-
             for (int n = 0; n <= input_n; n++)
             {
                 if (direction == 0)// East 
@@ -360,7 +265,7 @@ namespace BallastCalculator
                 {
                     Tuple<double, double,int> temp_neighbor_east = new Tuple<double, double,int >(x_start - (.5 + IFIBoarder.Width) * n, y_start,0); //East 
                     Tuple<double, double,int> temp_neighbor_north = new Tuple<double, double,int >(x_start, y_start + (17.494 + IFIBoarder.Height) * n,1);//North
-                    Tuple<double, double,int> temp_neighbor_south = new Tuple<double, double,int >(x_start, y_start + (17.494 - IFIBoarder.Height),2); //South
+                    Tuple<double, double,int> temp_neighbor_south = new Tuple<double, double,int >(x_start, y_start + (17.494 - IFIBoarder.Height)*n,2); //South
                     Tuple<double, double,int> temp_neighbor_west = new Tuple<double, double,int >(x_start + (.5 + IFIBoarder.Width) * n, y_start,3); // West 
                     neighborhood.Add(temp_neighbor_east);
                     neighborhood.Add(temp_neighbor_west);
@@ -629,4 +534,50 @@ namespace BallastCalculator
 
 
 
+//}
+
+
+
+//private List<Tuple<double, double, int>> GenerateNeighborhood2(int input_n, double x_start, double y_start, int direction)
+//{
+//    List<Tuple<double, double, int>> neighborhood = new List<Tuple<double, double, int>>();
+//    for (int x = 0; x <= input_n; x++)
+//    {
+//        for (int y = 0; y <= input_n; y++)
+//        {
+//            for (int i = -1; i <= 1; i += 2)
+//            {
+//                if (x.Equals(0))
+//                    i = 1;
+
+
+//                for (int j = -1; j <= 1; j += 2)
+//                {
+//                    if (y.Equals(0))
+//                        j = 1;
+//                    int temp_direction = 0;
+//                    if (i == -1 && j == 0)
+//                    {
+//                        temp_direction = 3;
+//                    }
+//                    else if (i == 1 & j == 0)
+//                    {
+//                        temp_direction = 2;
+//                    }
+//                    else if (i == 0 & j == -1)
+//                    {
+//                        temp_direction = 3;
+//                    }
+//                    else
+//                    {
+//                        temp_direction = 1;
+//                    }
+//                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(Center.Item1 + (0.5 + IFIBoarder.Width) * i * x, y_start + (17.494 + IFIBoarder.Height) * j * y, temp_direction);
+//                    neighborhood.Add(temp_neighbor);
+//                }
+
+//            }
+//        }
+//    }
+//    return neighborhood;
 //}
