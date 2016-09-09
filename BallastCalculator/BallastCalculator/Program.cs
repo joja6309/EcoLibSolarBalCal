@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
-using ExcelInterface; 
+using ExcelInterface;
+using Dimensions;
+using DXFInterface; 
+
 
 namespace BallastCalculator
 {
@@ -205,274 +208,274 @@ namespace BallastCalculator
             {
                 //GetUserInputs()
                 Console.WriteLine("Press Enter to Continue: ");
-                DxfParser file_data = new DxfParser("file_name"); 
-                //Console.WriteLine("Copy and Paste the input file path");
-                //string IncomingFilePath = Console.ReadLine(); 
-                //IncomingFilePath = 
-                file_data.ParseFile();
-                file_data.ParseEntities();
-
-                BasicDimensions BlockPerimeter = file_data.ParseBlocks();
-            
-                IFIPerimeter IFIboarder = file_data.IFIBoarder;
-
-                List<Panel> PanelList = file_data.PanelList;
-
-                BlockPerimeter.CalculateCenter(); 
-
-
-                IFIboarder.CalculateCenter();
-
-                IFIboarder.SetCorners();
-
-                foreach (Panel panel in PanelList)
-                {
-                    panel.SetPanelZones(IFIboarder);
-                }
-
-
-
-                //Console.WriteLine("Input (N) radius that should be checked: ");
-
-                //string input_string = Console.ReadLine();
-
-                //int input_n = 0;
-
-                //if (string.IsNullOrEmpty(input_string))
-                //{
-                //    input_n = 3;
-
-                //}
-                //else
-                //{
-                //    input_n = Convert.ToInt32(input_string);
-
-                //}
-
-                PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
-
-                grid.RunIFILocationChecks();
-            grid.CalculateNeighbors(1);
-            grid.CalculateBallastLocation();
-
-            List<Panel> panel_list = grid.GetPanels();
-            //foreach (Panel panel in panel_list)
-            //{
-            //    Console.WriteLine(panel.PanelID);
-
-            //    foreach (var x in panel.NeighborHood)
-            //    {
-            //        Console.WriteLine(x);
-            //    }
-            //    foreach (var y in panel.DirectionList)
-            //    {
-            //        Console.WriteLine(y);
-            //    }
-
-            //    Console.ReadKey();
-            //}
-            List<PanelBase> baseList = grid.GetPanelBases();
-                grid.PrintPanelData();
-
-            foreach (var x in panel_list)
+            //Console.WriteLine("Copy and Paste the input file path");
+            //string IncomingFilePath = Console.ReadLine(); 
+            //IncomingFilePath = 
+            string file_path = @"C:\Users\Owner\Desktop\EcoLibriumSolar\Greenskies_Griswold Elem EF3_Ecolibrium Layout (WITH IFI PERIMETER) stripped down.dxf";
+            string output_path = "output";
+            DxfIO dxfInterface = new DxfIO(file_path,output_path);
+            BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
+            IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
+            List<Panel> PanelList = dxfInterface.GetEntitiesPanels(); 
+            BlockPerimeter.CalculateCenter();
+            IFIboarder.CalculateCenter();
+            IFIboarder.SetCorners();
+            foreach (Panel panel in PanelList)
             {
-                Console.WriteLine(x.BallastLocation);
+                panel.SetPanelZones(IFIboarder);
             }
-            Console.ReadKey(); 
+            IFIboarder.PrintIFIData();
+            // Input Center of Block and List of Panels with correct Zones
+            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
+            // Current Debug Targets! 
+            //grid.RunIFILocationChecks();
+            //grid.CalculateNeighbors(1);
+            //grid.CalculateBallastLocation();
 
 
-            List<Panel>  FinishedList = grid.GetPanels();
 
-                string excel_filepath = @"C:\Users\Owner\Downloads\Threecocalcs 0_5_1.xlsx";
+            ///////////////////////////////////////
+            //Under development 
+            ///////////////////////////////////////
 
-                ExcelIO ExInterface = new ExcelIO(excel_filepath);
-
-
-
-            //Reference Sheet Set Based on Land or Portrait 
-
-            //Excel Parsing Class
-            //Get First Sheet Data 
-            //string firstSheet = "1-Eng Inputs";
-            //string deflectorCell = "C32";
-            //string modCell = "C33";
-            //string balCell = "B34";
-            //Tuple<string, uint> slidingCell = new Tuple<string,uint>("G" ,38);
-            //Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 38); 
-            //bool deflector = ExInterface.CheckFirst(firstSheet, deflectorCell);
-            //bool landscape = ExInterface.CheckFirst(firstSheet, modCell);
-            //double bal = ExInterface.GetBalast(firstSheet, balCell);
-            //Console.WriteLine(1);
-            //List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
-            //List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
-            ////List<int> WOBallasrreference_zones = new List<int>() {}
-            //string column = null; 
-            //string referenceSheet = null; 
-            //if(landscape)
+            //List<Panel> panel_list = grid.GetPanels();
+            //List<PanelBase> baseList = grid.GetPanelBases();
+            //grid.PrintPanelData();
+            //foreach (var x in panel_list)
             //{
-            //    referenceSheet = "wind load calc_10d";
-            //    column = "M";
+            //    Console.WriteLine(x.BallastLocation);
             //}
-            //else
-            //{
-            //    referenceSheet = "wind load calc_5d";
-            //    column = "K";
-            //}
-
-            //foreach (Panel panel in PanelList)
-            //{
-            //    int startingCell_NE = 0;
-            //    int startingCell_NW = 0;
-            //    List<int> ColumnPositions = new List<int>();
-            //    ExInterface.InsertText(referenceSheet, upliftCell, panel.Sliding.ToString());
-            //    ExInterface.InsertText(referenceSheet, slidingCell, panel.Uplift.ToString()); 
-            //    ExInterface.Update();
-
-            //    if (deflector)
-            //    {   // reference sheet 10d at correct zone 
-            //        startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1 ];
-            //        startingCell_NW = WODeflector_Refzones[panel.NW_Zone - 1 ];
-            //    }
-            //    else
-            //    {   // Same Row Reference Array if sheet 5d at correct zone 
-            //        startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1 ];
-            //        startingCell_NW = WDeflector_Refzones[panel.NW_Zone - 1];
-
-            //    }
-            //    // N0 S0 both
-            //    // S0 1N only south
-            //    // S1 just north
-
-            //    // NEZone -> E2W
-            //    // NWZone -> W2E
-            //    //N0
-            //    //N1 S1
-            //    //N2 S1
-            //    //S0
-            //    if (landscape)
-            //    {
-
-            //        if (panel.IFI_NORTH_Land == 0)
-            //        {
-            //            int temp_cell_West = startingCell_NW + 1;
-            //            int temp_cell_East = startingCell_NE + 1;
-
-            //            if (panel.IFI_E2W_Land.Equals(2))
-            //            {
-            //                temp_cell_East = startingCell_NE + 1;
-
-
-            //            }
-            //            else if (panel.IFI_E2W_Land.Equals(2))
-            //            {
-            //                temp_cell_West = startingCell_NW + 1;
-            //            }
-            //            ColumnPositions.Add(temp_cell_West);
-            //            ColumnPositions.Add(temp_cell_East);
-
-            //        }
-            //        else if (panel.IFI_SOUTH_Land == 0 && panel.IFI_NORTH_Land != 0)
-            //        {
-            //            if (panel.IFI_NORTH_Land == 1)
-            //            {
-            //                int temp_cell_West = startingCell_NW + 1;
-            //                int temp_cell_East = startingCell_NE + 1;
-            //                if (panel.IFI_E2W_Land.Equals(2))
-            //                {
-            //                    temp_cell_West = startingCell_NE + 1;
-
-
-            //                }
-            //                else if (panel.IFI_E2W_Land.Equals(2))
-            //                {
-            //                    temp_cell_East = startingCell_NW + 1;
-            //                }
-            //                ColumnPositions.Add(temp_cell_West);
-            //                ColumnPositions.Add(temp_cell_East);
-
-            //            }
-            //            else if (panel.IFI_NORTH_Land == 2)
-            //            {
-            //                int temp_cell_West = startingCell_NW + 2;
-            //                int temp_cell_East = startingCell_NE + 2;
-            //                if (panel.IFI_E2W_Land.Equals(2))
-            //                {
-            //                    temp_cell_West = startingCell_NE + 1;
-
-
-            //                }
-            //                else if (panel.IFI_E2W_Land.Equals(2))
-            //                {
-            //                    temp_cell_East = startingCell_NW + 1;
-            //                }
-            //                ColumnPositions.Add(temp_cell_West);
-            //                ColumnPositions.Add(temp_cell_East);
-
-            //            }
-
-            //        }
-            //        else if (panel.IFI_SOUTH_Land == 1 | panel.IFI_SOUTH_Land == 0)
-            //        {
-            //            int temp_cell_West = startingCell_NW + 6;
-            //            int temp_cell_East = startingCell_NE + 6;
-            //            if (panel.IFI_E2W_Land.Equals(2))
-            //            {
-            //                temp_cell_West = startingCell_NE + 1;
-
-
-            //            }
-            //            else if (panel.IFI_E2W_Land.Equals(2))
-            //            {
-            //                temp_cell_East = startingCell_NW + 1;
-            //            }
-            //            ColumnPositions.Add(temp_cell_West);
-            //            ColumnPositions.Add(temp_cell_East);
-
-            //        }
-
-            //    }
-            //    List<double> Results = new List<double>();
-            //    foreach (var position in ColumnPositions)
-            //    {
-            //        var return_cell = ExInterface.ReadCell(referenceSheet, column + position.ToString());
-            //        Results.Add(Convert.ToDouble(return_cell));
-            //    }
-            //    double final_value = Results.Max();
-            //    foreach(var x in Results)
-            //    {
-            //        Console.WriteLine(x);
-
-
-            //    }
-            //    panel.ValueFromExcel = final_value;
-            //}
-           
-
-           
-
-        }
+            //Console.ReadKey();
+            //List<Panel> FinishedList = grid.GetPanels();
+            //string excel_filepath = @"C:\Users\Owner\Downloads\Threecocalcs 0_5_1.xlsx";
+            //ExcelIO ExInterface = new ExcelIO(excel_filepath);
         }
     }
-
-    // land = 10 deg 
-    // port = 5 deg 
-
-    //deflector 
-    // - pair 8 conditions 
-    //- pair 8 conditions 
-
-    //Write to Uplift 
-    //Write to Sliding 
+}
 
 
-    //InOut Excel
-    //Landscape or Portrait     --> What cells to reference in file 
-    //With without deflectors  --> 
 
-    //Use roof zone 
-    // East 2 West true col -> with give us 
-    //West 2 East true col 
-    //IFI North 
-    //IFI South 
+//Console.WriteLine("Input (N) radius that should be checked: ");
 
-    //
+//string input_string = Console.ReadLine();
+
+//int input_n = 0;
+
+//if (string.IsNullOrEmpty(input_string))
+//{
+//    input_n = 3;
+
+//}
+//else
+//{
+//    input_n = Convert.ToInt32(input_string);
+
+//}
+
+
+
+
+//foreach (Panel panel in panel_list)
+//{
+//    Console.WriteLine(panel.PanelID);
+
+//    foreach (var x in panel.NeighborHood)
+//    {
+//        Console.WriteLine(x);
+//    }
+//    foreach (var y in panel.DirectionList)
+//    {
+//        Console.WriteLine(y);
+//    }
+
+//    Console.ReadKey();
+//}
+
+
+
+
+//Reference Sheet Set Based on Land or Portrait 
+
+//Excel Parsing Class
+//Get First Sheet Data 
+//string firstSheet = "1-Eng Inputs";
+//string deflectorCell = "C32";
+//string modCell = "C33";
+//string balCell = "B34";
+//Tuple<string, uint> slidingCell = new Tuple<string,uint>("G" ,38);
+//Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 38); 
+//bool deflector = ExInterface.CheckFirst(firstSheet, deflectorCell);
+//bool landscape = ExInterface.CheckFirst(firstSheet, modCell);
+//double bal = ExInterface.GetBalast(firstSheet, balCell);
+//Console.WriteLine(1);
+//List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
+//List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
+////List<int> WOBallasrreference_zones = new List<int>() {}
+//string column = null; 
+//string referenceSheet = null; 
+//if(landscape)
+//{
+//    referenceSheet = "wind load calc_10d";
+//    column = "M";
+//}
+//else
+//{
+//    referenceSheet = "wind load calc_5d";
+//    column = "K";
+//}
+
+//foreach (Panel panel in PanelList)
+//{
+//    int startingCell_NE = 0;
+//    int startingCell_NW = 0;
+//    List<int> ColumnPositions = new List<int>();
+//    ExInterface.InsertText(referenceSheet, upliftCell, panel.Sliding.ToString());
+//    ExInterface.InsertText(referenceSheet, slidingCell, panel.Uplift.ToString()); 
+//    ExInterface.Update();
+
+//    if (deflector)
+//    {   // reference sheet 10d at correct zone 
+//        startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1 ];
+//        startingCell_NW = WODeflector_Refzones[panel.NW_Zone - 1 ];
+//    }
+//    else
+//    {   // Same Row Reference Array if sheet 5d at correct zone 
+//        startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1 ];
+//        startingCell_NW = WDeflector_Refzones[panel.NW_Zone - 1];
+
+//    }
+//    // N0 S0 both
+//    // S0 1N only south
+//    // S1 just north
+
+//    // NEZone -> E2W
+//    // NWZone -> W2E
+//    //N0
+//    //N1 S1
+//    //N2 S1
+//    //S0
+//    if (landscape)
+//    {
+
+//        if (panel.IFI_NORTH_Land == 0)
+//        {
+//            int temp_cell_West = startingCell_NW + 1;
+//            int temp_cell_East = startingCell_NE + 1;
+
+//            if (panel.IFI_E2W_Land.Equals(2))
+//            {
+//                temp_cell_East = startingCell_NE + 1;
+
+
+//            }
+//            else if (panel.IFI_E2W_Land.Equals(2))
+//            {
+//                temp_cell_West = startingCell_NW + 1;
+//            }
+//            ColumnPositions.Add(temp_cell_West);
+//            ColumnPositions.Add(temp_cell_East);
+
+//        }
+//        else if (panel.IFI_SOUTH_Land == 0 && panel.IFI_NORTH_Land != 0)
+//        {
+//            if (panel.IFI_NORTH_Land == 1)
+//            {
+//                int temp_cell_West = startingCell_NW + 1;
+//                int temp_cell_East = startingCell_NE + 1;
+//                if (panel.IFI_E2W_Land.Equals(2))
+//                {
+//                    temp_cell_West = startingCell_NE + 1;
+
+
+//                }
+//                else if (panel.IFI_E2W_Land.Equals(2))
+//                {
+//                    temp_cell_East = startingCell_NW + 1;
+//                }
+//                ColumnPositions.Add(temp_cell_West);
+//                ColumnPositions.Add(temp_cell_East);
+
+//            }
+//            else if (panel.IFI_NORTH_Land == 2)
+//            {
+//                int temp_cell_West = startingCell_NW + 2;
+//                int temp_cell_East = startingCell_NE + 2;
+//                if (panel.IFI_E2W_Land.Equals(2))
+//                {
+//                    temp_cell_West = startingCell_NE + 1;
+
+
+//                }
+//                else if (panel.IFI_E2W_Land.Equals(2))
+//                {
+//                    temp_cell_East = startingCell_NW + 1;
+//                }
+//                ColumnPositions.Add(temp_cell_West);
+//                ColumnPositions.Add(temp_cell_East);
+
+//            }
+
+//        }
+//        else if (panel.IFI_SOUTH_Land == 1 | panel.IFI_SOUTH_Land == 0)
+//        {
+//            int temp_cell_West = startingCell_NW + 6;
+//            int temp_cell_East = startingCell_NE + 6;
+//            if (panel.IFI_E2W_Land.Equals(2))
+//            {
+//                temp_cell_West = startingCell_NE + 1;
+
+
+//            }
+//            else if (panel.IFI_E2W_Land.Equals(2))
+//            {
+//                temp_cell_East = startingCell_NW + 1;
+//            }
+//            ColumnPositions.Add(temp_cell_West);
+//            ColumnPositions.Add(temp_cell_East);
+
+//        }
+
+//    }
+//    List<double> Results = new List<double>();
+//    foreach (var position in ColumnPositions)
+//    {
+//        var return_cell = ExInterface.ReadCell(referenceSheet, column + position.ToString());
+//        Results.Add(Convert.ToDouble(return_cell));
+//    }
+//    double final_value = Results.Max();
+//    foreach(var x in Results)
+//    {
+//        Console.WriteLine(x);
+
+
+//    }
+//    panel.ValueFromExcel = final_value;
+//}
+
+
+
+
+
+
+// land = 10 deg 
+// port = 5 deg 
+
+//deflector 
+// - pair 8 conditions 
+//- pair 8 conditions 
+
+//Write to Uplift 
+//Write to Sliding 
+
+
+//InOut Excel
+//Landscape or Portrait     --> What cells to reference in file 
+//With without deflectors  --> 
+
+//Use roof zone 
+// East 2 West true col -> with give us 
+//West 2 East true col 
+//IFI North 
+//IFI South 
+
+//

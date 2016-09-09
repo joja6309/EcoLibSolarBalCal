@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dimensions;
 
 
 namespace BallastCalculator
 {
 
-    class PanelGrid : Panel
+    class PanelGrid 
     {
 
         public PanelGrid(BasicDimensions perimeter, List<Panel> plist)
@@ -45,8 +46,8 @@ namespace BallastCalculator
         }
         private void CalculatePanelCorners(Panel panel)
         {
-            var x_start = Center.Item1;
-            var y_start = Center.Item2;
+            var x_start = panel.Center.Item1;
+            var y_start = panel.Center.Item2;
             Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5 * (.5 + IFIBoarder.Width), y_start + .5 * (17.494 + IFIBoarder.Height)); //NWest
             Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + IFIBoarder.Width), y_start + (17.494 + IFIBoarder.Height));//NEast
             Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + IFIBoarder.Width), y_start - (17.494 - IFIBoarder.Height)); //SEast
@@ -143,8 +144,6 @@ namespace BallastCalculator
 
 
         }
-    
-
         private List<PanelBase> PanelBaseList = new List<PanelBase>();
         private int GetUpliftValue(Panel panel)
         {

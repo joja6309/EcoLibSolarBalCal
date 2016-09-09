@@ -48,11 +48,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicDimensions.cs" />
-    <Compile Include="DxfParser.cs" />
-    <Compile Include="IFIPerimeter.cs" />
-    <Compile Include="Panel.cs" />
-    <Compile Include="PanelBasecs.cs" />
     <Compile Include="PanelGrid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +57,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Dimension\Dimension\Dimension.csproj">
+      <Project>{9c034c84-95e8-4178-b400-82c9346c3291}</Project>
+      <Name>Dimension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DXFInterface\DXFInterface\DXFInterface.csproj">
+      <Project>{0dfb7611-5a1e-440c-af5b-48c084b34dbd}</Project>
+      <Name>DXFInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ExcelInterface\ExcelInterface\ExcelInterface.csproj">
       <Project>{b5295f99-a949-4e59-9a96-1763fce4abcd}</Project>
       <Name>ExcelInterface</Name>

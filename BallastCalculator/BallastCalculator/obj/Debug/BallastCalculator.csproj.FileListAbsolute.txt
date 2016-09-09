@@ -1,9 +1,13 @@
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\BallastCalculator.exe.config
-C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.csprojResolveAssemblyReference.cache
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\BallastCalculator.exe
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\BallastCalculator.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\Dimension.dll
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\DocumentFormat.OpenXml.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\DXFInterface.dll
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\ExcelInterface.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\Dimension.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\DXFInterface.pdb
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\ExcelInterface.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.csprojResolveAssemblyReference.cache
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.exe
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.pdb
