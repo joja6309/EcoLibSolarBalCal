@@ -220,8 +220,10 @@ namespace BallastCalculator
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
+            
             foreach (Panel panel in PanelList)
             {
+                panel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2); 
                 panel.SetPanelZones(IFIboarder);
             }
 

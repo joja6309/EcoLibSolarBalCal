@@ -89,9 +89,9 @@ namespace BallastCalculator
             List<Tuple<double, double, int>> neighborhood = new List<Tuple<double, double, int>>();
             for (int n = 0; n <= input_n; n++)
             {
-                if (direction == 0)// East 
+                if (direction == 0)// East
                 {
-                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 0); //East 
+                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 0); //East
                     neighborhood.Add(temp_neighbor);
                 }
                 else if (direction == 1) //North
@@ -102,29 +102,35 @@ namespace BallastCalculator
                 }
                 else if (direction == 2)//South
                 {
-                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start, y_start + (17.494 - BlocksValues.Height), 2); //South
+                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start, y_start - (17.494 + BlocksValues.Height), 2); //South
                     neighborhood.Add(temp_neighbor);
 
                 }
-                else if (direction == 3)//West 
+                else if (direction == 3)//West
                 {
-                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 3); // West
+                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 3); // West
                     neighborhood.Add(temp_neighbor);
 
                 }
-                else if (direction == 4) //All Directions 
+                else if (direction == 4) //All Directions
                 {
-                    Tuple<double, double, int> temp_neighbor_east = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 0); //East 
-                    Tuple<double, double, int> temp_neighbor_north = new Tuple<double, double, int>(x_start, y_start + (17.494 + BlocksValues.Height) * n, 1);//North
-                    Tuple<double, double, int> temp_neighbor_south = new Tuple<double, double, int>(x_start, y_start + (17.494 - BlocksValues.Height) * n, 2); //South
-                    Tuple<double, double, int> temp_neighbor_west = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 3); // West 
+                    Tuple<double, double, int> temp_neighbor_east = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 0); //East
                     neighborhood.Add(temp_neighbor_east);
-                    neighborhood.Add(temp_neighbor_west);
-                    neighborhood.Add(temp_neighbor_north);
-                    neighborhood.Add(temp_neighbor_south);
+                    if (n > 0)
+                    {
+                        //KB DEBUG: added if statement to eliminate counting (0,0) 4 times
+                        Tuple<double, double, int> temp_neighbor_north = new Tuple<double, double, int>(x_start, y_start + (17.494 + BlocksValues.Height) * n, 1);//North
+                        neighborhood.Add(temp_neighbor_north);
+                        Tuple<double, double, int> temp_neighbor_south = new Tuple<double, double, int>(x_start, y_start - (17.494 + BlocksValues.Height) * n, 2); //South
+                        neighborhood.Add(temp_neighbor_south);
+                        Tuple<double, double, int> temp_neighbor_west = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 3); // West
+                        neighborhood.Add(temp_neighbor_west);
+                    }
+
                 }
             }
             return neighborhood;
+
         }
         private int CountNeighbors(List<Tuple<double, double, int>> neighborhood)
         {
