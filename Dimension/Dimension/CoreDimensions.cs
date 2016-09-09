@@ -275,19 +275,30 @@ namespace Dimensions
 
             public Dictionary<string, List<string>> ExcelResults = new Dictionary<string, List<string>>();
             public double ValueFromExcel = 0;
-
-
-
+        
         }
         public class PanelBase : BasicDimensions
         {
-            public int BaseID;
-            public int PanelID;
+            public PanelBase(string baseId, int ballastLocation, Tuple<double, double>  center, double excelValue)
+                {
+                    UniqueID = baseId;
+                    BallastLocation = ballastLocation;
+                    Center = center;
+                    ExcelValue = excelValue; 
+
+                }
+            public string UniqueID;
+            public List<int> PanelIDList = new List<int>();
+            public List<double> BlockWeightList = new List<double>(); 
             public string EdgeID;
             public int LoadShare;
             public double LoadValue;
             public int BallastLocation;
-            public Tuple<double, double> CenterPoint = new Tuple<double, double>(0, 0);
+            public double BlockWeight;
+            public double IFIBaseTotal;
+            public double ExcelValue;
+            public int BlockTotal; 
+            
         }
 
     }

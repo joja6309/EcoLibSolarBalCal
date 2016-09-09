@@ -214,9 +214,9 @@ namespace BallastCalculator
             string file_path = @"C:\Users\Owner\Desktop\EcoLibriumSolar\Greenskies_Griswold Elem EF3_Ecolibrium Layout (WITH IFI PERIMETER) stripped down.dxf";
             string output_path = "output";
             DxfIO dxfInterface = new DxfIO(file_path,output_path);
-            BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
-            IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
-            List<Panel> PanelList = dxfInterface.GetEntitiesPanels(); 
+            BasicDimensions BlockPerimeter = dxfInterface.InParse.GetValuesFromBlockSection();
+            IFIPerimeter IFIboarder = dxfInterface.InParse.GetIFIValues();
+            List<Panel> PanelList = dxfInterface.InParse.GetEntitiesPanels(); 
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
@@ -224,13 +224,21 @@ namespace BallastCalculator
             {
                 panel.SetPanelZones(IFIboarder);
             }
-            IFIboarder.PrintIFIData();
-            // Input Center of Block and List of Panels with correct Zones
+
+            //Moved all function calls to constructor inside the PanelGrid Class 
+            //1. PanelGrid PanelGrid
+            //2. PanelGrid RunPanlCalculations
+            //2. PanelGrid RunBasePanelCalculations 
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
+
+
+          
+            //IFIboarder.PrintIFIData();
+            // Input Center of Block and List of Panels with correct Zones
+            //List <PanelBase> baseValues = grid.GetPanelBases();
+            //dxfInterface.OutGen.GenerateFileOut(baseValues);
             // Current Debug Targets! 
-            //grid.RunIFILocationChecks();
-            //grid.CalculateNeighbors(1);
-            //grid.CalculateBallastLocation();
+           
 
 
 
