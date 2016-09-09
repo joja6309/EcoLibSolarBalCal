@@ -1,0 +1,8 @@
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\bin\Debug\WindowsWriteToExcelAPP.exe.config
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\bin\Debug\WindowsWriteToExcelAPP.exe
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\bin\Debug\WindowsWriteToExcelAPP.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\obj\Debug\WindowsWriteToExcelAPP.csprojResolveAssemblyReference.cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\obj\Debug\WindowsWriteToExcelAPP.exe
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\obj\Debug\WindowsWriteToExcelAPP.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\obj\Debug\WindowsWriteToExcelAPP.csproj.ResolveComReference.cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsWriteToExcelAPP\WindowsWriteToExcelAPP\bin\Debug\DocumentFormat.OpenXml.dll
