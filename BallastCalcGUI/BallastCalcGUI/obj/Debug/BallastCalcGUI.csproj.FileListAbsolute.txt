@@ -1,0 +1,9 @@
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\bin\Debug\BallastCalcGUI.exe.config
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\bin\Debug\BallastCalcGUI.exe
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\bin\Debug\BallastCalcGUI.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\obj\Debug\BallastCalcGUI.csprojResolveAssemblyReference.cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\obj\Debug\BallastCalcGUI.Form1.resources
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\obj\Debug\BallastCalcGUI.Properties.Resources.resources
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\obj\Debug\BallastCalcGUI.csproj.GenerateResource.Cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\obj\Debug\BallastCalcGUI.exe
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalcGUI\BallastCalcGUI\obj\Debug\BallastCalcGUI.pdb

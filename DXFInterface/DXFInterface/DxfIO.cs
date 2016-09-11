@@ -45,76 +45,76 @@ namespace DXFInterface
                     return Convert.ToString(let);
                 }
             }
-            private string EntitiesTemplatingFunction(string uniqueId, int block_case, Tuple<double,double> centerpoint )
-            {
-                string template = String.Format(
-@" 
-0
-INSERT
-  5
-{1} 
-2
-100
-AcDbEntity
-  8
-HATCH 1
-100
-AcDbBlockReference
-  2
-EF3_HATCH_{0}
- 10
-{2}
- 20
-{3}
- 30
-0.0", , , );
+//            private string EntitiesTemplatingFunction(string uniqueId, int block_case, Tuple<double,double> centerpoint )
+//            {
+//                string template = String.Format(
+//@" 
+//0
+//INSERT
+//  5
+//{1} 
+//2
+//100
+//AcDbEntity
+//  8
+//HATCH 1
+//100
+//AcDbBlockReference
+//  2
+//EF3_HATCH_{0}
+// 10
+//{2}
+// 20
+//{3}
+// 30
+//0.0", , , ); }
         
 
 
-            }
-            public void GenerateFileOut(List<PanelBase> final_list)
-             {
-                Random rand = new Random();
-                int rand_num = rand.Next(0, 100); 
-                string uniqueId = RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
-                Dictionary<string, string> InputDictionary = new Dictionary<string, string>(); 
+            
+            //public void GenerateFileOut(List<PanelBase> final_list)
+            // {
+            //    Random rand = new Random();
+            //    int rand_num = rand.Next(0, 100); 
+            //    string uniqueId = RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
+            //    Dictionary<string, string> InputDictionary = new Dictionary<string, string>(); 
                 
-                foreach (PanelBase pb in final_list)
-                {
+            //    foreach (PanelBase pb in final_list)
+            //    {
 
 
-                    switch (pb.BlockTotal)
-                    {
-                        case 1:
-                            rand_num += 1;
-                            uniqueId = uniqueId + rand_num.ToString();
+            //        switch (pb.BlockTotal)
+            //        {
+            //            case 1:
+            //                rand_num += 1;
+            //                uniqueId = uniqueId + rand_num.ToString();
 
 
-                        case 2:
+            //            case 2:
 
-                        case 3:
+            //            case 3:
 
-                        case 4:
+            //            case 4:
 
-                        case 5:
+            //            case 5:
 
-                        case 6:
+            //            case 6:
 
-                        case 7: 
+            //            case 7: 
 
-                        default:
-                            break;
+            //            default:
+            //                break;
                         
                       
-                    }
+            //        }
 
                         
                             
 
 
-                }
+            //    }
 
-             }
+            // }
                 
                  
                 
@@ -155,7 +155,7 @@ EF3_HATCH_{0}
             }
             private BasicDimensions BlocksSectionValues = new BasicDimensions();
             private IFIPerimeter EntitiesIFI = new IFIPerimeter();
-            private List<Panel> EntitiesPanelList = new List<Panel>();
+            private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
             private string GetInputFilePath()
             {
                 return _inputfilePath;
@@ -210,7 +210,7 @@ EF3_HATCH_{0}
             {
                 return BlocksSectionValues;
             }
-            public List<Panel> GetEntitiesPanels()
+            public List<EcoPanel> GetEntitiesPanels()
             {
                 return EntitiesPanelList;
             }
@@ -287,7 +287,7 @@ EF3_HATCH_{0}
                             temp_list.Add(Convert.ToDouble(entites_section[index + i].Trim()));
 
                         }
-                        Panel temp_base = new Panel();
+                        EcoPanel temp_base = new EcoPanel();
                         temp_base.Xvalue = temp_list[0];
                         temp_base.Yvalue = temp_list[1];
                         temp_base.PanelID = panel_count;

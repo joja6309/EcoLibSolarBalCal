@@ -187,14 +187,14 @@ namespace Dimensions
 
 
         }
-        public class Panel : BasicDimensions
+        public class EcoPanel : BasicDimensions
         {
             public int PanelID;
 
             public List<PanelBase> PanelBases = new List<PanelBase>();
             public int BallastLocation = 0;
 
-            public List<Panel> NeighborHood = new List<Panel>();
+            public List<EcoPanel> NeighborHood = new List<EcoPanel>();
             public int Sliding;
             public int Uplift;
 
@@ -204,14 +204,14 @@ namespace Dimensions
             public int IFI_W2E_Port = 4; //count of total panels east of a given module until break
             public int IFI_W2E_Land = 4;
 
-            public int IFI_SOUTH_Land = 4; //panel.IFI_south = Panel variable. For 0, panel is south edge. For 1, panel is NOT south edge.
-            public int IFI_SOUTH_Port = 4; //panel.IFI_south = Panel variable. For 0, panel is south edge. For 1, panel is NOT south edge.
+            public int IFI_SOUTH_Land = 4; //EcoPanel.IFI_south = EcoPanel variable. For 0, EcoPanel is south edge. For 1, EcoPanel is NOT south edge.
+            public int IFI_SOUTH_Port = 4; //EcoPanel.IFI_south = EcoPanel variable. For 0, EcoPanel is south edge. For 1, EcoPanel is NOT south edge.
 
             public int IFI_NORTH_Land = 4;
             public int IFI_NORTH_Port = 4;
 
-            public int IFI_E2W_Port = 4;  //panel.IFI_E2W = Panel variable. For 0, panel is east edge. For 1, panel is in col 2-4, for 2, panel is >= col 5
-            public int IFI_E2W_Land = 4;   //panel.IFI_E2W = Panel variable. For 0, panel is east edge. For 1, panel is in col 2-4, for 2, panel is >= col 5
+            public int IFI_E2W_Port = 4;  //EcoPanel.IFI_E2W = EcoPanel variable. For 0, EcoPanel is east edge. For 1, EcoPanel is in col 2-4, for 2, EcoPanel is >= col 5
+            public int IFI_E2W_Land = 4;   //EcoPanel.IFI_E2W = EcoPanel variable. For 0, EcoPanel is east edge. For 1, EcoPanel is in col 2-4, for 2, EcoPanel is >= col 5
 
             public List<int> DirectionList = new List<int>();
             public void SetPanelZones(IFIPerimeter perimeter)
