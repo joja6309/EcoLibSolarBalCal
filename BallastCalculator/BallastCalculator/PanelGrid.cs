@@ -356,7 +356,6 @@ namespace BallastCalculator
                 EcoPanel.IFI_W2E_Port = 2;
             }
         }
-
         private void CalculateBlockTotalValues(PanelBase base_panel)
         {
             double IFI_Base_Total = 0; 
@@ -501,7 +500,6 @@ namespace BallastCalculator
             }
             return total_matches;
         }
-        
         public void RunIFILocationChecks()
         {
             foreach (var EcoPanel in PanelList)
@@ -517,7 +515,6 @@ namespace BallastCalculator
 
             }
         }
-       
         public List<EcoPanel> GetPanels()
         {
             return PanelList;

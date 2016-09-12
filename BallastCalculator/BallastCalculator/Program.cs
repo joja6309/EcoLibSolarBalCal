@@ -60,8 +60,6 @@ namespace BallastCalculator
             //Console.ReadKey(); 
             DxfIO dxfInterface = new DxfIO(file_path, output_path);
             dxfInterface.ParseFile();
-           
-
             //dxfInterface.RunOutTesting();
             BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
             IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
@@ -85,12 +83,19 @@ namespace BallastCalculator
             foreach( EcoPanel panel in list  )
             {
                 Console.WriteLine("Panel ID: {0}: ", panel.PanelID);
-                Console.WriteLine(panel.DirectionList.Count); 
+                Console.WriteLine(panel.DirectionList.Count);
+                Console.WriteLine("Panel Direction List: {0}");
+                Console.WriteLine("===================="); 
+                foreach(var c in panel.DirectionList)
+                {
+                    Console.WriteLine(c); 
+                }
                 Console.WriteLine("Panel Neighbors: ");
                 Console.WriteLine("==================="); 
                 foreach(var neigh in panel.NeighborHood)
                 {
                     Console.WriteLine(neigh.PanelID);
+
                 }
                 Console.ReadKey();
 
