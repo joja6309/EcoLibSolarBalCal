@@ -67,10 +67,19 @@ namespace BallastCalculator
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
+            
              foreach (EcoPanel EcoPanel in PanelList)
             {
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
+                /*
+                Console.WriteLine("Panel No. " + EcoPanel.PanelID);
+                Console.WriteLine("Center: " + EcoPanel.Center);
+                Console.WriteLine("Zone from the east: " + EcoPanel.NE_Zone);
+                Console.WriteLine("Zone from the West: " + EcoPanel.NW_Zone);
+                //Console.WriteLine("Ballast Location: " + EcoPanel.BallastLocation);
+                Console.ReadLine();
+                */
             }
 
             //Moved all function calls to constructor inside the PanelGrid Class 
@@ -82,6 +91,10 @@ namespace BallastCalculator
             List<EcoPanel> list  = grid.GetPanels(); 
             foreach( EcoPanel panel in list  )
             {
+                Console.WriteLine("Panel No. " + panel.PanelID);
+                Console.WriteLine("Center: " + panel.Center);
+                Console.WriteLine("Zone from the east: " + panel.NE_Zone);
+                Console.WriteLine("Zone from the West: " + panel.NW_Zone);
                 Console.WriteLine("Panel ID: {0}: ", panel.PanelID);
                 Console.WriteLine(panel.DirectionList.Count);
                 Console.WriteLine("Panel Direction List: {0}");
@@ -94,7 +107,7 @@ namespace BallastCalculator
                 Console.WriteLine("==================="); 
                 foreach(var neigh in panel.NeighborHood)
                 {
-                    Console.WriteLine(neigh.PanelID);
+                    Console.WriteLine(neigh.Center);
 
                 }
                 Console.ReadKey();

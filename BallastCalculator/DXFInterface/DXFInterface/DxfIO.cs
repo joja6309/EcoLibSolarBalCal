@@ -232,7 +232,24 @@ namespace DXFInterface
         }
         private void ParseBlocks(int _blockstart, int _blockend)
         {
+        //KB DEBUG: added block title input request for simplified debugging
+        BLOCKTITLESTART:
+            Console.WriteLine("What solar panel block title should we look for in DXF?");
+            string BlockTitle = Console.ReadLine();
+        BLOCKTITLECHECK:
+            Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
+            string BlockYN = Console.ReadLine();
 
+            if (BlockYN == "Y" || BlockYN == "y")
+                Console.WriteLine("Searching for block names including " + BlockTitle);
+            else if (BlockYN == "N" || BlockYN == "n")
+                goto BLOCKTITLESTART;
+            else
+            {
+                Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
+                goto BLOCKTITLECHECK;
+            }
+            //KB DEBUG: end block title input request 
             var start = _blockstart;
 
             var end = _blockend;
@@ -247,7 +264,7 @@ namespace DXFInterface
 
             foreach (string x in perims_section)
             {
-                if (x.Contains("JA 320W 10DEG"))
+                if (x.Contains(BlockTitle))
                 {
                     perm_name_condition = true;
                 }
@@ -278,6 +295,24 @@ namespace DXFInterface
         }
         private void ParseEntities(int _start, int _end)
         {
+        //KB DEBUG: added block title input request for simplified debugging
+        BLOCKTITLESTART:
+            Console.WriteLine("What solar panel block title should we look for in DXF?");
+            string BlockTitle = Console.ReadLine();
+        BLOCKTITLECHECK:
+            Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
+            string BlockYN = Console.ReadLine();
+
+            if (BlockYN == "Y" || BlockYN == "y")
+                Console.WriteLine("Searching for block names including " + BlockTitle);
+            else if (BlockYN == "N" || BlockYN == "n")
+                goto BLOCKTITLESTART;
+            else
+            {
+                Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
+                goto BLOCKTITLECHECK;
+            }
+            //KB DEBUG: end block title input request
             var start = _start;
             var end = _end;
             string[] entites_section = new string[end - start];
@@ -289,7 +324,7 @@ namespace DXFInterface
             {
 
 
-                if (x.Contains("AcDbBlockReference") && (entites_section[index + 2].Contains("JA 320W 10DEG")))
+                if (x.Contains("AcDbBlockReference") && (entites_section[index + 2].Contains(BlockTitle)))
                 {
 
                     List<double> temp_list = new List<double>();

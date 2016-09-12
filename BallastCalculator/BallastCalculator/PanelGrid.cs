@@ -89,47 +89,79 @@ namespace BallastCalculator
             for (int n = 0; n <= input_n; n++)
             {
                 if (direction == 0)// East
-                {
+                    if (n == 0)
+                    {
+                        Tuple<double, double, int> temp_neighbor_base = new Tuple<double, double, int>(x_start, y_start, 111); //Base Point = direction 111
+                        neighborhood.Add(temp_neighbor_base);
+                    }
+                    else
+                    {
                     Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 0); //East
                     neighborhood.Add(temp_neighbor);
-                }
+                    }
                 else if (direction == 1) //North
-                {
+                    if (n == 0)
+                    {
+                        Tuple<double, double, int> temp_neighbor_base = new Tuple<double, double, int>(x_start, y_start, 111); //Base Point = direction 111
+                        neighborhood.Add(temp_neighbor_base);
+                    }
+                    else
+                    {
                     Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start, y_start + (17.494 + BlocksValues.Height) * n, 1);//North
                     neighborhood.Add(temp_neighbor);
 
-                }
+                    }
                 else if (direction == 2)//South
-                {
+                    if (n == 0)
+                    {
+                        Tuple<double, double, int> temp_neighbor_base = new Tuple<double, double, int>(x_start, y_start, 111); //Base Point = direction 111
+                        neighborhood.Add(temp_neighbor_base);
+                    }
+                    else
+                    {
                     Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start, y_start - (17.494 + BlocksValues.Height), 2); //South
                     neighborhood.Add(temp_neighbor);
 
-                }
+                    }
                 else if (direction == 3)//West
-                {
+                    if (n == 0)
+                    {
+                        Tuple<double, double, int> temp_neighbor_base = new Tuple<double, double, int>(x_start, y_start, 111); //Base Point = direction 111
+                        neighborhood.Add(temp_neighbor_base);
+                    }
+                    else
+                    {
                     Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 3); // West
                     neighborhood.Add(temp_neighbor);
 
-                }
-                else if (direction == 4) //All Directions
-                {
-                    Tuple<double, double, int> temp_neighbor_east = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 0); //East
-                    neighborhood.Add(temp_neighbor_east);
-                    if (n > 0)
-                    {
-                        //KB DEBUG: added if statement to eliminate counting (0,0) 4 times
-                        Tuple<double, double, int> temp_neighbor_north = new Tuple<double, double, int>(x_start, y_start + (17.494 + BlocksValues.Height) * n, 1);//North
-                        neighborhood.Add(temp_neighbor_north);
-                        Tuple<double, double, int> temp_neighbor_south = new Tuple<double, double, int>(x_start, y_start - (17.494 + BlocksValues.Height) * n, 2); //South
-                        neighborhood.Add(temp_neighbor_south);
-                        Tuple<double, double, int> temp_neighbor_west = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 3); // West
-                        neighborhood.Add(temp_neighbor_west);
                     }
-
+                else if (direction == 4) //All Directions
+               
+                //KB DEBUG: added back in original neighborhood calculation for n=2 and n=4 calculations (lift and sliding)
+                else if (direction == 4) 
+                {
+                    for (int y = 0; y <= input_n; y++)
+                    {
+                        for (int i = -1; i <= 1; i += 2)
+                        {
+                            if (n.Equals(0))
+                                i = 1;
+                            for (int j = -1; j <= 1; j += 2)
+                            {
+                                if (y.Equals(0))
+                                j = 1;
+                                {
+                                    Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start + (0.5 + BlocksValues.Width) * i * n, y_start + (17.494 + BlocksValues.Height) * j * y, 4);
+                                    neighborhood.Add(temp_neighbor);
+                                }
+                            }
+                        }
+                    }
                 }
             }
             return neighborhood;
 
+        
         }
         private int CountNeighbors(List<Tuple<double, double, int>> neighborhood)
         {
@@ -460,6 +492,7 @@ namespace BallastCalculator
         {
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
+            //KB DEBUG: changed the direction to utilize original neighborhood calculation
             int direction = 4;
             int input_n = 2; 
             var neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);
@@ -482,6 +515,7 @@ namespace BallastCalculator
         {
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
+            //KB DEBUG: changed the direction to utilize original neighborhood calculation
             int direction = 4;
             int input_n = 4;
             var neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);

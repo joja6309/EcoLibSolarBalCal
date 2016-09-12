@@ -12,3 +12,10 @@ C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\DXFInterface\DXFInterfa
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\DXFInterface\DXFInterface\obj\Release\DXFInterface.csprojResolveAssemblyReference.cache
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\DXFInterface\DXFInterface\obj\Release\DXFInterface.dll
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\DXFInterface\DXFInterface\obj\Release\DXFInterface.pdb
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\obj\Release\DXFInterface.csprojResolveAssemblyReference.cache
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\obj\Release\DXFInterface.dll
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\obj\Release\DXFInterface.pdb
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\bin\Release\DXFInterface.dll
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\bin\Release\DXFInterface.pdb
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\bin\Release\Dimension.dll
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\bin\Release\Dimension.pdb
