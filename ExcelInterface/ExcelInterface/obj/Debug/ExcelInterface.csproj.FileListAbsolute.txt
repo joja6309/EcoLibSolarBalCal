@@ -1,8 +1,0 @@
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\bin\Debug\ExcelInterface.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\bin\Debug\ExcelInterface.pdb
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\bin\Debug\ClosedXML.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\bin\Debug\DocumentFormat.OpenXml.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\bin\Debug\ClosedXML.xml
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.csprojResolveAssemblyReference.cache
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.pdb

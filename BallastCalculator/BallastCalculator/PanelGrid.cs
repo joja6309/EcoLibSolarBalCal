@@ -162,10 +162,10 @@ namespace BallastCalculator
             {
                 CalculatePanelCorners(EcoPanel);
             }
-            foreach (PanelBase pb in PanelBaseList)
-            {
-                CalculateBlockTotalValues(pb);
-            }
+            //foreach (PanelBase pb in PanelBaseList)
+            //{
+            //    CalculateBlockTotalValues(pb);
+            //}
 
         }
 

@@ -1,5 +1,0 @@
-C:\Users\Owner\Desktop\EcoLibriumSolar\Dimension\Dimension\bin\Debug\Dimension.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\Dimension\Dimension\bin\Debug\Dimension.pdb
-C:\Users\Owner\Desktop\EcoLibriumSolar\Dimension\Dimension\obj\Debug\Dimension.csprojResolveAssemblyReference.cache
-C:\Users\Owner\Desktop\EcoLibriumSolar\Dimension\Dimension\obj\Debug\Dimension.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\Dimension\Dimension\obj\Debug\Dimension.pdb

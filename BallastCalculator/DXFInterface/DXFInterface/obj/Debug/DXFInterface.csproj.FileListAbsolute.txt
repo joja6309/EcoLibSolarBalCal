@@ -1,0 +1,14 @@
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\bin\Debug\DXFInterface.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\bin\Debug\DXFInterface.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\bin\Debug\Dimension.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\bin\Debug\Dimension.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\obj\Debug\DXFInterface.csprojResolveAssemblyReference.cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\obj\Debug\DXFInterface.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\DXFInterface\DXFInterface\obj\Debug\DXFInterface.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\bin\Debug\DXFInterface.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\bin\Debug\DXFInterface.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\bin\Debug\Dimension.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\bin\Debug\Dimension.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\obj\Debug\DXFInterface.csprojResolveAssemblyReference.cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\obj\Debug\DXFInterface.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\DXFInterface\DXFInterface\obj\Debug\DXFInterface.pdb

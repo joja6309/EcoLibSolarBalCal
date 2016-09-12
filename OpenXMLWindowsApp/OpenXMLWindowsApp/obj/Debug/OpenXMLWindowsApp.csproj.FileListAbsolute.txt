@@ -1,6 +1,0 @@
-C:\Users\Owner\Desktop\EcoLibriumSolar\OpenXMLWindowsApp\OpenXMLWindowsApp\bin\Debug\OpenXMLWindowsApp.dll.config
-C:\Users\Owner\Desktop\EcoLibriumSolar\OpenXMLWindowsApp\OpenXMLWindowsApp\bin\Debug\OpenXMLWindowsApp.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\OpenXMLWindowsApp\OpenXMLWindowsApp\bin\Debug\OpenXMLWindowsApp.pdb
-C:\Users\Owner\Desktop\EcoLibriumSolar\OpenXMLWindowsApp\OpenXMLWindowsApp\bin\Debug\DocumentFormat.OpenXml.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\OpenXMLWindowsApp\OpenXMLWindowsApp\obj\Debug\OpenXMLWindowsApp.dll
-C:\Users\Owner\Desktop\EcoLibriumSolar\OpenXMLWindowsApp\OpenXMLWindowsApp\obj\Debug\OpenXMLWindowsApp.pdb

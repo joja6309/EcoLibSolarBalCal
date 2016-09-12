@@ -25,13 +25,12 @@ namespace BallastCalculator
                 {
                     dxfTextBox.Text = Path.GetFileName(openFileDialog1.FileName);
                     FilePathContainer.dxfPath = openFileDialog1.FileName;
-
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     string out_name = Path.GetFileNameWithoutExtension(openFileDialog1.FileName) + "_out.dxf";
+                    path = path + "/" + out_name;
                     DefaultTextBox.Text = Path.GetFullPath(out_name);
-                    FilePathContainer.outPath = Path.GetFullPath(out_name);
-
-
-
+                    FilePathContainer.outPath = Path.GetFullPath(path);
+                
                 }
             }
             private void excelButton_Click(object sender, System.EventArgs e)

@@ -9,7 +9,7 @@ C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\D
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\DXFInterface.pdb
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Debug\ExcelInterface.pdb
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.csprojResolveAssemblyReference.cache
-C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.exe
-C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.pdb
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.UserGUI.resources
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.csproj.GenerateResource.Cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.exe
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Debug\BallastCalculator.pdb

@@ -1,7 +1,0 @@
-False
-d8f5903f-553c-4821-a44f-8b05170f30658b24a2a5-7c82-4ac2-8e24-67faa0f86ce9
-{526cab66-d2a1-42bc-bd72-9763f5eaebd4}{6c1dde35-0cee-4bb0-a9cb-653463e18a04}
-{e5eb7d48-1c52-4251-a962-d079ac443c30}
-1.0.0.0
-WindowsExcelExtensionApp
-_layouts/15/

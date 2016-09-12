@@ -1,4 +1,0 @@
-C:\Users\Owner\Desktop\EcoLibriumSolar\GUIBalCal\GUIBalCal\obj\Debug\GUIBalCal.csprojResolveAssemblyReference.cache
-C:\Users\Owner\Desktop\EcoLibriumSolar\GUIBalCal\GUIBalCal\obj\Debug\GUIBalCal.Form1.resources
-C:\Users\Owner\Desktop\EcoLibriumSolar\GUIBalCal\GUIBalCal\obj\Debug\GUIBalCal.Properties.Resources.resources
-C:\Users\Owner\Desktop\EcoLibriumSolar\GUIBalCal\GUIBalCal\obj\Debug\GUIBalCal.csproj.GenerateResource.Cache

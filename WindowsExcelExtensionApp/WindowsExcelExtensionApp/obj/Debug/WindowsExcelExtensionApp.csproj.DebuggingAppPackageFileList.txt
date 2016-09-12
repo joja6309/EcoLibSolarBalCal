@@ -1,2 +1,0 @@
-bin\Debug\OfficeAppManifests\WindowsExcelExtensionAppManifest.xml
-C:\Users\Owner\Desktop\EcoLibriumSolar\WindowsExcelExtensionApp\WindowsExcelExtensionApp\bin\Debug\WindowsExcelExtensionApp.debugapp
