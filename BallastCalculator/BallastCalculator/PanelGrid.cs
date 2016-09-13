@@ -199,7 +199,7 @@ namespace BallastCalculator
             temp_neighbor = new Tuple<double, double, int>(x_start + (.5 + BlocksValues.Width) * n, y_start, 0); //East
         else if (direction == 1) //North
                temp_neighbor = new Tuple<double, double, int>(x_start, y_start + (17.494 + BlocksValues.Height) * n, 1);//North
-            else if (direction == 2)//South
+        else if (direction == 2)//South
             temp_neighbor = new Tuple<double, double, int>(x_start, y_start - (17.494 + BlocksValues.Height), 2); //South
         else if (direction == 3)//West
             temp_neighbor = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 3); // West
@@ -214,32 +214,28 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
              //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
+            for (int n = 0; n <= input_n; n++)
             {
-                var return_neighbor  = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                var return_neighbor  = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                     {
                      if (!neighborhood.Contains(temp_neighbor[0]))
                     {
                         neighborhood.Add(temp_neighbor[0]);
-
                     }
-
                 }
                 else
                 {
                     break;
-
                 }
-
             }
-            neighborhood = neighborhood.Distinct().ToList(); 
-            if (neighborhood.Count == 0)
+            //neighborhood = neighborhood.Distinct().ToList(); 
+            if (neighborhood.Count == 1)
             {
                 EcoPanel.IFI_E2W_Land = 0;
             }
-            else if ((neighborhood.Count >= 1) && (neighborhood.Count<= 3))
+            else if ((neighborhood.Count >= 2) && (neighborhood.Count<= 4))
             {
                 EcoPanel.IFI_E2W_Land = 1;
             }
@@ -255,13 +251,12 @@ namespace BallastCalculator
                         Console.WriteLine(r.PanelID);
                         Console.WriteLine(r.Center);
                     }
-
                 }
             }
         }
+
         private void E2W_PORT_Check(EcoPanel EcoPanel)
         {
-
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int direction = 0;
@@ -269,31 +264,27 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
+            for (int n = 0; n <= input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
                     {
                         neighborhood.Add(temp_neighbor[0]);
-
                     }
-
                 }
                 else
                 {
                     break;
-
                 }
-
             }
-            if (neighborhood.Count  == 0)
+            if (neighborhood.Count  == 1)
             {
                 EcoPanel.IFI_E2W_Port = 0;
             }
-            else if ((neighborhood.Count >= 1) && (neighborhood.Count <= 9))
+            else if ((neighborhood.Count >= 2) && (neighborhood.Count <= 10))
             {
                 EcoPanel.IFI_E2W_Port = 1;
             }
@@ -302,6 +293,7 @@ namespace BallastCalculator
                 EcoPanel.IFI_E2W_Port = 2;
             }
         }
+
         private void N_LAND_Check(EcoPanel EcoPanel)
         {
             // classification of module position; 0 = north edge, 1 = rows 2-6 from edge, 2 = rows >= 7 from edge
@@ -312,31 +304,27 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
+            for (int n = 0; n <= input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
                     {
-                        //Console.WriteLine(
-                        //neighborhood.Add(temp_neighbor[0]);
-
+                        neighborhood.Add(temp_neighbor[0]);
                     }
                 }
                 else
                 {
-                    break;
-                    
+                    break;                 
                 }
-
             }
-            if (neighborhood.Count == 0)
+            if (neighborhood.Count == 1)
             {
                 EcoPanel.IFI_NORTH_Land = 0;
             }
-            else if ((neighborhood.Count>= 1) && (neighborhood.Count <= 5))
+            else if ((neighborhood.Count>= 2) && (neighborhood.Count <= 6))
             {
                 EcoPanel.IFI_NORTH_Land = 1;
             }
@@ -344,12 +332,10 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_NORTH_Land = 2;
             }
-
-
         }
+
         private void N_PORT_Check(EcoPanel EcoPanel)
         {
-
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int direction = 1;
@@ -357,46 +343,37 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
+            for (int n = 0; n <= input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
                     {
                         neighborhood.Add(temp_neighbor[0]);
-
                     }
                 }
                 else
                 {
                     break;
-
                 }
-
             }
-
-            if (neighborhood.Count == 0)
+            if (neighborhood.Count == 1)
             {
                 EcoPanel.IFI_NORTH_Port = 0;
             }
-            else if ((neighborhood.Count >= 1) && (neighborhood.Count <= 3))
+            else if ((neighborhood.Count >= 2) && (neighborhood.Count <= 4))
             {
-                EcoPanel.IFI_NORTH_Port = 2;
-
+                EcoPanel.IFI_NORTH_Port = 1;
             }
             else
             {
                 EcoPanel.IFI_NORTH_Port = 2;
-
             }
-
-
         }
         private void S_PORT_Check(EcoPanel EcoPanel)
         {
-
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int direction = 2;
@@ -404,26 +381,19 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                int n = input_n;
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
                     {
                         neighborhood.Add(temp_neighbor[0]);
-
                     }
                 }
-                else
-                {
-                    break;
-
-                }
-
+                
             }
-
             if (neighborhood.Count == 1)
             {
                 EcoPanel.IFI_SOUTH_Port = 1;
@@ -431,10 +401,9 @@ namespace BallastCalculator
             else
             {
                 EcoPanel.IFI_SOUTH_Port = 0;
-
             }
-
         }
+
         private void S_LAND_Check(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -444,10 +413,10 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                int n = input_n;
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
@@ -456,12 +425,6 @@ namespace BallastCalculator
 
                     }
                 }
-                else
-                {
-                    break;
-
-                }
-
             }
             if (neighborhood.Count == 1)
             {
@@ -470,12 +433,11 @@ namespace BallastCalculator
             else
             {
                 EcoPanel.IFI_SOUTH_Land = 0;
-
             }
         }
+
         private void W2E_LAND_Check(EcoPanel EcoPanel)
         {
-
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int direction = 3;
@@ -483,31 +445,27 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
+            for (int n = 0; n <= input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
                     {
                         neighborhood.Add(temp_neighbor[0]);
-
                     }
                 }
                 else
                 {
                     break;
-
                 }
-
             }
-
-            if (neighborhood.Count == 0)
+            if (neighborhood.Count == 1)
             {
                 EcoPanel.IFI_W2E_Land = 0;
             }
-            else if ((neighborhood.Count >= 1) && (neighborhood.Count <= 3))
+            else if ((neighborhood.Count >= 2) && (neighborhood.Count <= 4))
             {
                 EcoPanel.IFI_W2E_Land = 1;
             }
@@ -518,7 +476,6 @@ namespace BallastCalculator
         }
         private void W2E_PORT_Check(EcoPanel EcoPanel)
         {
-
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int direction = 3;
@@ -526,10 +483,10 @@ namespace BallastCalculator
             List<EcoPanel> neighborhood = new List<EcoPanel>();
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             //count of total panels east of a given module until break
-            for (int n = 0; n < input_n; n++)
+            for (int n = 0; n <= input_n; n++)
             {
-                var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
+                var return_neighbor = GenerateNeighbor(n, x_start, y_start, direction);
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => ((Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5))).ToList();
                 if (temp_neighbor.Count != 0)
                 {
                     if (!neighborhood.Contains(temp_neighbor[0]))
@@ -537,22 +494,18 @@ namespace BallastCalculator
                         neighborhood.Add(temp_neighbor[0]);
 
                     }
-
-
                 }
                 else
                 {
                     break;
-
                 }
-
             }
             // classification of module position; 0 = west edge, 1 = cols 2-4 from west, 2 = cols >= 5 from edge
-            if (neighborhood.Count == 0)
+            if (neighborhood.Count == 1)
             {
                 EcoPanel.IFI_W2E_Port = 0;
             }
-            else if ((neighborhood.Count >= 1) && (neighborhood.Count <= 9))
+            else if ((neighborhood.Count >= 2) && (neighborhood.Count <= 10))
             {
                 EcoPanel.IFI_W2E_Port = 1;
             }
