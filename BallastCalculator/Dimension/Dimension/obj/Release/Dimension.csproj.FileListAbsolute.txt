@@ -7,3 +7,8 @@ C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimensio
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\obj\Release\Dimension.csprojResolveAssemblyReference.cache
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\obj\Release\Dimension.dll
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\obj\Release\Dimension.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\bin\Release\Dimension.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\bin\Release\Dimension.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\obj\Release\Dimension.csprojResolveAssemblyReference.cache
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\obj\Release\Dimension.dll
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\obj\Release\Dimension.pdb

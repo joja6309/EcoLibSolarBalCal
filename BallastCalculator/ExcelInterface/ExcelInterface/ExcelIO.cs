@@ -16,13 +16,21 @@ namespace ExcelInterface
     public class ExcelIO 
     {
         private readonly string _filePath;
+        private readonly string _firstSheetName;
 
         public ExcelIO(string filePath)
         {
             _filePath = filePath;
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+            {
+                _firstSheetName = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAt(1).Name;
+                Console.WriteLine(_firstSheetName);
+
+            }
 
         }
-       
+        
+
         public bool CheckFirst(string sheetName, string cellCo)
         {
             //string outPutCell =   GetStringCell(sheetName,cellCo);

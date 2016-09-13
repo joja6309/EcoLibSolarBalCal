@@ -19,6 +19,7 @@ namespace BallastCalculator
         public static string excelPath;
         public static string dxfPath;
         public static string outPath;
+        public static string panelName;
         static void SetExcelPath(string path)
         {
             excelPath = path;
@@ -30,6 +31,10 @@ namespace BallastCalculator
         static void SetOutPath(string path)
         {
             outPath = path;
+        }
+        static void SetPanelName(string panel)
+        {
+            panelName = panel; 
         }
     }
 
@@ -55,12 +60,26 @@ namespace BallastCalculator
             string file_path = FilePathContainer.dxfPath;
             string output_path = FilePathContainer.outPath;
             string excel_path = FilePathContainer.excelPath;
-            //Console.WriteLine(output_path);
-            //Console.WriteLine(file_path);
-            //Console.ReadKey(); 
-
-            DxfIO dxfInterface = new DxfIO(file_path, output_path);
+            string panelName = FilePathContainer.panelName;
+            Console.WriteLine(output_path);
+            Console.WriteLine(file_path);
+            Console.WriteLine(excel_path);
+            Console.WriteLine(panelName);
+            Console.ReadKey();
+            Console.ReadKey();
+            //Hard Code Your File Paths: 
+            //string file_path = 
+            //string out_putpath = 
+            //string panelName = 
+            DxfIO dxfInterface = new DxfIO(file_path, output_path,panelName);
             dxfInterface.ParseFile();
+            //string excel_filepath = @"C:\Users\Owner\Downloads\Threecocalcs 0_5_1.xlsx";
+            //ExcelIO ExInterface = new ExcelIO(excel_path);
+
+            //bool isLandscape = ExInterface.CheckFirst();
+            //double ballastValue = ExInterface.GetBalast();
+            //bool withDeflector = ExInterface.CheckFirst(); 
+
             //dxfInterface.RunOutTesting();
             BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
             IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
@@ -114,7 +133,7 @@ namespace BallastCalculator
             //    Console.ReadKey();
 
             //}
-            grid.RunIFILocationChecks();
+            //grid.RunIFILocationChecks();
             grid.PrintPanelData();
             //foreach(EcoPanel panel in EcoPanel)
             //{
@@ -141,8 +160,7 @@ namespace BallastCalculator
             //}
             //Console.ReadKey();
             //List<EcoPanel> FinishedList = grid.GetPanels();
-            //string excel_filepath = @"C:\Users\Owner\Downloads\Threecocalcs 0_5_1.xlsx";
-            //ExcelIO ExInterface = new ExcelIO(excel_filepath);
+            
         }
     }
 }

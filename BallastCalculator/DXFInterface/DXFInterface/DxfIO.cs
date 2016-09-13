@@ -25,15 +25,14 @@ namespace DXFInterface
         private BasicDimensions BlocksSectionValues = new BasicDimensions();
         private IFIPerimeter EntitiesIFI = new IFIPerimeter();
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
-        public DxfIO(string inputfilePath, string outputfilename)
+        public DxfIO(string inputfilePath, string outputfilename, string panelName)
         {
+            
             _outputFilePath = outputfilename;
             _inputFilePath = inputfilePath;
             _inputFile = File.ReadAllLines(_inputFilePath);
-            BlockTitle = "SPR-P17"; 
+            BlockTitle = panelName; 
            
-
-
         }
 
         public void RunOutTesting()

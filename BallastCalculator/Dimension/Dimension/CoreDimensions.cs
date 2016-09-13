@@ -195,6 +195,10 @@ namespace Dimensions
             public int BallastLocation = 0;
 
             public List<EcoPanel> NeighborHood = new List<EcoPanel>();
+
+            public int TrueColumnNumber; 
+
+
             public int Sliding;
             public int Uplift;
 
