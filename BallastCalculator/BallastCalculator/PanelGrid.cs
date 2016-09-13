@@ -217,12 +217,16 @@ namespace BallastCalculator
             for (int n = 0; n < input_n; n++)
             {
                 var return_neighbor  = GenerateNeighbor(input_n, x_start, y_start, direction);
-                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1)<=5) && (Math.Abs(x.Center.Item2 -return_neighbor.Item2) <= .5)).ToList();
+                List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                     {
-                      neighborhood.Add(temp_neighbor[0]);
-                   
+                     if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
+
                     }
+
+                }
                 else
                 {
                     break;
@@ -230,6 +234,7 @@ namespace BallastCalculator
                 }
 
             }
+            neighborhood = neighborhood.Distinct().ToList(); 
             if (neighborhood.Count == 0)
             {
                 EcoPanel.IFI_E2W_Land = 0;
@@ -241,6 +246,17 @@ namespace BallastCalculator
             else
             {
                 EcoPanel.IFI_E2W_Land = 2;
+                foreach(var x in neighborhood)
+                {
+                    Console.WriteLine(x.PanelID);
+                    Console.WriteLine(x.Center); 
+                    foreach(var r in neighborhood)
+                    {
+                        Console.WriteLine(r.PanelID);
+                        Console.WriteLine(r.Center);
+                    }
+
+                }
             }
         }
         private void E2W_PORT_Check(EcoPanel EcoPanel)
@@ -259,11 +275,11 @@ namespace BallastCalculator
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
 
-
-
-
+                    }
 
                 }
                 else
@@ -285,8 +301,6 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_E2W_Port = 2;
             }
-
-
         }
         private void N_LAND_Check(EcoPanel EcoPanel)
         {
@@ -302,18 +316,19 @@ namespace BallastCalculator
             {
                 var return_neighbor = GenerateNeighbor(input_n, x_start, y_start, direction);
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
-
-
-
-
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        //Console.WriteLine(
+                        //neighborhood.Add(temp_neighbor[0]);
+
+                    }
                 }
                 else
                 {
                     break;
-
+                    
                 }
 
             }
@@ -348,7 +363,11 @@ namespace BallastCalculator
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
+
+                    }
                 }
                 else
                 {
@@ -391,7 +410,11 @@ namespace BallastCalculator
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
+
+                    }
                 }
                 else
                 {
@@ -427,7 +450,11 @@ namespace BallastCalculator
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
+
+                    }
                 }
                 else
                 {
@@ -462,7 +489,11 @@ namespace BallastCalculator
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
+
+                    }
                 }
                 else
                 {
@@ -501,7 +532,13 @@ namespace BallastCalculator
                 List<EcoPanel> temp_neighbor = PanelList.Where(x => (Math.Abs(x.Center.Item1 - return_neighbor.Item1) <= .5) && (Math.Abs(x.Center.Item2 - return_neighbor.Item2) <= .5)).ToList();
                 if (temp_neighbor.Count != 0)
                 {
-                    neighborhood.Add(temp_neighbor[0]);
+                    if (!neighborhood.Contains(temp_neighbor[0]))
+                    {
+                        neighborhood.Add(temp_neighbor[0]);
+
+                    }
+
+
                 }
                 else
                 {
