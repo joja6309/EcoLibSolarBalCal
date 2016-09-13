@@ -113,16 +113,9 @@ namespace BallastCalculator
 
                     }
                 else if (direction == 2)//South
-                    if (n == 0)
-                    {
-                        Tuple<double, double, int> temp_neighbor_base = new Tuple<double, double, int>(x_start, y_start, 111); //Base Point = direction 111
-                        neighborhood.Add(temp_neighbor_base);
-                    }
-                    else
                     {
                     Tuple<double, double, int> temp_neighbor = new Tuple<double, double, int>(x_start, y_start - (17.494 + BlocksValues.Height), 2); //South
                     neighborhood.Add(temp_neighbor);
-
                     }
                 else if (direction == 3)//West
                     if (n == 0)
@@ -251,11 +244,11 @@ namespace BallastCalculator
             // classification of module position; 0 = east edge, 1 = cols 2-4 from edge, 2 = cols >= 5 from edge
             int IFI_E2W_count = CountNeighbors(neighborhood); //count of total panels east of a given module until break
 
-            if (IFI_E2W_count == 0)
+            if (IFI_E2W_count == 1)
             {
                 EcoPanel.IFI_E2W_Land = 0;
             }
-            else if ((IFI_E2W_count >= 1) && (IFI_E2W_count <= 3))
+            else if ((IFI_E2W_count >= 2) && (IFI_E2W_count <= 4))
             {
                 EcoPanel.IFI_E2W_Land = 1;
             }
@@ -273,11 +266,11 @@ namespace BallastCalculator
             int input_n = 10;
             List<Tuple<double, double, int>> neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);
             int IFI_E2W_count = CountNeighbors(neighborhood);
-            if (IFI_E2W_count == 0)
+            if (IFI_E2W_count == 1)
             {
                 EcoPanel.IFI_E2W_Port = 0;
             }
-            else if ((IFI_E2W_count >= 1) && (IFI_E2W_count <= 9))
+            else if ((IFI_E2W_count >= 2) && (IFI_E2W_count <= 10))
             {
                 EcoPanel.IFI_E2W_Port = 1;
             }
@@ -298,11 +291,11 @@ namespace BallastCalculator
             List<Tuple<double, double, int>> neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);
             int IFI_North_count = CountNeighbors(neighborhood);
 
-            if (IFI_North_count == 0)
+            if (IFI_North_count == 1)
             {
                 EcoPanel.IFI_NORTH_Land = 0;
             }
-            else if ((IFI_North_count >= 1) && (IFI_North_count <= 5))
+            else if ((IFI_North_count >= 2) && (IFI_North_count <= 6))
             {
                 EcoPanel.IFI_NORTH_Land = 1;
             }
@@ -324,11 +317,11 @@ namespace BallastCalculator
             int IFI_north_count = CountNeighbors(neighborhood);
 
 
-            if (IFI_north_count == 0)
+            if (IFI_north_count == 1)
             {
                 EcoPanel.IFI_NORTH_Port = 0;
             }
-            else if ((IFI_north_count >= 1) && (IFI_north_count <= 3))
+            else if ((IFI_north_count >= 2) && (IFI_north_count <= 4))
             {
                 EcoPanel.IFI_NORTH_Port = 2;
 
@@ -350,7 +343,6 @@ namespace BallastCalculator
             int input_n = 0;
             List<Tuple<double, double, int>> neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);
             int IFI_South_count = CountNeighbors(neighborhood);
-
             if (IFI_South_count == 1)
             {
                 EcoPanel.IFI_SOUTH_Port = 1;
@@ -390,11 +382,11 @@ namespace BallastCalculator
             List<Tuple<double, double, int>> neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);
             var IFI_W2E_Land_count = CountNeighbors(neighborhood);
 
-            if (IFI_W2E_Land_count == 0)
+            if (IFI_W2E_Land_count == 1)
             {
                 EcoPanel.IFI_W2E_Land = 0;
             }
-            else if ((IFI_W2E_Land_count >= 1) && (IFI_W2E_Land_count <= 3))
+            else if ((IFI_W2E_Land_count >= 2) && (IFI_W2E_Land_count <= 4))
             {
                 EcoPanel.IFI_W2E_Land = 1;
             }
@@ -415,11 +407,11 @@ namespace BallastCalculator
 
 
             // classification of module position; 0 = west edge, 1 = cols 2-4 from west, 2 = cols >= 5 from edge
-            if (IFI_W2E_Port_count == 0)
+            if (IFI_W2E_Port_count == 1)
             {
                 EcoPanel.IFI_W2E_Port = 0;
             }
-            else if ((IFI_W2E_Port_count >= 1) && (IFI_W2E_Port_count <= 9))
+            else if ((IFI_W2E_Port_count >= 2) && (IFI_W2E_Port_count <= 10))
             {
                 EcoPanel.IFI_W2E_Port = 1;
             }
