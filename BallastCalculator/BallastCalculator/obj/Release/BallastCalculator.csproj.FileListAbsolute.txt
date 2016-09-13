@@ -28,3 +28,18 @@ C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastC
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.csprojResolveAssemblyReference.cache
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.UserGUI.resources
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.csproj.GenerateResource.Cache
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.exe.config
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.exe
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.pdb
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.exe
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.pdb
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\Dimension.dll
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\DocumentFormat.OpenXml.dll
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\DXFInterface.dll
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\ExcelInterface.dll
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\Dimension.pdb
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\DXFInterface.pdb
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\ExcelInterface.pdb
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.csprojResolveAssemblyReference.cache
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.UserGUI.resources
+C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.csproj.GenerateResource.Cache
