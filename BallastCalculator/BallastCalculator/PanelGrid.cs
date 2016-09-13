@@ -14,6 +14,7 @@ namespace BallastCalculator
         private readonly BasicDimensions BlocksValues;
         private List<EcoPanel> PanelList;
         private List<PanelBase> PanelBaseList = new List<PanelBase>();
+        private List<PanelBase> X_direction = new List<PanelBase>();
        
         public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist) // Called First 
         {
@@ -135,7 +136,6 @@ namespace BallastCalculator
                     neighborhood.Add(temp_neighbor);
 
                     }
-                else if (direction == 4) //All Directions
                
                 //KB DEBUG: added back in original neighborhood calculation for n=2 and n=4 calculations (lift and sliding)
                 else if (direction == 4) 
@@ -185,7 +185,6 @@ namespace BallastCalculator
             return count;
         }
 
-
         private void RunBasePanelCalculations()
         {
             Console.WriteLine(" Base EcoPanel Calculations in PanelGrid Class: ");
@@ -200,6 +199,47 @@ namespace BallastCalculator
             //}
 
         }
+        private void SetSortedPanels()
+        {   // Sort 
+            X_direction = PanelBaseList.OrderBy(c => c.Center.Item1).ToList();
+            //if 2 ignore 
+            //Y_direction = PanelList.OrderBy(c => c.Center.Item2).ToList();
+            // look to left and right of panel neighbors 
+            // if 2 
+            // switch 2 
+            // R -> L 
+            // if edge 0
+            // if 1 check 
+            // if center 0 and close 2 
+            // change 
+            // L -> R 
+            // opposite direction 
+            //if panel edge Right 1 (could be 2 or 1) 
+            // check on reference 
+            // i
+
+            return;
+        }
+        public void TRUE_COLUMN_Check(EcoPanel panel)
+        {   // Sorted Smallest to Largest 
+
+            //if(panel.Neighb)
+
+
+            //var x_start = panel.Center.Item1;
+            //var y_start = panel.Center.Item2;
+            //int direction = 3;
+            //int input_n = 10;
+            //List<Tuple<double, double, int>> neighborhood = GenerateNeighborhood(input_n, x_start, y_start, direction);
+            //var IFI_W2E_Port_count = CountNeighbors(neighborhood);
+            //Right to left 
+            // How many to the right 
+            //Left to right 
+            // How mant to the left 
+            //TRUE CHECK 
+            // if edge look to right 
+        }
+
 
         private void E2W_LAND_Check(EcoPanel EcoPanel)
         {
@@ -586,11 +626,11 @@ namespace BallastCalculator
                 }
                 Console.WriteLine("=================");
                 Console.WriteLine("\n");
+                Console.ReadKey();
 
             }
 
             Console.WriteLine("Press Enter to Continue: ");
-            Console.ReadKey();
 
 
             return;

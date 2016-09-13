@@ -58,6 +58,7 @@ namespace BallastCalculator
             //Console.WriteLine(output_path);
             //Console.WriteLine(file_path);
             //Console.ReadKey(); 
+
             DxfIO dxfInterface = new DxfIO(file_path, output_path);
             dxfInterface.ParseFile();
             //dxfInterface.RunOutTesting();
@@ -88,31 +89,37 @@ namespace BallastCalculator
             //2. PanelGrid RunBasePanelCalculations 
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
             IFIboarder.PrintIFIData();
-            List<EcoPanel> list  = grid.GetPanels(); 
-            foreach( EcoPanel panel in list  )
-            {
-                Console.WriteLine("Panel No. " + panel.PanelID);
-                Console.WriteLine("Center: " + panel.Center);
-                Console.WriteLine("Zone from the east: " + panel.NE_Zone);
-                Console.WriteLine("Zone from the West: " + panel.NW_Zone);
-                Console.WriteLine("Panel ID: {0}: ", panel.PanelID);
-                Console.WriteLine(panel.DirectionList.Count);
-                Console.WriteLine("Panel Direction List: {0}");
-                Console.WriteLine("===================="); 
-                foreach(var c in panel.DirectionList)
-                {
-                    Console.WriteLine(c); 
-                }
-                Console.WriteLine("Panel Neighbors: ");
-                Console.WriteLine("==================="); 
-                foreach(var neigh in panel.NeighborHood)
-                {
-                    Console.WriteLine(neigh.Center);
+            //List<EcoPanel> list  = grid.GetPanels(); 
+            //foreach( EcoPanel panel in list  )
+            //{
+            //    Console.WriteLine("Panel No. " + panel.PanelID);
+            //    Console.WriteLine("Center: " + panel.Center);
+            //    Console.WriteLine("Zone from the east: " + panel.NE_Zone);
+            //    Console.WriteLine("Zone from the West: " + panel.NW_Zone);
+            //    Console.WriteLine("Panel ID: {0}: ", panel.PanelID);
+            //    Console.WriteLine(panel.DirectionList.Count);
+            //    Console.WriteLine("Panel Direction List: {0}");
+            //    Console.WriteLine("===================="); 
+            //    foreach(var c in panel.DirectionList)
+            //    {
+            //        Console.WriteLine(c); 
+            //    }
+            //    Console.WriteLine("Panel Neighbors: ");
+            //    Console.WriteLine("==================="); 
+            //    foreach(var neigh in panel.NeighborHood)
+            //    {
+            //        Console.WriteLine(neigh.Center);
 
-                }
-                Console.ReadKey();
+            //    }
+            //    Console.ReadKey();
 
-            }
+            //}
+            grid.RunIFILocationChecks();
+            grid.PrintPanelData();
+            //foreach(EcoPanel panel in EcoPanel)
+            //{
+            //    Console.WriteLine(panel.IFI_E2W_Land)
+            //}
             // Input Center of Block and List of Panels with correct Zones
             //List <PanelBase> baseValues = grid.GetPanelBases();
             //dxfInterface.OutGen.GenerateFileOut(baseValues);
