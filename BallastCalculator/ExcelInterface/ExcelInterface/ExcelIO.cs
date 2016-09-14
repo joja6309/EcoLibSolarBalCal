@@ -31,7 +31,7 @@ namespace ExcelInterface
         }
         
 
-        public bool CheckFirst(string sheetName, string cellCo)
+        public bool CheckFirst(string cellCo)
         {
             //string outPutCell =   GetStringCell(sheetName,cellCo);
             //string stringCell = VerifyStringCell(sheetName, outPutCell);
@@ -39,7 +39,7 @@ namespace ExcelInterface
             int outInt = 0;  
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
-                WorksheetPart wp = GetWorksheetPart(excelDoc, sheetName);
+                WorksheetPart wp = GetWorksheetPart(excelDoc, _firstSheetName);
                 Cell outPutCell = GetCell(wp, cellCo);
                 var Cell = outPutCell.CellValue;
                 string value = Cell.InnerText.ToString();
@@ -55,12 +55,12 @@ namespace ExcelInterface
                     return true;
                 }            
         }
-       public  double GetBalast(string sheetName, string cellCo)
+       public  double GetBalast(string cellCo)
         {
             string doubleCell = null; 
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
-                WorksheetPart wp = GetWorksheetPart(excelDoc, sheetName);
+                WorksheetPart wp = GetWorksheetPart(excelDoc, _firstSheetName);
                 Cell outPutCell = GetCell(wp, cellCo);
                 var value = outPutCell.CellValue;
                 doubleCell = value.InnerText.ToString();

@@ -71,10 +71,21 @@ namespace BallastCalculator
             //string file_path = 
             //string out_putpath = 
             //string panelName = 
-            DxfIO dxfInterface = new DxfIO(file_path, output_path,panelName);
+            ExcelIO ExInterface = new ExcelIO(excel_path);
+            //Def B32
+            //Orent B33 
+            //Bal B34 
+            bool def = ExInterface.CheckFirst("B32");
+            bool land = ExInterface.CheckFirst("B33");
+            double bal = ExInterface.GetBalast("B34");
+            //Console.WriteLine(def);
+            //Console.WriteLine(land);
+            //Console.WriteLine(bal);
+            //Console.ReadKey(); 
+
+
+            DxfIO dxfInterface = new DxfIO(file_path, output_path,panelName,land);
             dxfInterface.ParseFile();
-            //string excel_filepath = @"C:\Users\Owner\Downloads\Threecocalcs 0_5_1.xlsx";
-            //ExcelIO ExInterface = new ExcelIO(excel_path);
 
             //bool isLandscape = ExInterface.CheckFirst();
             //double ballastValue = ExInterface.GetBalast();

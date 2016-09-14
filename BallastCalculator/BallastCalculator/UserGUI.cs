@@ -18,28 +18,37 @@ namespace BallastCalculator
             {
                 InitializeComponent();
             }
-        private string panel_name;
-        private string excel_path;
-        private string dxf_path;
-        private string default_out; 
+        private string panelStorage;
+        private string excelPathStorage;
+        private string dxfPathStorage;
+        private string defaultOutStorage; 
         private bool useDefaults = false;
+        private string getPath(string filename)
+        {
+            var currentDir = System.IO.Directory.GetCurrentDirectory();
+            string path = "";
+            if (currentDir.ToLower().EndsWith(@"\bin\debug") ||
+                currentDir.ToLower().EndsWith(@"\bin\release"))
+            {
+
+               path  = System.IO.Path.GetFullPath(@"..\..\" + filename);
+            }
+            else {
+                path = System.IO.Path.GetFullPath(filename);
+            }
+            return path;
+        }
             private void dxfButton_Click(object sender, System.EventArgs e)
             {
             if (openFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
             {
 
-
-
-                dxfTextBox.Text = Path.GetFileName(openFileDialog1.FileName);
-                    FilePathContainer.dxfPath = openFileDialog1.FileName;
-                string wanted_path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
-                dxf_path = wanted_path + "/" + openFileDialog1.FileName;
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    string out_name = Path.GetFileNameWithoutExtension(openFileDialog1.FileName) + "_out.dxf";
-                    path = path + "/" + out_name;
-                    DefaultTextBox.Text = Path.GetFullPath(out_name);
-                    
-                    FilePathContainer.outPath = Path.GetFullPath(path);
+                dxfTextBox.Text = getPath(Path.GetFileName(openFileDialog1.FileName));
+                string wanted_path = getPath(Path.GetFileName(openFileDialog1.FileName));
+                dxfPathStorage = wanted_path;
+                string out_name = wanted_path + "_out.dxf";
+                DefaultTextBox.Text = out_name;
+                defaultOutStorage = out_name; 
                 
                 }
             }
@@ -48,10 +57,9 @@ namespace BallastCalculator
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
                 {
-                    excelTextBox.Text = Path.GetFileName(openFileDialog1.FileName);
-                string wanted_path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
-                excel_path = wanted_path = "/" + openFileDialog1.FileName; 
-                FilePathContainer.excelPath = openFileDialog1.FileName;
+                excelTextBox.Text = getPath(Path.GetFileName(openFileDialog1.FileName));
+                string wanted_path = getPath(Path.GetFileName(openFileDialog1.FileName));  
+                excelPathStorage = wanted_path = "/" + openFileDialog1.FileName; 
 
                 }
 
@@ -72,24 +80,24 @@ namespace BallastCalculator
                 {
                     if (line.Contains("Ex:"))
                     {
-                        excel_path = line.Substring(line.LastIndexOf(':') + 1);
-                        textBox6.Text = excel_path;
+                        excelPathStorage = line.Substring(line.LastIndexOf(':') + 1);
+                        textBox6.Text = line.Substring(line.LastIndexOf(':') + 1);
                     }
                     else if (line.Contains("Dx:"))
                     {
-                        dxf_path = line.Substring(line.LastIndexOf(':') + 1);
-                        textBox7.Text = dxf_path;
+                        dxfPathStorage = line.Substring(line.LastIndexOf(':') + 1);
+                        textBox7.Text = line.Substring(line.LastIndexOf(':') + 1);
                     }
                     else if (line.Contains("Panel:"))
                     {
-                         panel_name = line.Substring(line.LastIndexOf(':') + 1);
-                         textBox8.Text = panel_name;
+                         panelStorage = line.Substring(line.LastIndexOf(':') + 1);
+                         textBox8.Text = line.Substring(line.LastIndexOf(':') + 1);
 
                     }
                     else if (line.Contains("Def:"))
                     {
-                        default_out = line.Substring(line.LastIndexOf(':') + 1);
-                        DefaultTextBox.Text = default_out;
+                        defaultOutStorage = line.Substring(line.LastIndexOf(':') + 1);
+                        DefaultTextBox.Text = line.Substring(line.LastIndexOf(':') + 1);
                     }
                 }
 
@@ -132,10 +140,10 @@ namespace BallastCalculator
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
                 {
 
-                    DefaultTextBox.Text = Path.GetFullPath(saveFileDialog1.FileName);
-                    FilePathContainer.outPath = Path.GetFullPath(saveFileDialog1.FileName);
+                    DefaultTextBox.Text = getPath(saveFileDialog1.FileName);
+                    defaultOutStorage = getPath(saveFileDialog1.FileName);
 
-                }
+            }
 
 
             }
@@ -153,9 +161,10 @@ namespace BallastCalculator
                 // Create a file to write to.
                 using (StreamWriter sw = File.CreateText(final_path))
                 {
-                    sw.WriteLine("Ex:{0}", excel_path);
-                    sw.WriteLine("Dx:{0}",dxf_path );
-                    sw.WriteLine("Panel:{0}",panel_name );
+                    sw.WriteLine("Ex:{0}", excelPathStorage);
+                    sw.WriteLine("Dx:{0}",dxfPathStorage );
+                    sw.WriteLine("Panel:{0}",panelStorage );
+                    sw.WriteLine("Def:{0}", defaultOutStorage);
                     sw.Flush();
                     sw.Close(); 
                 }
@@ -163,22 +172,40 @@ namespace BallastCalculator
             if(useDefaults)
             {
                 //MessageBox.Show(panel_name + " " + excel_path + " " + Defa)
-                FilePathContainer.panelName = panel_name;
-                FilePathContainer.excelPath = Path.GetFullPath(excel_path);
-                FilePathContainer.outPath = default_out;
-                FilePathContainer.dxfPath = Path.GetFullPath(dxf_path); 
-            }
-            else
-            {
+                FilePathContainer.panelName = panelStorage;
+                FilePathContainer.excelPath = excelPathStorage;
+                FilePathContainer.outPath = defaultOutStorage;
+                FilePathContainer.dxfPath = dxfPathStorage;
                 if (File.Exists(final_path))
                 {
                     // Create a file to write to.
                     using (StreamWriter sw = File.CreateText(final_path))
                     {
-                        sw.WriteLine("Ex:{0}", this.excelTextBox.Text);
-                        sw.WriteLine("Dx:{0}", this.dxfTextBox.Text);
-                        sw.WriteLine("Panel:{0}", this.textBox10.Text);
-                        sw.WriteLine("Def:{0}", this.DefaultTextBox.Text); 
+                        sw.WriteLine("Ex:{0}", excelPathStorage);
+                        sw.WriteLine("Dx:{0}", dxfPathStorage);
+                        sw.WriteLine("Panel:{0}", panelStorage);
+                        sw.WriteLine("Def:{0}", defaultOutStorage);
+                        sw.Flush();
+                        sw.Close();
+                    }
+                }
+            }
+            else
+            {
+                FilePathContainer.panelName = textBox10.Text;
+                FilePathContainer.outPath = DefaultTextBox.Text;
+                FilePathContainer.excelPath = excelTextBox.Text;
+                FilePathContainer.dxfPath = dxfTextBox.Text; 
+
+                if (File.Exists(final_path))
+                {
+                    // Create a file to write to.
+                    using (StreamWriter sw = File.CreateText(final_path))
+                    {
+                        sw.WriteLine("Ex:{0}", excelPathStorage);
+                        sw.WriteLine("Dx:{0}", dxfPathStorage);
+                        sw.WriteLine("Panel:{0}",panelStorage);
+                        sw.WriteLine("Def:{0}", defaultOutStorage); 
                         sw.Flush();
                         sw.Close();
                     }
@@ -228,11 +255,14 @@ namespace BallastCalculator
         private void button2_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Input Panel Name: ",this.textBox10.Text);
+            panelStorage = this.textBox10.Text;
         }
 
         private void textBox10_TextChanged(object sender, EventArgs e)
         {
-            FilePathContainer.panelName = textBox10.Text; 
+            FilePathContainer.panelName = textBox10.Text;
+            panelStorage = this.textBox10.Text;
+
         }
 
         private void textBox11_TextChanged_1(object sender, EventArgs e)

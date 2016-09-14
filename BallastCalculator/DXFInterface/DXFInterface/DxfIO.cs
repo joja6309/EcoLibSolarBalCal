@@ -25,13 +25,15 @@ namespace DXFInterface
         private BasicDimensions BlocksSectionValues = new BasicDimensions();
         private IFIPerimeter EntitiesIFI = new IFIPerimeter();
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
-        public DxfIO(string inputfilePath, string outputfilename, string panelName)
+        private readonly bool isLandScape; 
+        public DxfIO(string inputfilePath, string outputfilename, string panelName, bool land)
         {
-            
-            _outputFilePath = outputfilename;
+ 
+             _outputFilePath = outputfilename;
             _inputFilePath = inputfilePath;
             _inputFile = File.ReadAllLines(_inputFilePath);
-            BlockTitle = panelName; 
+            BlockTitle = panelName;
+            isLandScape = land; 
            
         }
 
