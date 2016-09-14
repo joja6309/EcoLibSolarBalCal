@@ -193,6 +193,9 @@ namespace Dimensions
 
             public List<PanelBase> PanelBases = new List<PanelBase>();
             public int BallastLocation = 0;
+            public List<EcoPanel> E2W = new List<EcoPanel>();
+            public List<EcoPanel> W2E = new List<EcoPanel>();
+            public List<EcoPanel> N2S = new List<EcoPanel>();
 
             public List<EcoPanel> NeighborHood = new List<EcoPanel>();
 

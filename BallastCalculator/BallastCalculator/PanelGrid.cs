@@ -21,6 +21,8 @@ namespace BallastCalculator
             BlocksValues = perimeter;
             PanelList = plist;
             RunPanelCalculations(); // Generates Call -> Program Now in Run EcoPanel Calculations Function
+            BuildDirectionList();
+            CalculateBallastLocation();
             //RunBasePanelCalculations(); 
         }
         //Called By Constructor
@@ -52,7 +54,9 @@ namespace BallastCalculator
             //    EcoPanel.Uplift = GetUpliftValue(EcoPanel);
             //}
             RunIFILocationChecks();
-            //CalculateBallastLocation(); 
+            BuildDirectionList();
+            RunIFILocationChecks();
+            
 
 
         } 
@@ -205,6 +209,58 @@ namespace BallastCalculator
             temp_neighbor = new Tuple<double, double, int>(x_start - (.5 + BlocksValues.Width) * n, y_start, 3); // West
         return temp_neighbor;
     }
+        private void BuildDirectionList()
+        {
+            foreach (EcoPanel panel in PanelList)
+            {
+                for (int i = 0; i <= 3; i++)
+                {
+                    var temp = GenerateNeighbor(1, panel.Center.Item1, panel.Center.Item2, i);
+                    if (PanelList.Any(x => (Math.Abs(x.Center.Item1 - temp.Item1) <= .5) && (Math.Abs(x.Center.Item2 - temp.Item2) <= .5)))
+                    {
+                        if(!panel.DirectionList.Contains(i))
+                           panel.DirectionList.Add(i);
+                    }
+
+                }
+            }
+
+        }
+        public void CalculateBallastLocation()
+        {
+            foreach (EcoPanel EcoPanel in PanelList)
+            {
+                //0W 1N 2S 3E
+                if (EcoPanel.DirectionList.Exists(x => x.Equals(0) || x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2) || x.Equals(3)))
+                    EcoPanel.BallastLocation = 9;
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) || x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) || x.Equals(2)))
+                    EcoPanel.BallastLocation = 7;
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) || x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) || x.Equals(1)))
+                    EcoPanel.BallastLocation = 1;
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) || x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) || x.Equals(1)))
+                    EcoPanel.BallastLocation = 3;
+               else if ((EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Count == 2))
+                    EcoPanel.BallastLocation = 8;
+                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3))      
+                    EcoPanel.BallastLocation = 2;
+                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(3))
+                {
+                    EcoPanel.BallastLocation = 4;
+                }
+                else if ((EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0)))
+                    {
+                    EcoPanel.BallastLocation = 6; 
+
+                }
+                else if (((EcoPanel.DirectionList.Contains(0)) && (EcoPanel.DirectionList.Contains(1)) & (EcoPanel.DirectionList.Contains(2)) & (EcoPanel.DirectionList.Contains(3))))
+                {
+                    EcoPanel.BallastLocation = 5;
+                }
+
+            }
+
+
+        }
         private void E2W_LAND_Check(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -242,19 +298,11 @@ namespace BallastCalculator
             else
             {
                 EcoPanel.IFI_E2W_Land = 2;
-                foreach(var x in neighborhood)
-                {
-                    Console.WriteLine(x.PanelID);
-                    Console.WriteLine(x.Center); 
-                    foreach(var r in neighborhood)
-                    {
-                        Console.WriteLine(r.PanelID);
-                        Console.WriteLine(r.Center);
-                    }
-                }
+               
             }
-        }
+            EcoPanel.E2W = neighborhood.OrderBy(x => x.Center.Item1).ToList(); 
 
+        }
         private void E2W_PORT_Check(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -292,8 +340,9 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_E2W_Port = 2;
             }
-        }
+            EcoPanel.E2W = neighborhood.OrderBy(x => x.Center.Item1).ToList();
 
+        }
         private void N_LAND_Check(EcoPanel EcoPanel)
         {
             // classification of module position; 0 = north edge, 1 = rows 2-6 from edge, 2 = rows >= 7 from edge
@@ -332,8 +381,9 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_NORTH_Land = 2;
             }
-        }
+            EcoPanel.N2S = neighborhood.OrderBy(x => x.Center.Item1).ToList();
 
+        }
         private void N_PORT_Check(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -371,6 +421,8 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_NORTH_Port = 2;
             }
+            EcoPanel.N2S = neighborhood.OrderBy(x => x.Center.Item1).ToList();
+
         }
         private void S_PORT_Check(EcoPanel EcoPanel)
         {
@@ -403,7 +455,6 @@ namespace BallastCalculator
                 EcoPanel.IFI_SOUTH_Port = 0;
             }
         }
-
         private void S_LAND_Check(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -473,6 +524,8 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_W2E_Land = 2;
             }
+            EcoPanel.W2E = neighborhood.OrderBy(x => x.Center.Item1).ToList();
+
         }
         private void W2E_PORT_Check(EcoPanel EcoPanel)
         {
@@ -513,6 +566,8 @@ namespace BallastCalculator
             {
                 EcoPanel.IFI_W2E_Port = 2;
             }
+            EcoPanel.W2E = neighborhood.OrderBy(x => x.Center.Item1).ToList();
+
         }
         private int GetUpliftValue(EcoPanel EcoPanel)
         {
@@ -609,10 +664,6 @@ namespace BallastCalculator
             return total_count;
         }
         
-
-
-
-
         private void CalculateBlockTotalValues(PanelBase base_panel)
         {
             double IFI_Base_Total = 0;
@@ -662,58 +713,6 @@ namespace BallastCalculator
 
             }
         }
-        public void CalculateBallastLocation()
-        {
-            foreach (EcoPanel EcoPanel in PanelList)
-            {
-
-                //0W1N2S3E
-                if (EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(1))
-                {
-                    EcoPanel.BallastLocation = 0;
-
-                }
-                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(3))
-                {
-                    EcoPanel.BallastLocation = 3;
-
-                }
-                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(3))
-                {
-                    EcoPanel.BallastLocation = 9;
-
-                }
-                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0))
-                {
-                    EcoPanel.BallastLocation = 7;
-
-                }
-                else if (EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Count == 1)
-                {
-                    EcoPanel.BallastLocation = 3;
-
-                }
-                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Count == 1)
-                {
-                    EcoPanel.BallastLocation = 2;
-                }
-                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Count == 1)
-                {
-                    EcoPanel.BallastLocation = 1;
-                }
-                else if (EcoPanel.DirectionList.Contains(3) && EcoPanel.DirectionList.Count == 1)
-                {
-                    EcoPanel.BallastLocation = 6;
-                }
-                else if ((EcoPanel.DirectionList.Contains(0)) && (EcoPanel.DirectionList.Contains(1)) & (EcoPanel.DirectionList.Contains(2)) & (EcoPanel.DirectionList.Contains(3)))
-                {
-                    EcoPanel.BallastLocation = 8;
-                }
-
-            }
-
-
-        }
         public void RunIFILocationChecks()
         {
             foreach (var EcoPanel in PanelList)
@@ -758,11 +757,12 @@ namespace BallastCalculator
                 Console.WriteLine("E2W Land Position: {0}", x.IFI_E2W_Land);
                 Console.WriteLine("North Land Position: {0}", x.IFI_NORTH_Land);
                 Console.WriteLine("South Land Position: {0}", x.IFI_SOUTH_Land);
-                Console.WriteLine("Neighbor List: ");
+                Console.WriteLine("Ballast Location: {0}", x.BallastLocation);
+                Console.WriteLine("Direction List: ");
                 Console.WriteLine("=================");
-                foreach (var neighbor in x.NeighborHood)
+                foreach (var d in x.DirectionList)
                 {
-                    Console.WriteLine("Neighbor ID: {0} ", neighbor.PanelID);
+                    Console.WriteLine(d);
                 }
                 Console.WriteLine("=================");
                 Console.WriteLine("\n");
