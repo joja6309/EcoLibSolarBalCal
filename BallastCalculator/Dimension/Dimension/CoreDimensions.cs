@@ -196,10 +196,12 @@ namespace Dimensions
             public List<EcoPanel> E2W = new List<EcoPanel>();
             public List<EcoPanel> W2E = new List<EcoPanel>();
             public List<EcoPanel> N2S = new List<EcoPanel>();
-
+            public bool isEdge = false; 
             public List<EcoPanel> NeighborHood = new List<EcoPanel>();
 
-            public int TrueColumnNumber; 
+            public int TrueColumnNumber;
+            public int TrueE2W;
+            public int TrueW2E; 
 
 
             public int Sliding;

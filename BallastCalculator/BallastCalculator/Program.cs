@@ -87,6 +87,7 @@ namespace BallastCalculator
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
+
             
              foreach (EcoPanel EcoPanel in PanelList)
             {
