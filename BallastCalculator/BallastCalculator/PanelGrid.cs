@@ -231,55 +231,63 @@ namespace BallastCalculator
         {
             foreach (EcoPanel EcoPanel in PanelList)
             {
-                //0W 1N 2S 3E
-                if (EcoPanel.DirectionList.Exists(x => x.Equals(0) || x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2) || x.Equals(3)))
+                //0W 1N 2S 3E <-- Incorrect?
+                //KB DEBUG: the directions from Generate Neighbor are:    0E 1N 2S 3W
+                //KB Debug: corrected direction statments to reflect generate neighbor directions, along with && instead of ||
+                if (EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)))
                 {
                     EcoPanel.BallastLocation = 9;
                     EcoPanel.isEdge = true;
-
                 }
-                    
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) || x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) || x.Equals(2)))
+
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(2)))
                 {
                     EcoPanel.BallastLocation = 7;
                     EcoPanel.isEdge = true;
                 }
-                  
 
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) || x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) || x.Equals(1)))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)))
                 {
                     EcoPanel.BallastLocation = 1;
                     EcoPanel.isEdge = true;
                 }
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) || x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) || x.Equals(1)))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) && x.Equals(1)))
                 {
                     EcoPanel.BallastLocation = 3;
                     EcoPanel.isEdge = true;
                 }
-               else if ((EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Count == 2))
+                //else if ((EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Count == 2))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2)))
                     EcoPanel.BallastLocation = 8;
-                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3))      
+
+                //else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(1)))
                     EcoPanel.BallastLocation = 2;
 
-                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(3))
+                //else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(3))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3)))
                 {
                     EcoPanel.BallastLocation = 4;
                     EcoPanel.isEdge = true;
                 }
-                else if ((EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0)))
-                    {
+                //else if ((EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0)))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0)))
+                {
                     EcoPanel.BallastLocation = 6;
                     EcoPanel.isEdge = true;
 
                 }
-                else if (((EcoPanel.DirectionList.Contains(0)) && (EcoPanel.DirectionList.Contains(1)) & (EcoPanel.DirectionList.Contains(2)) & (EcoPanel.DirectionList.Contains(3))))
+                //else if (((EcoPanel.DirectionList.Contains(0)) && (EcoPanel.DirectionList.Contains(1)) & (EcoPanel.DirectionList.Contains(2)) & (EcoPanel.DirectionList.Contains(3))))
+                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0) && x.Equals(1)))
                 {
                     EcoPanel.BallastLocation = 5;
                 }
-
+                else
+                {
+                    Console.WriteLine("ERROR! A module appears to be part of a single row or column. Please revise layout to remove single rows or columns when using EF3.");
+                    Console.ReadKey();
+                }
             }
-
-
         }
         public void TrueColumnCheck()
         {
@@ -321,6 +329,7 @@ namespace BallastCalculator
         }
         private void TrueE2W()
         {
+            //KB DEBUG: List<EcoPanel> DescendingX = PanelList.OrderByDescending(x => x.Center.Item1).ToList(); <-- are we currently looking east to west? How is the check being handled?
             foreach (EcoPanel panel in PanelList)
             {
                 //if port or lan
@@ -332,7 +341,7 @@ namespace BallastCalculator
                         {
                             foreach (EcoPanel neigh in PanelList)
                             {
-                                if (Math.Abs(panel.Center.Item1 + BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
+                                if ((panel.Center.Item1 + BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
                                 {
                                     panel.TrueE2W = neigh.IFI_E2W_Land + 1;
 
