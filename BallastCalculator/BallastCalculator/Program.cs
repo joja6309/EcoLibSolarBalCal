@@ -52,7 +52,7 @@ namespace BallastCalculator
             //Console.WriteLine(file_path);
             string file_path, excel_path, panelName, output_path;
             file_path = @"C:\Users\KBasarich\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR FOR EW CHECK.dxf";
-            excel_path = @"C:\Users\KBasarich\Desktop\Boulder Nissan Threecocalcs 0_5_1 DEFLECTOR.xlsx";
+            excel_path = @"C:\Users\KBasarich\Desktop\Boulder Nissan Threecocalcs 0_5_2 DEFLECTOR.xlsx";
             panelName = "SPR-P17";
             output_path = "";
             
@@ -225,9 +225,11 @@ namespace BallastCalculator
                 Console.WriteLine("NE zone: " + panel.NE_Zone);
                 Console.WriteLine("NW zone: " + panel.NW_Zone);
                 Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
+                Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
                 Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
                 Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
                 Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+                Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
                 Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
                 Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
                 Console.WriteLine("Below are the two values output from Excel:");
