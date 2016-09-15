@@ -21,10 +21,93 @@ namespace BallastCalculator
             RunPanelCalculations(); // Generates Call -> Program Now in Run EcoPanel Calculations Function
             BuildDirectionList();
             CalculateBallastLocation();
-            //TrueColumnCheck();
-            //RunBasePanelCalculations(); 
+        }
+        public void SetPanelList(List<EcoPanel> plist) 
+        {
+            PanelList = plist; 
+        }
+        public void RunBasePanelCalculations()
+        {
+            foreach(EcoPanel panel in PanelList)
+            {
+                CalculatePanelCorners(panel); 
+            }
+            Console.WriteLine(PanelBaseList.Count);
+            Console.ReadKey();
+
+            if(PanelBaseList.Count != 0)
+            {
+                foreach (PanelBase basep in PanelBaseList)
+                {
+                    Console.WriteLine(basep.BlockWeight); 
+                    foreach(var x in basep.BlockWeightList)
+                    {
+                        Console.WriteLine(x);
+                    }
+                }
+                Console.ReadKey(); 
+
+            }
+            //CalculateBlockTotalValues(basep);
+
         }
         //Called By Constructor
+        private void CalculatePanelCorners(EcoPanel EcoPanel)
+        {
+            var x_start = EcoPanel.Center.Item1;
+            var y_start = EcoPanel.Center.Item2;
+            Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NWest
+            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + (17.494 + BlocksValues.Height));//NEast
+            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - (17.494 - BlocksValues.Height)); //SEast
+            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - (17.494 - BlocksValues.Height)); //SWest
+            List<Tuple<double, double>> temp_list = new List<Tuple<double, double>>();
+
+            temp_list.Add(corner_neighbor_east);
+            temp_list.Add(corner_neighbor_west);
+            temp_list.Add(corner_neighbor_north);
+            temp_list.Add(corner_neighbor_south);
+            Random rand = new Random();
+            string random_number = Convert.ToString(rand.Next(0, 10));
+            for (int x = 0; x < temp_list.Count; x++)
+            {
+                //Console.WriteLine(temp_list[x]); 
+                List<PanelBase> matching_bases = PanelBaseList.Where(c => c.Center.Item1 == temp_list[x].Item1 && c.Center.Item2 == temp_list[x].Item2).ToList();
+                if (matching_bases.Count() != 0)
+                {
+                    foreach (PanelBase pb in matching_bases)
+                    {
+                        pb.PanelIDList.Add(EcoPanel.PanelID);
+                        pb.BlockWeightList.Add(EcoPanel.ValueFromExcel);
+                    }
+
+                }
+                else
+                {
+                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
+                    temp.BlockWeight = EcoPanel.ValueFromExcel; 
+                    PanelBaseList.Add(temp);
+
+
+                }
+
+            }
+        }
+        private void CalculateBlockTotalValues(PanelBase base_panel)
+        {
+            double IFI_Base_Total = 0;
+            foreach (double cornerValue in base_panel.BlockWeightList)
+            {
+                IFI_Base_Total += cornerValue; //IFI_Base_Total
+            }
+            Console.WriteLine(base_panel.BlockWeight);
+            Console.WriteLine(base_panel.BlockTotal);
+            Console.WriteLine("===========");
+            Console.ReadKey();
+            base_panel.BlockTotal = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
+
+        }
+
+
         private void RunPanelCalculations()
         {
             //BlocksValues = perimeter;
@@ -289,9 +372,7 @@ namespace BallastCalculator
                 }
             }
         }   
-
-        
-        /*        public void TrueColumnCheck() // ADDED TO RunIFILocationChecks()
+                /*        public void TrueColumnCheck() // ADDED TO RunIFILocationChecks()
         {
             Set_E2WTruCol_LAND();
             Set_E2WTruCol_PORT();
@@ -961,55 +1042,6 @@ namespace BallastCalculator
                 
             return total_count;
         }
-        private void CalculateBlockTotalValues(PanelBase base_panel)
-        {
-            double IFI_Base_Total = 0;
-            foreach (double cornerValue in base_panel.BlockWeightList)
-            {
-                IFI_Base_Total += cornerValue; //IFI_Base_Total
-            }
-            base_panel.BlockTotal = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
-
-        }
-        private void CalculatePanelCorners(EcoPanel EcoPanel)
-        {
-            var x_start = EcoPanel.Center.Item1;
-            var y_start = EcoPanel.Center.Item2;
-            Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NWest
-            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + (17.494 + BlocksValues.Height));//NEast
-            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - (17.494 - BlocksValues.Height)); //SEast
-            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - (17.494 - BlocksValues.Height)); //SWest
-            List<Tuple<double, double>> temp_list = new List<Tuple<double, double>>();
-
-            temp_list.Add(corner_neighbor_east);
-            temp_list.Add(corner_neighbor_west);
-            temp_list.Add(corner_neighbor_north);
-            temp_list.Add(corner_neighbor_south);
-            Random rand = new Random();
-            string random_number = Convert.ToString(rand.Next(0, 10));
-            for (int x = 0; x < temp_list.Count; x++)
-            {
-                //Console.WriteLine(temp_list[x]); 
-                List<PanelBase> matching_bases = PanelBaseList.Where(c => c.Center.Item1 == temp_list[x].Item1 && c.Center.Item2 == temp_list[x].Item2).ToList();
-                if (matching_bases.Count() != 0)
-                {
-                    foreach (PanelBase pb in matching_bases)
-                    {
-                        pb.PanelIDList.Add(EcoPanel.PanelID);
-                        pb.BlockWeightList.Add(EcoPanel.ValueFromExcel);
-                    }
-
-                }
-                else
-                {
-                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
-                    PanelBaseList.Add(temp);
-
-
-                }
-
-            }
-        }
         public void RunIFILocationChecks()
         {
             foreach (var EcoPanel in PanelList)
@@ -1048,7 +1080,6 @@ namespace BallastCalculator
             Console.WriteLine("End IFI calculations. Proceed to Excel parse?");
             Console.ReadKey();
             }
-        
         public List<EcoPanel> GetPanels()
         {
             return PanelList;

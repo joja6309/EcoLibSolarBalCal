@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="52224">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="52736">
       <assemblyIdentity name="BallastCalculator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>XsK1Blgv0jSpuMT5PloJmaxQ5uaB8n//8Nz0m+e8oT0=</dsig:DigestValue>
+        <dsig:DigestValue>K7tb78gy0taHKW36IVLMD4vVn12W+K0WFDVbUodwul0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -90,14 +90,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelInterface.dll" size="15360">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelInterface.dll" size="14848">
       <assemblyIdentity name="ExcelInterface" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OXIZHRroy0askkLio6ZpigpJj3ycCIayxOf3V1UncmQ=</dsig:DigestValue>
+        <dsig:DigestValue>vpkA1ink5Fo5hl2qJX1Xc4+c5i7STwjyEgxd9WjQFg0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

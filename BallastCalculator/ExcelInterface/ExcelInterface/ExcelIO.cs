@@ -182,14 +182,14 @@ namespace ExcelInterface
             {
                 var return_cell = ReadCell(referenceSheet, column + position.ToString());
                 Results.Add(Convert.ToDouble(return_cell));
+                
             }
-            foreach (var x in Results)
-            {
-                Console.WriteLine(x);
-            }
-            Console.WriteLine("==========================");
-            Console.ReadKey();
+            Console.WriteLine("All Values pulled from Excel: ");
+            Console.WriteLine(Results.ToString()); 
             double final_value = Results.Max();
+            Console.WriteLine("Max Value:{0}", final_value);
+            Console.WriteLine("===========");
+
             return final_value;
 
         }

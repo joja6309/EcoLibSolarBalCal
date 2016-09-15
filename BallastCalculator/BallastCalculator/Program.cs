@@ -51,14 +51,7 @@ namespace BallastCalculator
             string excel_path = FilePathContainer.excelPath;
             string panelName = FilePathContainer.panelName;
             Console.WriteLine(excel_path);
-            Console.WriteLine(output_path);
-            Console.WriteLine(file_path);
-            //string file_path, excel_path, panelName, output_path;
-            //file_path = @"C:\Users\Owner\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR.dxf";
-            //excel_path = @"C: \Users\Owner\Desktop\Boulder Nissan Threecocalcs 0_5_2 DEFLECTOR.xlsx";
-            //panelName = "SPR-P17";
-            //output_path = "";
-            //bool land;
+          
             bool land; 
 
             ExcelIO ExInterface = new ExcelIO(excel_path);
@@ -87,6 +80,8 @@ namespace BallastCalculator
             }
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
             List<EcoPanel> processedList = grid.GetPanels();
+            Console.WriteLine("Writting and Reading From Excel: ");
+            Console.WriteLine("==================================");
             foreach (var panel in processedList)
             {
                 if (land)
@@ -100,6 +95,10 @@ namespace BallastCalculator
                     panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
                 }
             }
+            //grid.SetPanelList(processedList);
+            //grid.RunBasePanelCalculations();
+            //var final_bases = grid.GetPanelBases(); 
+            
 
             //foreach (var panel in processedList)
             //{
@@ -123,17 +122,6 @@ namespace BallastCalculator
         //                Console.WriteLine(panel.ValueFromExcel);
         //            }
         //            Console.ReadKey();
-
-
-
-
-
-
-
-
-
-
-
         //IFIboarder.PrintIFIData();     
         //grid.PrintPanelData();
         //foreach(EcoPanel panel in EcoPanel)
@@ -144,9 +132,6 @@ namespace BallastCalculator
         //List <PanelBase> baseValues = grid.GetPanelBases();
         //dxfInterface.OutGen.GenerateFileOut(baseValues);
         // Current Debug Targets! 
-
-
-
 
         ///////////////////////////////////////
         //Under development 
