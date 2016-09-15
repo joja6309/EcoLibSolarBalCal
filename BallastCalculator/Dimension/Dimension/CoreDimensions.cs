@@ -199,10 +199,14 @@ namespace Dimensions
             public bool isEdge = false; 
             public List<EcoPanel> NeighborHood = new List<EcoPanel>();
 
-            public int ColumnNumberE2W;
-            public int ColumnNumberW2E;
-            public int TrueE2W;
-            public int TrueW2E; 
+            public int ColumnNumberE2W_LAND;
+            public int ColumnNumberW2E_LAND;
+            public int TrueE2Wcol_LAND;
+            public int TrueW2Ecol_LAND;
+            public int ColumnNumberE2W_PORT;
+            public int ColumnNumberW2E_PORT;
+            public int TrueE2Wcol_PORT;
+            public int TrueW2Ecol_PORT;
 
 
             public int Sliding;

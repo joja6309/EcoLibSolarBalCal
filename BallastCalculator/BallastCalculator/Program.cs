@@ -56,8 +56,8 @@ namespace BallastCalculator
             //Console.WriteLine(output_path);
             //Console.WriteLine(file_path);
             string file_path, excel_path, panelName, output_path;
-            file_path = @"C:\Users\Owner\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR.dxf";
-            excel_path = @"C:\Users\Owner\Desktop\Boulder Nissan Threecocalcs 0_5_1 DEFLECTOR.xlsx";
+            file_path = @"C:\Users\Kbasarich\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR.dxf";
+            excel_path = @"C:\Users\Kbasarich\Desktop\Boulder Nissan Threecocalcs 0_5_1 DEFLECTOR.xlsx";
             panelName = "SPR-P17";
             output_path = "";
             

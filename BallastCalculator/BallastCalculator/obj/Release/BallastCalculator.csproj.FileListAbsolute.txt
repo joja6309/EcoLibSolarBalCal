@@ -43,3 +43,5 @@ C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalcul
 C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.csprojResolveAssemblyReference.cache
 C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.UserGUI.resources
 C:\Users\Kyle\Dropbox\EF3 Software Project Files\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.csproj.GenerateResource.Cache
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.exe.CodeAnalysisLog.xml
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.exe.lastcodeanalysissucceeded
