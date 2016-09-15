@@ -44,9 +44,8 @@ namespace BallastCalculator
         static void Main(string[] args)
         {
 
-<<<<<<< HEAD
+
             Application.Run(new UserGUI());
-=======
             //Application.Run(new UserGUI());
 
             //string file_path = FilePathContainer.dxfPath;
@@ -56,13 +55,7 @@ namespace BallastCalculator
             //Console.WriteLine(excel_path);
             //Console.WriteLine(output_path);
             //Console.WriteLine(file_path);
-            string file_path, excel_path, panelName, output_path;
-            file_path = @"C:\Users\Kbasarich\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR FOR EW CHECK.dxf";
-            excel_path = @"C: \Users\Kbasarich\Desktop\Boulder Nissan Threecocalcs 0_5_2 DEFLECTOR.xlsx";
-            panelName = "SPR-P17";
-            output_path = "";
-            bool land;
->>>>>>> 92f7687241643dda5b5836bc10dc1344408a7a3c
+         
 
             string file_path = FilePathContainer.dxfPath;
             string output_path = FilePathContainer.outPath;
@@ -102,7 +95,7 @@ namespace BallastCalculator
             Console.WriteLine("==================================");
             foreach (var panel in processedList)
             {
-<<<<<<< HEAD
+
                 if (land)
                 {
                     ExInterface.WritetoSandU(panel.Sliding.ToString(), panel.Uplift.ToString());
@@ -113,7 +106,7 @@ namespace BallastCalculator
                     ExInterface.WritetoSandU(panel.Sliding.ToString(), panel.Uplift.ToString());
                     panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
                 }
-=======
+
                 Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
                 Console.WriteLine("NE zone: " + panel.NE_Zone);
                 Console.WriteLine("NW zone: " + panel.NW_Zone);
@@ -128,7 +121,7 @@ namespace BallastCalculator
                 Console.WriteLine("Below are the two values output from Excel:");
                 Console.ReadKey();
 
->>>>>>> 92f7687241643dda5b5836bc10dc1344408a7a3c
+
             }
             //grid.SetPanelList(processedList);
             //grid.RunBasePanelCalculations();
