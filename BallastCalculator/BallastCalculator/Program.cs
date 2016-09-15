@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Diagnostics;
 using ExcelInterface;
 using Dimensions;
 using DXFInterface;
-using System.Windows.Forms;
 
 
 
@@ -56,8 +51,8 @@ namespace BallastCalculator
             //Console.WriteLine(output_path);
             //Console.WriteLine(file_path);
             string file_path, excel_path, panelName, output_path;
-            file_path = @"C:\Users\Kbasarich\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR.dxf";
-            excel_path = @"C:\Users\Kbasarich\Desktop\Boulder Nissan Threecocalcs 0_5_1 DEFLECTOR.xlsx";
+            file_path = @"C:\Users\KBasarich\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR FOR EW CHECK.dxf";
+            excel_path = @"C:\Users\KBasarich\Desktop\Boulder Nissan Threecocalcs 0_5_1 DEFLECTOR.xlsx";
             panelName = "SPR-P17";
             output_path = "";
             
@@ -65,8 +60,8 @@ namespace BallastCalculator
             //Def B32
             //Orent B33 
             //Bal B34 
-            bool def = ExInterface.CheckFirst("B32");
-            bool land = ExInterface.CheckFirst("B33");
+            bool def = ExInterface.CheckFirst("C32");
+            bool land = ExInterface.CheckFirst("C33");
             double bal = ExInterface.GetBalast("B34");
 
             DxfIO dxfInterface = new DxfIO(file_path, output_path, panelName, land);
@@ -90,8 +85,9 @@ namespace BallastCalculator
             List<EcoPanel> processedList = grid.GetPanels();
             List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
             List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
-            Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 38);
-            Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 38);
+            //KB DEBUG: corrected sliding and uplift cell values from 38 to 39
+            Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 39);
+            Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 39);
             //List<int> WOBallasrreference_zones = new List<int>() {}
             string referenceSheet;
             string column;
@@ -117,13 +113,15 @@ namespace BallastCalculator
 
                 if (def)
                 {   // reference sheet 10d at correct zone 
+                    //KB DEBUG: corrected with or without deflector call
                     startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1];
-                    startingCell_NW = WODeflector_Refzones[panel.NW_Zone - 1];
+                    startingCell_NW = WDeflector_Refzones[panel.NW_Zone - 1];
                 }
                 else
                 {   // Same Row Reference Array if sheet 5d at correct zone 
-                    startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1];
-                    startingCell_NW = WDeflector_Refzones[panel.NW_Zone - 1];
+                    //KB DEBUG: corrected with or without deflector call
+                    startingCell_NE = WODeflector_Refzones[panel.NE_Zone - 1];
+                    startingCell_NW = WODeflector_Refzones[panel.NW_Zone - 1];
 
                 }
                 // N0 S0 both
@@ -223,18 +221,29 @@ namespace BallastCalculator
                     Results.Add(Convert.ToDouble(return_cell));
                 }
                 double final_value = Results.Max();
+                Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
+                Console.WriteLine("NE zone: " + panel.NE_Zone);
+                Console.WriteLine("NW zone: " + panel.NW_Zone);
+                Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
+                Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
+                Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
+                Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+                Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
+                Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
+                Console.WriteLine("Below are the two values output from Excel:");
                 foreach (var x in Results)
                 {
                     Console.WriteLine(x);
-
                 }
+                Console.WriteLine("==========================");
+                Console.ReadKey();
                 panel.ValueFromExcel = final_value;
             }
-            foreach (EcoPanel panel in processedList)
-            {
-                Console.WriteLine(panel.ValueFromExcel);
-            }
-            Console.ReadKey();
+//            foreach (EcoPanel panel in processedList)
+//            {
+//                Console.WriteLine(panel.ValueFromExcel);
+//            }
+//            Console.ReadKey();
 
 
 

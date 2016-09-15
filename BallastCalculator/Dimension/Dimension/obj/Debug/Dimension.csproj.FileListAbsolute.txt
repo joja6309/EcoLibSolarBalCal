@@ -12,5 +12,3 @@ C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimensio
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\bin\Debug\Dimension.pdb
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\obj\Debug\Dimension.dll
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\obj\Debug\Dimension.pdb
-C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\bin\Debug\Dimension.dll.CodeAnalysisLog.xml
-C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\Dimension\Dimension\bin\Debug\Dimension.dll.lastcodeanalysissucceeded

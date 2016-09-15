@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dimensions
 {
-    
-        public class BasicDimensions
+
+    public class BasicDimensions
         {
             public Tuple<double, double> Corner1;
             public Tuple<double, double> Corner2;

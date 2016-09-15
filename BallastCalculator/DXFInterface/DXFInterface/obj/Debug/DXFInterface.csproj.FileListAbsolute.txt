@@ -19,5 +19,3 @@ C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInter
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\obj\Debug\DXFInterface.csprojResolveAssemblyReference.cache
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\obj\Debug\DXFInterface.dll
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\obj\Debug\DXFInterface.pdb
-C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\bin\Debug\DXFInterface.dll.CodeAnalysisLog.xml
-C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\DXFInterface\DXFInterface\bin\Debug\DXFInterface.dll.lastcodeanalysissucceeded
