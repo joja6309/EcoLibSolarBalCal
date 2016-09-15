@@ -24,8 +24,6 @@ namespace ExcelInterface
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
                 _firstSheetName = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAt(1).Name;
-                Console.WriteLine(_firstSheetName);
-
             }
 
         }
@@ -33,9 +31,7 @@ namespace ExcelInterface
 
         public bool CheckFirst(string cellCo)
         {
-            //string outPutCell =   GetStringCell(sheetName,cellCo);
-            //string stringCell = VerifyStringCell(sheetName, outPutCell);
-            //string stringCell = outPutCell.InnerText;
+            
             int outInt = 0;  
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
@@ -90,44 +86,7 @@ namespace ExcelInterface
             }
             return (WorksheetPart)excelDoc.WorkbookPart.GetPartById(sheet.Id);
         }
-    //    private string GetStringCell(string sheetName, string cellCor)
-    //    {
-    //        string return_value = null;
-    //        CellValue cellval = ReadCell(sheetName, cellCor);
-    //        using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
-    //        {
-    //            WorksheetPart wbpart = GetWorksheetPart(excelDoc, sheetName);
-    //            // For shared strings, look up the value in the
-    //            // shared strings table.
-    //            var stringTable =
-    //                wbpart.GetPartsOfType<SharedStringTablePart>()
-    //                .FirstOrDefault();
-
-    //            // If the shared string table is missing, something 
-    //            // is wrong. Return the index that is in
-    //            // the cell. Otherwise, look up the correct text in 
-    //            // the table.
-    //            if (stringTable != null)
-    //            {
-    //               return_value =
-    //                    stringTable.SharedStringTable
-    //                    .ElementAt(int.Parse(return_value)).InnerText;
-    //            }
-                
-
-    //        }
-    //        if(return_value != null)
-    //        {
-    //            return return_value;
-    //        }
-    //        else
-    //        {
-    //            return "0";
-    //        }
-               
-                               
-    //}
-       
+   
         /// <see cref="IExcelDocument.ReadCell" />
         public string ReadCell(string sheetName, string cellCoordinates)
         {

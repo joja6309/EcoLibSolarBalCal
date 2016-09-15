@@ -25,17 +25,23 @@ namespace BallastCalculator
         private bool useDefaults = false;
         private string getPath(string filename)
         {
-            var currentDir = System.IO.Directory.GetCurrentDirectory();
-            string path = "";
-            if (currentDir.ToLower().EndsWith(@"\bin\debug") ||
-                currentDir.ToLower().EndsWith(@"\bin\release"))
-            {
+            //Console.WriteLine(filename);
+            //var currentDir = System.IO.Directory.GetCurrentDirectory();
+            //string path = "";
+            //if (currentDir.ToLower().EndsWith(@"\bin\debug") ||
+            //    currentDir.ToLower().EndsWith(@"\bin\release"))
+            //{
 
-               path  = System.IO.Path.GetFullPath(@"..\..\" + filename);
-            }
-            else {
-                path = System.IO.Path.GetFullPath(filename);
-            }
+            //   path  = System.IO.Path.GetFullPath(@"..\..\" + filename);
+            //    Console.WriteLine(path);
+            //}
+            //else {
+            //    path = System.IO.Path.GetFullPath(filename);
+            //    Console.WriteLine(path);
+            //}
+            FileInfo f = new FileInfo(filename);
+            Console.WriteLine(f.FullName);
+            string path = "" ;
             return path;
         }
             private void dxfButton_Click(object sender, System.EventArgs e)

@@ -14,7 +14,7 @@ namespace BallastCalculator
         private readonly BasicDimensions BlocksValues;
         private List<EcoPanel> PanelList;
         private List<PanelBase> PanelBaseList = new List<PanelBase>();
-        private List<PanelBase> X_direction = new List<PanelBase>();
+       
         private bool Landscape; 
         public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist) // Called First 
         {
@@ -23,6 +23,7 @@ namespace BallastCalculator
             RunPanelCalculations(); // Generates Call -> Program Now in Run EcoPanel Calculations Function
             BuildDirectionList();
             CalculateBallastLocation();
+            TrueColumnCheck();
             //RunBasePanelCalculations(); 
         }
         //Called By Constructor
@@ -55,7 +56,8 @@ namespace BallastCalculator
             //}
             RunIFILocationChecks();
             BuildDirectionList();
-            TrueColumnCheck();
+            
+            //TrueColumnChec;k();
             
             
 
@@ -284,221 +286,140 @@ namespace BallastCalculator
                 }
                 else
                 {
-                    Console.WriteLine("ERROR! A module appears to be part of a single row or column. Please revise layout to remove single rows or columns when using EF3.");
-                    Console.ReadKey();
+                    //Console.WriteLine("ERROR! A module appears to be part of a single row or column. Please revise layout to remove single rows or columns when using EF3.");
+                    //Console.ReadKey();
                 }
             }
         }
+        
         public void TrueColumnCheck()
         {
-            Landscape = true; 
-           if(Landscape)
+            SetE2WValues();
+            SetW2EValues(); 
+            if(Landscape)
             {
-                TrueE2W();
-                TrueW2E();
-                foreach(EcoPanel panel in PanelList)
-                {
-                    if(panel.TrueE2W >= 4)
-                    {
-                        panel.TrueE2W = 2; 
-                    }
-                    else if(panel.TrueW2E >= 4 )
-                    {
-                        panel.TrueW2E = 2; 
-                    }
-                }
+                E2WLandCheck();
+                W2ELandCheck(); 
             }
-           else
+            else
             {
-                TrueE2W();
-                TrueW2E();
-                foreach (EcoPanel panel in PanelList)
-                {
-                    if (panel.TrueE2W >= 10)
-                    {
-                        panel.TrueE2W = 2;
-                    }
-                    else if (panel.TrueW2E >= 10)
-                    {
-                        panel.TrueW2E = 2;
-                    }
-                }
-
+                E2WPortCheck();
+                E2WPortCheck();
 
             }
+          
+
         }
-        private void TrueE2W()
+        private void SetE2WValues()
         {
-            //KB DEBUG: List<EcoPanel> DescendingX = PanelList.OrderByDescending(x => x.Center.Item1).ToList(); <-- are we currently looking east to west? How is the check being handled?
-            foreach (EcoPanel panel in PanelList)
+            var descendingPanels = PanelList.OrderByDescending(x => x.Center.Item1).Distinct();
+            foreach( var panel in descendingPanels)
             {
-                //if port or lan
-                if (panel.isEdge)
+                if(panel.IFI_E2W_Land == 1)
                 {
-                    if (Landscape)
+                    IEnumerable<EcoPanel> return_PO = PanelList.Where(x => (Math.Abs(panel.Center.Item1 - (BlocksValues.Width + 55)) - x.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - x.Center.Item2 <= .5));
+                    IEnumerable<EcoPanel> return_PB = PanelList.Where(x => (x.Center.Item1 == panel.Center.Item1) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - x.Center.Item2 <= .5));
+                    if((return_PB.Count() != 0) && (return_PO.Count() !=  0 ))
                     {
-                        if (panel.IFI_E2W_Land == 1)
-                        {
-                            foreach (EcoPanel neigh in PanelList)
-                            {
-                                if ((panel.Center.Item1 + BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
-                                {
-                                    panel.TrueE2W = neigh.IFI_E2W_Land + 1;
+                        EcoPanel panelO = return_PO.First();
+                        EcoPanel panelB = return_PO.First();
+                        bool XA_Xo = panel.Center.Item1 - panelO.Center.Item1 < BlocksValues.Width + 55;
+                        bool YA_Yo = panel.Center.Item2 - panelO.Center.Item2 < BlocksValues.Height + 17.494;
+                        bool XB_XA = panel.Center.Item1 - panelO.Center.Item1 < BlocksValues.Width + 55;
+                        bool Yo_YB = panelO.Center.Item2 - panelB.Center.Item2 < BlocksValues.Height + 17.494;
 
-                                }
-                            }
-                        }
 
-                        if (panel.IFI_E2W_Land == 0)
-                        {
-                            int up_check = 3;
-                            int right_check = 3;
-                            foreach (EcoPanel neighbor in PanelList)
-                            {
-                                if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
-                                {
-                                    up_check = neighbor.IFI_E2W_Land;
-
-                                }
-                                else if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
-                                {
-                                    right_check = neighbor.IFI_E2W_Land;
-                                }
-                                if ((up_check != 3) && (right_check != 3))
-                                    panel.TrueE2W = right_check + 1;
-                                else
-                                    panel.TrueE2W = 1;
-                            }
-                        }
+                        //if (XA_Xo && YA_Yo && XB_XA && Yo_YB)
+                        //{
+                        //    panel.E2W = panel.IFI_E2W_Land / 
+                        //}
                     }
-                    else
+                    else if(panel.IFI_E2W_Land > 1 )
                     {
-                        if (panel.IFI_E2W_Port == 1)
-                        {
-                            foreach (EcoPanel neigh in PanelList)
-                            {
-                                if (Math.Abs(panel.Center.Item1 + BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
-                                {
-                                    panel.TrueE2W = neigh.IFI_E2W_Port + 1;
-
-                                }
-                            }
-                        }
-
-                        if (panel.IFI_E2W_Port == 0)
-                        {
-                            int up_check = 3;
-                            int right_check = 3;
-                            foreach (EcoPanel neighbor in PanelList)
-                            {
-                                if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
-                                {
-                                    up_check = neighbor.IFI_E2W_Port;
-
-                                }
-                                else if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
-                                {
-                                    right_check = neighbor.IFI_E2W_Port;
-                                }
-                                if ((up_check != 3) && (right_check != 3))
-                                    panel.TrueE2W = right_check + 1;
-                                else
-                                    panel.TrueE2W = 1;
-                            }
-                        }
-
+                        //panel.E2W
                     }
                     
                 }
             }
 
+
         }
-        private void TrueW2E()
+        private void SetW2EValues()
         {
-            foreach (EcoPanel panel in PanelList)
+            var descendingPanels = PanelList.OrderByDescending(x => x.Center.Item1).Distinct();
+            foreach (var panel in descendingPanels)
             {
-                //if port or lan
-                if (panel.isEdge)
+                if (panel.IFI_E2W_Land == 1)
                 {
-                    if (Landscape)
+                    IEnumerable<EcoPanel> return_PO = PanelList.Where(x => (Math.Abs(panel.Center.Item1 + (BlocksValues.Width + 55)) - x.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - x.Center.Item2 <= .5));
+                    IEnumerable<EcoPanel> return_PB = PanelList.Where(x => (x.Center.Item1 == panel.Center.Item1) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - x.Center.Item2 <= .5));
+                    if ((return_PB.Count() != 0) && (return_PO.Count() != 0))
                     {
-                        if (panel.IFI_W2E_Land == 1)
-                        {
-                            foreach (EcoPanel neigh in PanelList)
-                            {
-                                if (Math.Abs(panel.Center.Item1 - BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
-                                {
-                                    panel.TrueW2E = neigh.IFI_W2E_Land + 1;
+                        EcoPanel panelO = return_PO.First();
+                        EcoPanel panelB = return_PO.First();
+                        bool XA_Xo = panel.Center.Item1 - panelO.Center.Item1 < BlocksValues.Width + 55;
+                        bool YA_Yo = panel.Center.Item2 - panelO.Center.Item2 < BlocksValues.Height + 17.494;
+                        bool XB_XA = panel.Center.Item1 - panelO.Center.Item1 < BlocksValues.Width + 55;
+                        bool Yo_YB = panelO.Center.Item2 - panelB.Center.Item2 < BlocksValues.Height + 17.494;
 
-                                }
-                            }
-                        }
 
-                        if (panel.IFI_W2E_Land == 0)
-                        {
-                            int up_check = 3;
-                            int right_check = 3;
-                            foreach (EcoPanel neighbor in PanelList)
-                            {
-                                if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
-                                {
-                                    up_check = neighbor.IFI_W2E_Land;
-
-                                }
-                                else if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
-                                {
-                                    right_check = neighbor.IFI_W2E_Land;
-                                }
-                                if ((up_check != 3) && (right_check != 3))
-                                    panel.TrueW2E = right_check + 1;
-                                else
-                                    panel.TrueW2E = 1;
-                            }
-                        }
+                        //if (XA_Xo && YA_Yo && XB_XA && Yo_YB)
+                        //{
+                        //    panel.E2W = panel.IFI_E2W_Land / 
+                        //}
                     }
-                    else
+                    else if (panel.IFI_E2W_Land > 1)
                     {
-                        if (panel.IFI_E2W_Port == 1)
-                        {
-                            foreach (EcoPanel neigh in PanelList)
-                            {
-                                if (Math.Abs(panel.Center.Item1 - BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
-                                {
-                                    panel.TrueE2W = neigh.IFI_W2E_Port + 1;
-
-                                }
-                            }
-                        }
-
-                        if (panel.IFI_W2E_Port == 0)
-                        {
-                            int up_check = 3;
-                            int right_check = 3;
-                            foreach (EcoPanel neighbor in PanelList)
-                            {
-                                if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
-                                {
-                                    up_check = neighbor.IFI_W2E_Port;
-
-                                }
-                                else if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
-                                {
-                                    right_check = neighbor.IFI_W2E_Port;
-                                }
-                                if ((up_check != 3) && (right_check != 3))
-                                    panel.TrueW2E = right_check + 1;
-                                else
-                                    panel.TrueW2E = 1;
-                            }
-                        }
-
+                        //panel.E2W
                     }
-                    
+
+
+
                 }
+        private void E2WLandCheck()
+        {
+        foreach(var panel in PanelList)
+            {
+                if (panel.E2W == 1)
+                {
+                    panel.TrueE2W = 0;
+                }
+                else if (2 < panel.E2W <= 6)
+
+            }
+        }
+        private void E2WPortCheck()
+        {
+            foreach (var panel in PanelList)
+            {
+
             }
 
-        
+
         }
+        private void W2ELandCheck()
+        {
+            foreach (var panel in PanelList)
+            {
+
+            }
+
+        }
+        private void W2EPortCheck()
+        {
+            foreach (var panel in PanelList)
+            {
+
+            }
+
+        }
+           
+       
+
+
+
+
+
         private void E2W_LAND_Check(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -1015,3 +936,216 @@ namespace BallastCalculator
         }
     }
 }
+
+
+
+
+
+//private void TrueE2W()
+//{
+//    //KB DEBUG: List<EcoPanel> DescendingX = PanelList.OrderByDescending(x => x.Center.Item1).ToList(); <-- are we currently looking east to west? How is the check being handled?
+//    foreach (EcoPanel panel in PanelList)
+//    {
+//        //if port or lan
+//        if (panel.isEdge)
+//        {
+//            if (Landscape)
+//            {
+//                if (panel.IFI_E2W_Land == 1)
+//                {
+//                    foreach (EcoPanel neigh in PanelList)
+//                    {
+//                        if ((panel.Center.Item1 + BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
+//                        {
+//                            panel.TrueE2W = neigh.IFI_E2W_Land + 1;
+
+//                        }
+//                    }
+//                }
+
+//                if (panel.IFI_E2W_Land == 0)
+//                {
+//                    int up_check = 3;
+//                    int right_check = 3;
+//                    foreach (EcoPanel neighbor in PanelList)
+//                    {
+//                        if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            up_check = neighbor.IFI_E2W_Land;
+
+//                        }
+//                        else if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            right_check = neighbor.IFI_E2W_Land;
+//                        }
+//                        if ((up_check != 3) && (right_check != 3))
+//                            panel.TrueE2W = right_check + 1;
+//                        else
+//                            panel.TrueE2W = 1;
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                if (panel.IFI_E2W_Port == 1)
+//                {
+//                    foreach (EcoPanel neigh in PanelList)
+//                    {
+//                        if (Math.Abs(panel.Center.Item1 + BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
+//                        {
+//                            panel.TrueE2W = neigh.IFI_E2W_Port + 1;
+
+//                        }
+//                    }
+//                }
+
+//                if (panel.IFI_E2W_Port == 0)
+//                {
+//                    int up_check = 3;
+//                    int right_check = 3;
+//                    foreach (EcoPanel neighbor in PanelList)
+//                    {
+//                        if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            up_check = neighbor.IFI_E2W_Port;
+
+//                        }
+//                        else if ((Math.Abs(panel.Center.Item1 + BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            right_check = neighbor.IFI_E2W_Port;
+//                        }
+//                        if ((up_check != 3) && (right_check != 3))
+//                            panel.TrueE2W = right_check + 1;
+//                        else
+//                            panel.TrueE2W = 1;
+//                    }
+//                }
+
+//            }
+
+//        }
+//    }
+
+//}
+//private void TrueW2E()
+//{
+//    foreach (EcoPanel panel in PanelList)
+//    {
+//        //if port or lan
+//        if (panel.isEdge)
+//        {
+//            if (Landscape)
+//            {
+//                if (panel.IFI_W2E_Land == 1)
+//                {
+//                    foreach (EcoPanel neigh in PanelList)
+//                    {
+//                        if (Math.Abs(panel.Center.Item1 - BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
+//                        {
+//                            panel.TrueW2E = neigh.IFI_W2E_Land + 1;
+
+//                        }
+//                    }
+//                }
+
+//                if (panel.IFI_W2E_Land == 0)
+//                {
+//                    int up_check = 3;
+//                    int right_check = 3;
+//                    foreach (EcoPanel neighbor in PanelList)
+//                    {
+//                        if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            up_check = neighbor.IFI_W2E_Land;
+
+//                        }
+//                        else if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            right_check = neighbor.IFI_W2E_Land;
+//                        }
+//                        if ((up_check != 3) && (right_check != 3))
+//                            panel.TrueW2E = right_check + 1;
+//                        else
+//                            panel.TrueW2E = 1;
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                if (panel.IFI_E2W_Port == 1)
+//                {
+//                    foreach (EcoPanel neigh in PanelList)
+//                    {
+//                        if (Math.Abs(panel.Center.Item1 - BlocksValues.Width + 0.5) - neigh.Center.Item1 <= .5 && Math.Abs(panel.Center.Item2 - neigh.Center.Item2) <= .5)
+//                        {
+//                            panel.TrueE2W = neigh.IFI_W2E_Port + 1;
+
+//                        }
+//                    }
+//                }
+
+//                if (panel.IFI_W2E_Port == 0)
+//                {
+//                    int up_check = 3;
+//                    int right_check = 3;
+//                    foreach (EcoPanel neighbor in PanelList)
+//                    {
+//                        if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 + BlocksValues.Height + 17.4) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            up_check = neighbor.IFI_W2E_Port;
+
+//                        }
+//                        else if ((Math.Abs(panel.Center.Item1 - BlocksValues.Width + 55) - neighbor.Center.Item1 <= .5) && (Math.Abs(panel.Center.Item2 - (BlocksValues.Height + 17.4)) - neighbor.Center.Item2 <= .5))
+//                        {
+//                            right_check = neighbor.IFI_W2E_Port;
+//                        }
+//                        if ((up_check != 3) && (right_check != 3))
+//                            panel.TrueW2E = right_check + 1;
+//                        else
+//                            panel.TrueW2E = 1;
+//                    }
+//                }
+
+//            }
+
+//        }
+//    }
+
+
+//}
+
+// Landscape = true; 
+//if(Landscape)
+// {
+//     TrueE2W();
+//     TrueW2E();
+//     foreach(EcoPanel panel in PanelList)
+//     {
+//         if(panel.TrueE2W >= 4)
+//         {
+//             panel.TrueE2W = 2; 
+//         }
+//         else if(panel.TrueW2E >= 4 )
+//         {
+//             panel.TrueW2E = 2; 
+//         }
+//     }
+// }
+//else
+// {
+//     TrueE2W();
+//     TrueW2E();
+//     foreach (EcoPanel panel in PanelList)
+//     {
+//         if (panel.TrueE2W >= 10)
+//         {
+//             panel.TrueE2W = 2;
+//         }
+//         else if (panel.TrueW2E >= 10)
+//         {
+//             panel.TrueW2E = 2;
+//         }
+//     }
+
+
+// }

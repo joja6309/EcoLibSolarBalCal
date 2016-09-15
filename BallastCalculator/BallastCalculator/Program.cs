@@ -34,43 +34,33 @@ namespace BallastCalculator
         }
         static void SetPanelName(string panel)
         {
-            panelName = panel; 
+            panelName = panel;
         }
     }
 
     class Program
     {
 
-      
+
         [STAThread]
         static void Main(string[] args)
-            {
-            ////GetUserInputs()
-            //Console.WriteLine("Press Enter to Continue: ");
-            ////Console.WriteLine("Copy and Paste the input file path");
-            ////string IncomingFilePath = Console.ReadLine(); 
-            ////IncomingFilePath = 
-            //string file_path = @"C:\Users\Owner\Desktop\EcoLibriumSolar\Greenskies_Griswold Elem EF3_Ecolibrium Layout (WITH IFI PERIMETER) stripped down.dxf";
-            //string output_path = "output";
-            Application.Run(new UserGUI());
-            //MessageBox.Show(FilePathContainer.dxfPath);
-            //MessageBox.Show(FilePathContainer.excelPath);
-            //MessageBox.Show(FilePathContainer.outPath);
+        {
 
-            string file_path = FilePathContainer.dxfPath;
-            string output_path = FilePathContainer.outPath;
-            string excel_path = FilePathContainer.excelPath;
-            string panelName = FilePathContainer.panelName;
-            Console.WriteLine(output_path);
-            Console.WriteLine(file_path);
-            Console.WriteLine(excel_path);
-            Console.WriteLine(panelName);
-            Console.ReadKey();
-            Console.ReadKey();
-            //Hard Code Your File Paths: 
-            //string file_path = 
-            //string out_putpath = 
-            //string panelName = 
+            //Application.Run(new UserGUI());
+
+            //string file_path = FilePathContainer.dxfPath;
+            //string output_path = FilePathContainer.outPath;
+            //string excel_path = FilePathContainer.excelPath;
+            //string panelName = FilePathContainer.panelName;
+            //Console.WriteLine(excel_path);
+            //Console.WriteLine(output_path);
+            //Console.WriteLine(file_path);
+            string file_path, excel_path, panelName, output_path;
+            file_path = @"C:\Users\Owner\Desktop\IPS_Nissan Boulder_Ecolibrium Layout Rev C DEFLECTOR.dxf";
+            excel_path = @"C:\Users\Owner\Desktop\Boulder Nissan Threecocalcs 0_5_1 DEFLECTOR.xlsx";
+            panelName = "SPR-P17";
+            output_path = "";
+            
             ExcelIO ExInterface = new ExcelIO(excel_path);
             //Def B32
             //Orent B33 
@@ -78,75 +68,186 @@ namespace BallastCalculator
             bool def = ExInterface.CheckFirst("B32");
             bool land = ExInterface.CheckFirst("B33");
             double bal = ExInterface.GetBalast("B34");
-            //Console.WriteLine(def);
-            //Console.WriteLine(land);
-            //Console.WriteLine(bal);
-            //Console.ReadKey(); 
 
-
-            DxfIO dxfInterface = new DxfIO(file_path, output_path,panelName,land);
+            DxfIO dxfInterface = new DxfIO(file_path, output_path, panelName, land);
             dxfInterface.ParseFile();
-
-            //bool isLandscape = ExInterface.CheckFirst();
-            //double ballastValue = ExInterface.GetBalast();
-            //bool withDeflector = ExInterface.CheckFirst(); 
 
             //dxfInterface.RunOutTesting();
             BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
             IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
             List<EcoPanel> PanelList = dxfInterface.GetEntitiesPanels();
+
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
 
-            
-             foreach (EcoPanel EcoPanel in PanelList)
+            foreach (EcoPanel EcoPanel in PanelList)
             {
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
-                /*
-                Console.WriteLine("Panel No. " + EcoPanel.PanelID);
-                Console.WriteLine("Center: " + EcoPanel.Center);
-                Console.WriteLine("Zone from the east: " + EcoPanel.NE_Zone);
-                Console.WriteLine("Zone from the West: " + EcoPanel.NW_Zone);
-                //Console.WriteLine("Ballast Location: " + EcoPanel.BallastLocation);
-                Console.ReadLine();
-                */
+            }
+            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
+            List<EcoPanel> processedList = grid.GetPanels();
+            List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
+            List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
+            Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 38);
+            Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 38);
+            //List<int> WOBallasrreference_zones = new List<int>() {}
+            string referenceSheet;
+            string column;
+            if (land)
+            {
+                referenceSheet = "wind load calc_10d";
+                column = "M";
+            }
+            else
+            {
+                referenceSheet = "wind load calc_5d";
+                column = "K";
             }
 
-            //Moved all function calls to constructor inside the PanelGrid Class 
-            //1. PanelGrid PanelGrid
-            //2. PanelGrid RunPanlCalculations
-            //2. PanelGrid RunBasePanelCalculations 
-            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
-            IFIboarder.PrintIFIData();
-            //List<EcoPanel> list  = grid.GetPanels(); 
-            //foreach( EcoPanel panel in list  )
-            //{
-            //    Console.WriteLine("Panel No. " + panel.PanelID);
-            //    Console.WriteLine("Center: " + panel.Center);
-            //    Console.WriteLine("Zone from the east: " + panel.NE_Zone);
-            //    Console.WriteLine("Zone from the West: " + panel.NW_Zone);
-            //    Console.WriteLine("Panel ID: {0}: ", panel.PanelID);
-            //    Console.WriteLine(panel.DirectionList.Count);
-            //    Console.WriteLine("Panel Direction List: {0}");
-            //    Console.WriteLine("===================="); 
-            //    foreach(var c in panel.DirectionList)
-            //    {
-            //        Console.WriteLine(c); 
-            //    }
-            //    Console.WriteLine("Panel Neighbors: ");
-            //    Console.WriteLine("==================="); 
-            //    foreach(var neigh in panel.NeighborHood)
-            //    {
-            //        Console.WriteLine(neigh.Center);
+            foreach (EcoPanel panel in processedList)
+            {
+                int startingCell_NE = 0;
+                int startingCell_NW = 0;
+                List<int> ColumnPositions = new List<int>();
+                ExInterface.InsertText(referenceSheet, upliftCell, panel.ToString());
+                ExInterface.InsertText(referenceSheet, slidingCell, panel.Uplift.ToString());
+                ExInterface.Update();
 
-            //    }
-            //    Console.ReadKey();
+                if (def)
+                {   // reference sheet 10d at correct zone 
+                    startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1];
+                    startingCell_NW = WODeflector_Refzones[panel.NW_Zone - 1];
+                }
+                else
+                {   // Same Row Reference Array if sheet 5d at correct zone 
+                    startingCell_NE = WDeflector_Refzones[panel.NE_Zone - 1];
+                    startingCell_NW = WDeflector_Refzones[panel.NW_Zone - 1];
 
-            //}
-            //grid.RunIFILocationChecks();
-            grid.PrintPanelData();
+                }
+                // N0 S0 both
+                // S0 1N only south
+                // S1 just north
+
+                // NEZone -> E2W
+                // NWZone -> W2E
+                //N0
+                //N1 S1
+                //N2 S1
+                //S0
+                if (land)
+                {
+
+                    if (panel.IFI_NORTH_Land == 0)
+                    {
+                        int temp_cell_West = startingCell_NW + 1;
+                        int temp_cell_East = startingCell_NE + 1;
+
+                        if (panel.IFI_E2W_Land.Equals(2))
+                        {
+                            temp_cell_East = startingCell_NE + 1;
+
+
+                        }
+                        else if (panel.IFI_E2W_Land.Equals(2))
+                        {
+                            temp_cell_West = startingCell_NW + 1;
+                        }
+                        ColumnPositions.Add(temp_cell_West);
+                        ColumnPositions.Add(temp_cell_East);
+
+                    }
+                    else if (panel.IFI_SOUTH_Land == 0 && panel.IFI_NORTH_Land != 0)
+                    {
+                        if (panel.IFI_NORTH_Land == 1)
+                        {
+                            int temp_cell_West = startingCell_NW + 1;
+                            int temp_cell_East = startingCell_NE + 1;
+                            if (panel.IFI_E2W_Land.Equals(2))
+                            {
+                                temp_cell_West = startingCell_NE + 1;
+
+
+                            }
+                            else if (panel.IFI_E2W_Land.Equals(2))
+                            {
+                                temp_cell_East = startingCell_NW + 1;
+                            }
+                            ColumnPositions.Add(temp_cell_West);
+                            ColumnPositions.Add(temp_cell_East);
+
+                        }
+                        else if (panel.IFI_NORTH_Land == 2)
+                        {
+                            int temp_cell_West = startingCell_NW + 2;
+                            int temp_cell_East = startingCell_NE + 2;
+                            if (panel.IFI_E2W_Land.Equals(2))
+                            {
+                                temp_cell_West = startingCell_NE + 1;
+
+
+                            }
+                            else if (panel.IFI_E2W_Land.Equals(2))
+                            {
+                                temp_cell_East = startingCell_NW + 1;
+                            }
+                            ColumnPositions.Add(temp_cell_West);
+                            ColumnPositions.Add(temp_cell_East);
+                        }
+
+                    }
+                    else if (panel.IFI_SOUTH_Land == 1 | panel.IFI_SOUTH_Land == 0)
+                    {
+                        int temp_cell_West = startingCell_NW + 6;
+                        int temp_cell_East = startingCell_NE + 6;
+                        if (panel.IFI_E2W_Land.Equals(2))
+                        {
+                            temp_cell_West = startingCell_NE + 1;
+                            
+                        }
+                        else if (panel.IFI_E2W_Land.Equals(2))
+                        {
+                            temp_cell_East = startingCell_NW + 1;
+                        }
+                        ColumnPositions.Add(temp_cell_West);
+                        ColumnPositions.Add(temp_cell_East);
+
+                    }
+
+                }
+                List<double> Results = new List<double>();
+                foreach (var position in ColumnPositions)
+                {
+                    var return_cell = ExInterface.ReadCell(referenceSheet, column + position.ToString());
+                    Results.Add(Convert.ToDouble(return_cell));
+                }
+                double final_value = Results.Max();
+                foreach (var x in Results)
+                {
+                    Console.WriteLine(x);
+
+                }
+                panel.ValueFromExcel = final_value;
+            }
+            foreach (EcoPanel panel in processedList)
+            {
+                Console.WriteLine(panel.ValueFromExcel);
+            }
+            Console.ReadKey();
+
+
+
+
+
+
+
+
+
+
+
+            //IFIboarder.PrintIFIData();     
+            //grid.PrintPanelData();
             //foreach(EcoPanel panel in EcoPanel)
             //{
             //    Console.WriteLine(panel.IFI_E2W_Land)
@@ -172,10 +273,11 @@ namespace BallastCalculator
             //}
             //Console.ReadKey();
             //List<EcoPanel> FinishedList = grid.GetPanels();
-            
+
+        }
         }
     }
-}
+
 
 
 
