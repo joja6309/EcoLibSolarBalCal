@@ -1028,13 +1028,13 @@ namespace BallastCalculator
             }
             {
                 //KB DEBUG: added the below functions to round out the RunIFILocationCheck method
-                PanelList = PanelList.OrderByDescending(x => x.Center.Item1).Distinct().ToList();
+                PanelList = PanelList.OrderByDescending(x => x.Center.Item1).ToList();
                 Set_E2WTruCol_LAND(PanelList);
                 Set_E2WTruCol_PORT(PanelList);
                 E2WPortCheck(PanelList);
                 E2WLandCheck(PanelList);
 
-                PanelList = PanelList.OrderBy(x => x.Center.Item1).Distinct().ToList();
+                PanelList = PanelList.OrderBy(x => x.Center.Item1).ToList();
                 Set_W2ETruCol_LAND(PanelList);
                 Set_W2ETruCol_PORT(PanelList);
                 W2ELandCheck(PanelList);

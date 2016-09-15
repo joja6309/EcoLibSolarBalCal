@@ -5,14 +5,27 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
 using Microsoft.Office.Interop.Excel;
+using System.Collections.Generic;
 
 
 namespace ExcelInterface
 {
-    public class ExcelIO 
+    public class ExcelIO
     {
         private readonly string _filePath;
         private readonly string _firstSheetName;
+        public bool def;
+        public bool land;
+        public double bal;
+
+        private List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
+        private List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
+        //KB DEBUG: corrected sliding and uplift cell values from 38 to 39
+        private Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 39);
+        private Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 39);
+        //List<int> WOBallasrreference_zones = new List<int>() {}
+        private string referenceSheet;
+        private string column;
 
         public ExcelIO(string filePath)
         {
@@ -23,33 +36,193 @@ namespace ExcelInterface
             }
 
         }
-        
+        public void ProcessFirstSheet()
+        {
+            def = CheckFirst("C32");
+            land = CheckFirst("C33");
+            bal = GetBalast("B34");
+            SetReferences();
+
+        }
+        public void SetReferences()
+        {
+            if (land)
+            {
+                referenceSheet = "wind load calc_10d";
+                column = "M";
+            }
+            else
+            {
+                referenceSheet = "wind load calc_5d";
+                column = "K";
+            }
+
+        }
+        public void WritetoSandU(string uplift, string sliding)
+        {
+            InsertText(referenceSheet, upliftCell, uplift);
+            InsertText(referenceSheet, slidingCell, sliding);
+            Update();
+            return;
+        }
+
+        public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest)
+        {
+
+            int startingCell_NE = 0;
+            int startingCell_NW = 0;
+            //Console.WriteLine(def);
+            //Console.WriteLine(bal);
+            //Console.WriteLine(land);
+            //Console.ReadKey(); 
+            List<int> ColumnPositions = new List<int>();
+
+
+            if (def)
+            {   // reference sheet 10d at correct zone 
+                //KB DEBUG: corrected with or without deflector call
+                startingCell_NE = WDeflector_Refzones[NE_Zone - 1];
+                startingCell_NW = WDeflector_Refzones[NW_Zone - 1];
+            }
+            else
+            {   // Same Row Reference Array if sheet 5d at correct zone 
+                //KB DEBUG: corrected with or without deflector call
+                startingCell_NE = WODeflector_Refzones[NE_Zone - 1];
+                startingCell_NW = WODeflector_Refzones[NW_Zone - 1];
+
+            }
+            // N0 S0 both
+            // S0 1N only south
+            // S1 just north
+
+            // NEZone -> E2W
+            // NWZone -> W2E
+            //N0
+            //N1 S1
+            //N2 S1
+            //S0
+
+
+            if (IFINorth == 0)
+            {
+                int temp_cell_West = startingCell_NW + 1;
+                int temp_cell_East = startingCell_NE + 1;
+
+                if (IFIEast.Equals(2))
+                {
+                    temp_cell_East = startingCell_NE + 1;
+
+
+                }
+                else if (IFIEast.Equals(2))
+                {
+                    temp_cell_West = startingCell_NW + 1;
+                }
+                ColumnPositions.Add(temp_cell_West);
+                ColumnPositions.Add(temp_cell_East);
+
+            }
+            else if (IFISouth == 0 && IFINorth != 0)
+            {
+                if (IFINorth == 1)
+                {
+                    int temp_cell_West = startingCell_NW + 1;
+                    int temp_cell_East = startingCell_NE + 1;
+                    if (IFIEast.Equals(2))
+                    {
+                        temp_cell_West = startingCell_NE + 1;
+
+
+                    }
+                    else if (IFIEast.Equals(2))
+                    {
+                        temp_cell_East = startingCell_NW + 1;
+                    }
+                    ColumnPositions.Add(temp_cell_West);
+                    ColumnPositions.Add(temp_cell_East);
+
+                }
+                else if (IFINorth == 2)
+                {
+                    int temp_cell_West = startingCell_NW + 2;
+                    int temp_cell_East = startingCell_NE + 2;
+                    if (IFIEast.Equals(2))
+                    {
+                        temp_cell_West = startingCell_NE + 1;
+
+
+                    }
+                    else if (IFIEast.Equals(2))
+                    {
+                        temp_cell_East = startingCell_NW + 1;
+                    }
+                    ColumnPositions.Add(temp_cell_West);
+                    ColumnPositions.Add(temp_cell_East);
+                }
+
+            }
+            else if (IFISouth == 1 | IFISouth == 0)
+            {
+                int temp_cell_West = startingCell_NW + 6;
+                int temp_cell_East = startingCell_NE + 6;
+                if (IFIEast.Equals(2))
+                {
+                    temp_cell_West = startingCell_NE + 1;
+
+                }
+                else if (IFIEast.Equals(2))
+                {
+                    temp_cell_East = startingCell_NW + 1;
+                }
+                ColumnPositions.Add(temp_cell_West);
+                ColumnPositions.Add(temp_cell_East);
+
+            }
+
+
+            List<double> Results = new List<double>();
+            foreach (var position in ColumnPositions)
+            {
+                var return_cell = ReadCell(referenceSheet, column + position.ToString());
+                Results.Add(Convert.ToDouble(return_cell));
+            }
+            foreach (var x in Results)
+            {
+                Console.WriteLine(x);
+            }
+            Console.WriteLine("==========================");
+            Console.ReadKey();
+            double final_value = Results.Max();
+            return final_value;
+
+        }
+
 
         public bool CheckFirst(string cellCo)
         {
-            
-            int outInt = 0;  
+
+            int outInt = 0;
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
                 WorksheetPart wp = GetWorksheetPart(excelDoc, _firstSheetName);
                 Cell outPutCell = GetCell(wp, cellCo);
                 var Cell = outPutCell.CellValue;
                 string value = Cell.InnerText.ToString();
-                
+
                 outInt = Convert.ToInt32(value);
             }
             if (outInt.Equals(0))
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }            
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
-       public  double GetBalast(string cellCo)
+        public double GetBalast(string cellCo)
         {
-            string doubleCell = null; 
+            string doubleCell = null;
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
                 WorksheetPart wp = GetWorksheetPart(excelDoc, _firstSheetName);
@@ -57,11 +230,11 @@ namespace ExcelInterface
                 var value = outPutCell.CellValue;
                 doubleCell = value.InnerText.ToString();
             }
-            
+
             return Convert.ToDouble(doubleCell);
 
         }
-        
+
         public void Update()
         {
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
@@ -82,7 +255,7 @@ namespace ExcelInterface
             }
             return (WorksheetPart)excelDoc.WorkbookPart.GetPartById(sheet.Id);
         }
-   
+
         /// <see cref="IExcelDocument.ReadCell" />
         public string ReadCell(string sheetName, string cellCoordinates)
         {
@@ -91,7 +264,7 @@ namespace ExcelInterface
             {
                 WorksheetPart wbpart = GetWorksheetPart(excelDoc, sheetName);
                 Cell cell = GetCell(excelDoc, sheetName, cellCoordinates);
-                
+
                 string_cell = cell.CellValue.InnerText.ToString();
 
             }
@@ -105,7 +278,7 @@ namespace ExcelInterface
                 return "0";
             }
         }
-        
+
         /// <see cref="IExcelDocument.InsertSharedStringItem(string, object)" />
 
         public void InsertText(string sheetName, Tuple<string, uint> cellCO, string text)
@@ -272,8 +445,5 @@ namespace ExcelInterface
         }
     }
 }
-
-
-
 
 

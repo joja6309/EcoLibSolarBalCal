@@ -48,3 +48,8 @@ C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastC
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.TrustInfo.xml
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.exe.manifest
 C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.application
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.exe.manifest
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\bin\Release\BallastCalculator.application
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.TrustInfo.xml
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.exe.manifest
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\BallastCalculator\obj\Release\BallastCalculator.application
