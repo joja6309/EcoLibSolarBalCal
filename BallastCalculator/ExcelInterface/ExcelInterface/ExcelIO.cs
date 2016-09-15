@@ -71,10 +71,7 @@ namespace ExcelInterface
 
             int startingCell_NE = 0;
             int startingCell_NW = 0;
-            //Console.WriteLine(def);
-            //Console.WriteLine(bal);
-            //Console.WriteLine(land);
-            //Console.ReadKey(); 
+            
             List<int> ColumnPositions = new List<int>();
 
 

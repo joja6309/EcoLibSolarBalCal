@@ -289,7 +289,9 @@ namespace BallastCalculator
                 }
             }
         }   
-/*        public void TrueColumnCheck() // ADDED TO RunIFILocationChecks()
+
+        
+        /*        public void TrueColumnCheck() // ADDED TO RunIFILocationChecks()
         {
             Set_E2WTruCol_LAND();
             Set_E2WTruCol_PORT();
@@ -308,8 +310,11 @@ namespace BallastCalculator
             {
                 if (panel.ColumnNumberE2W_LAND == 1)
                 {
-                    IEnumerable<EcoPanel> return_PA = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (x.Center.Item2 - panel.Center.Item2) <= (BlocksValues.Height + 8.75)));
-                    IEnumerable<EcoPanel> return_PB = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (panel.Center.Item2 - x.Center.Item2) < (BlocksValues.Height + 8.75)));
+                    IEnumerable<EcoPanel> return_PA = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (x.Center.Item2 - panel.Center.Item2) <= (BlocksValues.Height + 8.75))).Distinct();
+                    IEnumerable<EcoPanel> return_PB = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (panel.Center.Item2 - x.Center.Item2) <= (BlocksValues.Height + 8.75))).Distinct();
+                    Console.WriteLine(return_PA.Count());
+                    Console.WriteLine("=============="); 
+                    Console.WriteLine(return_PB.Count());
                     if ((return_PB.Count() != 0) && (return_PA.Count() != 0))
                     {
                         panel.TrueE2Wcol_LAND = return_PA.First().TrueE2Wcol_LAND + 1;
@@ -354,9 +359,9 @@ namespace BallastCalculator
             foreach (var panel in PanelList)
             {
                 if (panel.ColumnNumberE2W_PORT == 1)
-                {
+                { 
                     IEnumerable<EcoPanel> return_PA = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (x.Center.Item2 - panel.Center.Item2) <= (BlocksValues.Height + 8.75)));
-                    IEnumerable<EcoPanel> return_PB = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (panel.Center.Item2 - x.Center.Item2) < (BlocksValues.Height + 8.75)));
+                    IEnumerable<EcoPanel> return_PB = PanelList.Where(x => ((x.Center.Item1 - panel.Center.Item1) > 0 && (x.Center.Item1 - panel.Center.Item1) < (BlocksValues.Width + 55) && (x.Center.Item2 - panel.Center.Item2) < (BlocksValues.Height + 8.75)));
                     if ((return_PB.Count() != 0) && (return_PA.Count() != 0))
                     {
                         panel.TrueE2Wcol_PORT = return_PA.First().TrueE2Wcol_PORT + 1;

@@ -10,54 +10,39 @@ namespace BallastCalculator
             public UserGUI()
             {
                 InitializeComponent();
-            }
+                openFileDialog1.InitialDirectory = @"C:\";
+            
+        }
         private string panelStorage;
         private string excelPathStorage;
         private string dxfPathStorage;
         private string defaultOutStorage; 
         private bool useDefaults = false;
-        private string getPath(string filename)
-        {
-            //Console.WriteLine(filename);
-            //var currentDir = System.IO.Directory.GetCurrentDirectory();
-            //string path = "";
-            //if (currentDir.ToLower().EndsWith(@"\bin\debug") ||
-            //    currentDir.ToLower().EndsWith(@"\bin\release"))
-            //{
-
-            //   path  = System.IO.Path.GetFullPath(@"..\..\" + filename);
-            //    Console.WriteLine(path);
-            //}
-            //else {
-            //    path = System.IO.Path.GetFullPath(filename);
-            //    Console.WriteLine(path);
-            //}
-            FileInfo f = new FileInfo(filename);
-            Console.WriteLine(f.FullName);
-            string path = "" ;
-            return path;
-        }
+        
             private void dxfButton_Click(object sender, System.EventArgs e)
             {
+            Stream myStream = null;
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+           
             if (openFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
             {
 
-                dxfTextBox.Text = getPath(Path.GetFileName(openFileDialog1.FileName));
-                string wanted_path = getPath(Path.GetFileName(openFileDialog1.FileName));
-                dxfPathStorage = wanted_path;
-                string out_name = wanted_path + "_out.dxf";
+                dxfTextBox.Text = openFileDialog1.FileName;
+                dxfPathStorage = openFileDialog1.FileName;
+                string out_name = openFileDialog1.FileName + "_out.dxf";
                 DefaultTextBox.Text = out_name;
-                defaultOutStorage = out_name; 
-                
-                }
+                defaultOutStorage = out_name;
+
             }
+        }
             private void excelButton_Click(object sender, System.EventArgs e)
             {
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
                 {
-                excelTextBox.Text = getPath(Path.GetFileName(openFileDialog1.FileName));
-                string wanted_path = getPath(Path.GetFileName(openFileDialog1.FileName));  
+                excelTextBox.Text = openFileDialog1.FileName;
+                string wanted_path = openFileDialog1.FileName;
                 excelPathStorage = wanted_path = "/" + openFileDialog1.FileName; 
 
                 }
@@ -139,8 +124,8 @@ namespace BallastCalculator
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK) // Test result.
                 {
 
-                    DefaultTextBox.Text = getPath(saveFileDialog1.FileName);
-                    defaultOutStorage = getPath(saveFileDialog1.FileName);
+                    DefaultTextBox.Text = openFileDialog1.FileName;
+                    defaultOutStorage = openFileDialog1.FileName;
 
             }
 
