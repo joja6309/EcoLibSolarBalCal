@@ -91,8 +91,7 @@ namespace BallastCalculator
             }
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
             List<EcoPanel> processedList = grid.GetPanels();
-            Console.WriteLine("Writting and Reading From Excel: ");
-            Console.WriteLine("==================================");
+          
             foreach (var panel in processedList)
             {
 
@@ -107,26 +106,37 @@ namespace BallastCalculator
                     panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
                 }
 
-                Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
-                Console.WriteLine("NE zone: " + panel.NE_Zone);
-                Console.WriteLine("NW zone: " + panel.NW_Zone);
-                Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
-                Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
-                Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
-                Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
-                Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
-                Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
-                Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
-                Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
-                Console.WriteLine("Below are the two values output from Excel:");
-                Console.ReadKey();
+                //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
+                //Console.WriteLine("NE zone: " + panel.NE_Zone);
+                //Console.WriteLine("NW zone: " + panel.NW_Zone);
+                //Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
+                //Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
+                //Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
+                //Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
+                //Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+                //Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
+                //Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
+                //Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
+                //Console.WriteLine("Below are the two values output from Excel:");
+                //Console.ReadKey();
 
 
             }
-            //grid.SetPanelList(processedList);
-            //grid.RunBasePanelCalculations();
-            //var final_bases = grid.GetPanelBases(); 
-            
+            grid.SetPanelList(processedList);
+           
+            grid.RunBasePanelCalculations();
+            var final_bases = grid.GetPanelBases();
+            dxfInterface.GenerateFileOut(final_bases);
+            //foreach(var c in final_bases)
+            //{
+            //    Console.WriteLine("============");
+            //    Console.WriteLine(c.BlockTotal);
+            //    Console.WriteLine(c.BlockWeight);
+            //    Console.WriteLine(c.IFIBaseTotal);
+            //    Console.WriteLine("============");
+            //}
+            //Console.ReadKey();
+
 
             //foreach (var panel in processedList)
             //{
@@ -145,36 +155,7 @@ namespace BallastCalculator
             //}
 
         }
-        //            foreach (EcoPanel panel in processedList)
-        //            {
-        //                Console.WriteLine(panel.ValueFromExcel);
-        //            }
-        //            Console.ReadKey();
-        //IFIboarder.PrintIFIData();     
-        //grid.PrintPanelData();
-        //foreach(EcoPanel panel in EcoPanel)
-        //{
-        //    Console.WriteLine(panel.IFI_E2W_Land)
-        //}
-        // Input Center of Block and List of Panels with correct Zones
-        //List <PanelBase> baseValues = grid.GetPanelBases();
-        //dxfInterface.OutGen.GenerateFileOut(baseValues);
-        // Current Debug Targets! 
-
-        ///////////////////////////////////////
-        //Under development 
-        ///////////////////////////////////////
-
-        //List<EcoPanel> panel_list = grid.GetPanels();
-        //List<PanelBase> baseList = grid.GetPanelBases();
-        //grid.PrintPanelData();
-        //foreach (var x in panel_list)
-        //{
-        //    Console.WriteLine(x.BallastLocation);
-        //}
-        //Console.ReadKey();
-        //List<EcoPanel> FinishedList = grid.GetPanels();
-
+   
     }
 }
 

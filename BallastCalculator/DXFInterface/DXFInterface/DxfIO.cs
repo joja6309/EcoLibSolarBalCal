@@ -4,9 +4,10 @@ using System.Text;
 using System.IO;
 using Dimensions;
 
+
 namespace DXFInterface
 {
-    public class DxfIO 
+    public class DxfIO
     {
         //public InputParser InParse;
         //public OutputGenerator OutGen;
@@ -16,23 +17,23 @@ namespace DXFInterface
         private int entity_end = 0;
         private int tables_start = 0;
         private int tables_end = 0;
-        private string  BlockTitle; 
+        private string BlockTitle;
         private readonly string _outputFilePath;
         private readonly string _inputFilePath;
         private readonly string[] _inputFile;
         private BasicDimensions BlocksSectionValues = new BasicDimensions();
         private IFIPerimeter EntitiesIFI = new IFIPerimeter();
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
-        private readonly bool isLandScape; 
+        private readonly bool isLandScape;
         public DxfIO(string inputfilePath, string outputfilename, string panelName, bool land)
         {
- 
-             _outputFilePath = outputfilename;
+
+            _outputFilePath = outputfilename;
             _inputFilePath = inputfilePath;
             _inputFile = File.ReadAllLines(_inputFilePath);
             BlockTitle = panelName;
-            isLandScape = land; 
-           
+            isLandScape = land;
+
         }
 
         public void RunOutTesting()
@@ -78,93 +79,93 @@ namespace DXFInterface
             string template = @"100" + Environment.NewLine + "AcDbBlockTableRecord" +
                                          Environment.NewLine + " 2" + Environment.NewLine +
                                          "EF3_HATCH_{0}" + Environment.NewLine + "340" + Environment.NewLine +
-                                         "0" + Environment.NewLine + "310" + Environment.NewLine + "entity" +
-                                         Environment.NewLine + "{1}" + Environment.NewLine + "new entity";
+                                         "0" + Environment.NewLine + "310" + Environment.NewLine +
+                                         "{1}";
             string formated = String.Format(template, block_case, uniqueId);
-            Console.WriteLine(formated);
-            Console.ReadKey();
+
             return formated;
         }
         private string EntitiesTemplatingFunction(string uniqueId, int block_case, Tuple<double, double> centerpoint)
         {
-            string template = @" 0" + Environment.NewLine + "INSERT" + Environment.NewLine + "  5" + Environment.NewLine +
-                                           "{1}" + Environment.NewLine + "330" + Environment.NewLine + "2" + Environment.NewLine + "100" + Environment.NewLine +
-                                           "AcDbEntity" + Environment.NewLine + "   8" + Environment.NewLine +
-                                           "HATCH 1" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockReference" +
+            var formated_X = Math.Round(centerpoint.Item1, 13);
+            var formated_Y = Math.Round(centerpoint.Item2, 13);
 
-                                           Environment.NewLine + "  2" + Environment.NewLine + "EF3_HATCH_{0}" + Environment.NewLine +
-                                           " 10" + Environment.NewLine + "{2}" + Environment.NewLine + "EcoFoot Base" +
-                                           Environment.NewLine + " 20" + Environment.NewLine + "{3}" + Environment.NewLine + "EcoFoot Base" +
-                                            Environment.NewLine + " 30" + Environment.NewLine + "0.0";
+            string template = @" 0" + Environment.NewLine + "INSERT" + Environment.NewLine + " 5" + Environment.NewLine +
+                                           "{1}" + Environment.NewLine + "330" + Environment.NewLine + "2" + Environment.NewLine + "100" + Environment.NewLine +
+                                           "AcDbEntity" + Environment.NewLine + "  8" + Environment.NewLine +
+                                           "HATCH 1" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockReference" +
+                                           Environment.NewLine + "  2" + Environment.NewLine
+                                           + "EF3_HATCH_{0}" + Environment.NewLine +
+                                           " 10" + Environment.NewLine + "{2}" + Environment.NewLine
+                                           + " 20" + Environment.NewLine + "{3}" + Environment.NewLine + 
+                                           " 30" + Environment.NewLine + "0.0";
             string formated_template = String.Format(template, block_case, uniqueId, centerpoint.Item1, centerpoint.Item2);
-            Console.WriteLine(formated_template);
-            Console.ReadKey();
-            return template;
+
+            return formated_template;
         }
 
         public void GenerateFileOut(List<PanelBase> final_list)
         {
             Random rand = new Random();
-            int rand_num = rand.Next(0, 100);
+            int rand_num = rand.Next(0, 20);
             string uniqueId = RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
             Dictionary<string, string> InputDictionary = new Dictionary<string, string>();
 
             foreach (PanelBase pb in final_list)
             {
+                rand_num = rand_num + 1;
+                string newId = uniqueId + rand_num.ToString();
 
-                switch (pb.BlockTotal)
-                {
-                    case 1:
-                        rand_num = rand_num + 1;
-                        uniqueId = uniqueId + rand_num.ToString();
-                        InputDictionary[TableTemplatingFunction(uniqueId, 1)] = EntitiesTemplatingFunction(uniqueId, 1, pb.Center);
+                if (pb.BlockTotal == 1)
+                    InputDictionary[TableTemplatingFunction(newId, 1)] = EntitiesTemplatingFunction(newId, 1, pb.Center);
+                else if (pb.BlockTotal == 2)             
+                    InputDictionary[TableTemplatingFunction(newId, 2)] = EntitiesTemplatingFunction(newId, 2, pb.Center);
+                else if (pb.BlockTotal == 3)              
+                    InputDictionary[TableTemplatingFunction(newId, 3)] = EntitiesTemplatingFunction(newId, 3, pb.Center);
+                else if (pb.BlockTotal == 4)           
+                    InputDictionary[TableTemplatingFunction(newId, 4)] = EntitiesTemplatingFunction(newId, 4, pb.Center);
+                else if (pb.BlockTotal == 5)             
+                    InputDictionary[TableTemplatingFunction(newId, 5)] = EntitiesTemplatingFunction(newId, 5, pb.Center);
+                else if (pb.BlockTotal == 6)           
+                    InputDictionary[TableTemplatingFunction(newId, 6)] = EntitiesTemplatingFunction(newId, 6, pb.Center);
 
-                        break;
-                    case 2:
-                        rand_num = rand_num + 1;
-                        uniqueId = uniqueId + rand_num.ToString();
-                        InputDictionary[TableTemplatingFunction(uniqueId, 2)] = EntitiesTemplatingFunction(uniqueId, 2, pb.Center);
-                        break;
-                    case 3:
-                        rand_num = rand_num + 1;
-                        uniqueId = uniqueId + rand_num.ToString();
-                        InputDictionary[TableTemplatingFunction(uniqueId, 3)] = EntitiesTemplatingFunction(uniqueId, 3, pb.Center);
-                        break;
-                    case 4:
-                        rand_num = rand_num + 1;
-                        uniqueId = uniqueId + rand_num.ToString();
-                        InputDictionary[TableTemplatingFunction(uniqueId, 4)] = EntitiesTemplatingFunction(uniqueId, 4, pb.Center);
-                        break;
-                    case 5:
-                        rand_num = rand_num + 1;
-                        uniqueId = uniqueId + rand_num.ToString();
-                        InputDictionary[TableTemplatingFunction(uniqueId, 5)] = EntitiesTemplatingFunction(uniqueId, 5, pb.Center);
-                        break;
-                    case 6:
-                        rand_num = rand_num + 1;
-                        uniqueId = uniqueId + rand_num.ToString();
-                        InputDictionary[TableTemplatingFunction(uniqueId, 6)] = EntitiesTemplatingFunction(uniqueId, 6, pb.Center);
-                        break;
-                    default:
-                        break;
-                }
             }
             TexttoFile(InputDictionary);
-
         }
+            
+
+        
 
         private void TexttoFile(Dictionary<string, string> outPutDic)
         {
-            Console.WriteLine(_outputFilePath);
-            Console.ReadKey();
+            int count = 0;
+            string long_string = "";
+            foreach(var key in outPutDic.Keys)
+            {
+                long_string = long_string + outPutDic[key]; 
+            }
+            var text = new StringBuilder();
             using (StreamWriter outFile = new StreamWriter(_outputFilePath))
             {
-                foreach (string key in outPutDic.Keys)
+                
+                foreach(var x in _inputFile)
                 {
-                    outFile.WriteLine(key);
-                    outFile.WriteLine(outPutDic[key]);
+                    outFile.WriteLine(x);
+                    if (count == (entity_end - 1) )
+                    {
+                        outFile.Write(long_string);
+                    
+                    }
 
+                   count += 1; 
                 }
+                //foreach (string key in outPutDic.Keys)
+                //{
+                //    outFile.WriteLine(key);
+                //    outFile.WriteLine(outPutDic[key]);
+
+                //}
+
                 outFile.Flush();
                 outFile.Close();
             }
@@ -387,11 +388,7 @@ namespace DXFInterface
             //int placementIndex = listOfMarkerIndices[listOfMarkerIndices.Count]; 
             var text = new StringBuilder();
             //int count = 0; 
-            Console.WriteLine(entity_end);
-            Console.WriteLine(entity_start);
-            Console.WriteLine(_inputFile[entity_end]);
-            Console.ReadKey(); 
-            //foreach (string s in File.ReadAllLines(_inputFilePath))
+                      //foreach (string s in File.ReadAllLines(_inputFilePath))
             //{
 
             //    //text.AppendLine(s.Replace("SS", "SS" + Environment.NewLine + replacement));

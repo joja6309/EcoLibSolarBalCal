@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="53760">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="52736">
       <assemblyIdentity name="BallastCalculator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vdk+Wx5vEN2K0uO4QHPfX2D+WyicDnw3JV6g5u/l4vM=</dsig:DigestValue>
+        <dsig:DigestValue>KzCTp2VfuAOghniKuNs/BiMUkkrj1Iu8lqftLEWvs7A=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -85,19 +85,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>7x8/ac4DCS2TN4E6mlsQjYfcM9gJNFDnXV7VHi5SQc0=</dsig:DigestValue>
+        <dsig:DigestValue>uJRmaVw1Wk7x9vylQBKO8Vu9TounTkN7rLCjcxiB9U4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelInterface.dll" size="15360">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelInterface.dll" size="14848">
       <assemblyIdentity name="ExcelInterface" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cL/KaetJDdugimgENbFck+C6z+4SrPJSf7Gi0NMP4TI=</dsig:DigestValue>
+        <dsig:DigestValue>yohyt31ioHitweTK+5JMkwMtUt1sZiSB17EX0zmIPVE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

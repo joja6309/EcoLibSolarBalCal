@@ -184,11 +184,11 @@ namespace ExcelInterface
                 Results.Add(Convert.ToDouble(return_cell));
                 
             }
-            Console.WriteLine("All Values pulled from Excel: ");
-            Console.WriteLine(Results.ToString()); 
+            //Console.WriteLine("All Values pulled from Excel: ");
+            //Console.WriteLine(Results.ToString()); 
             double final_value = Results.Max();
-            Console.WriteLine("Max Value:{0}", final_value);
-            Console.WriteLine("===========");
+            //Console.WriteLine("Max Value:{0}", final_value);
+            //Console.WriteLine("===========");
 
             return final_value;
 
