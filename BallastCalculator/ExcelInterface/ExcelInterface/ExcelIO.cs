@@ -286,7 +286,6 @@ namespace ExcelInterface
         //          N1 S1
         //          N2 S1
         //          S0
-
         public bool CheckFirst(string cellCo)
         {
             int outInt = 0;
