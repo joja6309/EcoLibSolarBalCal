@@ -34,8 +34,8 @@ namespace ExcelInterface
             {
                 _firstSheetName = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAt(1).Name;
             }
-
         }
+
         public void ProcessFirstSheet()
         {
             def = CheckFirst("C32");
@@ -56,7 +56,6 @@ namespace ExcelInterface
                 referenceSheet = "wind load calc_5d";
                 column = "K";
             }
-
         }
         public void WritetoSandU(string uplift, string sliding)
         {
@@ -65,139 +64,216 @@ namespace ExcelInterface
             Update();
             return;
         }
-
-        public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest)
+        public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest) //KB DEBUG: changed to case style code, simpler to read/debug
         {
-
             int startingCell_NE = 0;
             int startingCell_NW = 0;
-            
+            int nmod = 0;
+            int e2wmod = 0;
+            int w2emod = 0;
+            int defmod = 0;
             List<int> ColumnPositions = new List<int>();
 
+            if (!def)
+                defmod = 52;
 
-            if (def)
-            {   // reference sheet 10d at correct zone 
-                //KB DEBUG: corrected with or without deflector call
-                startingCell_NE = WDeflector_Refzones[NE_Zone - 1];
-                startingCell_NW = WDeflector_Refzones[NW_Zone - 1];
-            }
-            else
-            {   // Same Row Reference Array if sheet 5d at correct zone 
-                //KB DEBUG: corrected with or without deflector call
-                startingCell_NE = WODeflector_Refzones[NE_Zone - 1];
-                startingCell_NW = WODeflector_Refzones[NW_Zone - 1];
-
-            }
-            // N0 S0 both
-            // S0 1N only south
-            // S1 just north
-
-            // NEZone -> E2W
-            // NWZone -> W2E
-            //N0
-            //N1 S1
-            //N2 S1
-            //S0
-
-
-            if (IFINorth == 0)
+            switch (NW_Zone)
             {
-                int temp_cell_West = startingCell_NW + 1;
-                int temp_cell_East = startingCell_NE + 1;
-
-                if (IFIEast.Equals(2))
-                {
-                    temp_cell_East = startingCell_NE + 1;
-
-
-                }
-                else if (IFIEast.Equals(2))
-                {
-                    temp_cell_West = startingCell_NW + 1;
-                }
-                ColumnPositions.Add(temp_cell_West);
-                ColumnPositions.Add(temp_cell_East);
-
+                case 1:
+                    startingCell_NW = WDeflector_Refzones[0];
+                    break;
+                case 2:
+                    startingCell_NW = WDeflector_Refzones[1];
+                    break;
+                case 3:
+                    startingCell_NW = WDeflector_Refzones[2];
+                    break;
+                case 4:
+                    startingCell_NW = WDeflector_Refzones[3];
+                    break;
+                case 5:
+                    startingCell_NW = WDeflector_Refzones[4];
+                    break;
             }
-            else if (IFISouth == 0 && IFINorth != 0)
+
+            switch (NE_Zone)
             {
-                if (IFINorth == 1)
-                {
-                    int temp_cell_West = startingCell_NW + 1;
-                    int temp_cell_East = startingCell_NE + 1;
-                    if (IFIEast.Equals(2))
-                    {
-                        temp_cell_West = startingCell_NE + 1;
-
-
-                    }
-                    else if (IFIEast.Equals(2))
-                    {
-                        temp_cell_East = startingCell_NW + 1;
-                    }
-                    ColumnPositions.Add(temp_cell_West);
-                    ColumnPositions.Add(temp_cell_East);
-
-                }
-                else if (IFINorth == 2)
-                {
-                    int temp_cell_West = startingCell_NW + 2;
-                    int temp_cell_East = startingCell_NE + 2;
-                    if (IFIEast.Equals(2))
-                    {
-                        temp_cell_West = startingCell_NE + 1;
-
-
-                    }
-                    else if (IFIEast.Equals(2))
-                    {
-                        temp_cell_East = startingCell_NW + 1;
-                    }
-                    ColumnPositions.Add(temp_cell_West);
-                    ColumnPositions.Add(temp_cell_East);
-                }
-
+                case 1:
+                    startingCell_NE = WDeflector_Refzones[0];
+                    break;
+                case 2:
+                    startingCell_NE = WDeflector_Refzones[1];
+                    break;
+                case 3:
+                    startingCell_NE = WDeflector_Refzones[2];
+                    break;
+                case 4:
+                    startingCell_NE = WDeflector_Refzones[3];
+                    break;
+                case 5:
+                    startingCell_NE = WDeflector_Refzones[4];
+                    break;
             }
-            else if (IFISouth == 1 | IFISouth == 0)
+
+            switch (IFINorth)
             {
-                int temp_cell_West = startingCell_NW + 6;
-                int temp_cell_East = startingCell_NE + 6;
-                if (IFIEast.Equals(2))
-                {
-                    temp_cell_West = startingCell_NE + 1;
-
-                }
-                else if (IFIEast.Equals(2))
-                {
-                    temp_cell_East = startingCell_NW + 1;
-                }
-                ColumnPositions.Add(temp_cell_West);
-                ColumnPositions.Add(temp_cell_East);
-
+                case 0:
+                    nmod = 0;
+                    break;
+                case 1:
+                    nmod = 2;
+                    break;
+                case 2:
+                    nmod = 4;
+                    break;
             }
 
+            switch (IFIEast)
+            {
+                case 1:
+                    {
+                        e2wmod = 0;
+                        ColumnPositions.Add(startingCell_NE + defmod + nmod + e2wmod);
+                        break;
+                    }
+                case 2:
+                    {
+                        e2wmod = 1;
+                        ColumnPositions.Add(startingCell_NE + defmod + nmod + e2wmod);
+                        break;
+                    }
+            }
+
+            switch (IFIWest)
+            {
+                case 1:
+                    {
+                        w2emod = 0;
+                        ColumnPositions.Add(startingCell_NW + defmod + nmod + w2emod);
+                        break;
+                    }
+                case 2:
+                    {
+                        w2emod = 1;
+                        ColumnPositions.Add(startingCell_NW + defmod + nmod + w2emod);
+                        break;
+                    }
+            }
+
+            if (IFISouth == 0 && IFINorth < 1)
+            {
+                ColumnPositions.Add(startingCell_NE + defmod + 6 + e2wmod);
+                ColumnPositions.Add(startingCell_NW + defmod + 6 + w2emod);
+            }
 
             List<double> Results = new List<double>();
             foreach (var position in ColumnPositions)
             {
                 var return_cell = ReadCell(referenceSheet, column + position.ToString());
                 Results.Add(Convert.ToDouble(return_cell));
-                
             }
-            //Console.WriteLine("All Values pulled from Excel: ");
-            //Console.WriteLine(Results.ToString()); 
             double final_value = Results.Max();
-            //Console.WriteLine("Max Value:{0}", final_value);
-            //Console.WriteLine("===========");
-
             return final_value;
-
         }
-
-
+        //          KB DEBUG: I couldn't see errors, so I tried to impliment the case structure I described
+        //                    /if (def)
+        //                    {   // reference sheet 10d at correct zone 
+        //                        //KB DEBUG: corrected with or without deflector call
+        //                        startingCell_NE = WDeflector_Refzones[NE_Zone - 1];
+        //                        startingCell_NW = WDeflector_Refzones[NW_Zone - 1];
+        //                    }
+        //                    else
+        //                    {   // Same Row Reference Array if sheet 5d at correct zone 
+        //                        //KB DEBUG: corrected with or without deflector call
+        //                        startingCell_NE = WODeflector_Refzones[NE_Zone - 1];
+        //                        startingCell_NW = WODeflector_Refzones[NW_Zone - 1];
+        //                     }
+        //           N0 S0 both
+        //           S0 1N only south
+        //           S1 just north
+        //           NEZone -> E2W
+        //           NWZone -> W2E
+        //          N0
+        //          N1 S1
+        //          N2 S1
+        //          S0
+        //        if (IFINorth == 0)
+        //        {
+        //            int temp_cell_West = startingCell_NW + 1;
+        //            int temp_cell_East = startingCell_NE + 1;
+        //
+        //            if (IFIEast.Equals(2))
+        //            {
+        //                temp_cell_East = startingCell_NE + 1;
+        //
+        //
+        //            }
+        //            else if (IFIEast.Equals(2))
+        //            {
+        //                temp_cell_West = startingCell_NW + 1;
+        //            }
+        //            ColumnPositions.Add(temp_cell_West);
+        //            ColumnPositions.Add(temp_cell_East);
+        //
+        //        }
+        //        else if (IFISouth == 0 && IFINorth != 0)
+        //        {
+        //            if (IFINorth == 1)
+        //            {
+        //                int temp_cell_West = startingCell_NW + 1;
+        //                int temp_cell_East = startingCell_NE + 1;
+        //                if (IFIEast.Equals(2))
+        //                {
+        //                    temp_cell_West = startingCell_NE + 1;
+        //
+        //
+        //                }
+        //                else if (IFIEast.Equals(2))
+        //                {
+        //                    temp_cell_East = startingCell_NW + 1;
+        //                }
+        //                ColumnPositions.Add(temp_cell_West);
+        //                ColumnPositions.Add(temp_cell_East);
+        //
+        //            }
+        //            else if (IFINorth == 2)
+        //            {
+        //                int temp_cell_West = startingCell_NW + 2;
+        //                int temp_cell_East = startingCell_NE + 2;
+        //                if (IFIEast.Equals(2))
+        //                {
+        //                    temp_cell_West = startingCell_NE + 1;
+        //
+        //
+        //                }
+        //                else if (IFIEast.Equals(2))
+        //                {
+        //                    temp_cell_East = startingCell_NW + 1;
+        //                }
+        //                ColumnPositions.Add(temp_cell_West);
+        //                ColumnPositions.Add(temp_cell_East);
+        //            }
+        //
+        //        }
+        //        else if (IFISouth == 1 | IFISouth == 0)
+        //        {
+        //            int temp_cell_West = startingCell_NW + 6;
+        //            int temp_cell_East = startingCell_NE + 6;
+        //            if (IFIEast.Equals(2))
+        //            {
+        //                temp_cell_West = startingCell_NE + 1;
+        //
+        //            }
+        //            else if (IFIEast.Equals(2))
+        //            {
+        //                temp_cell_East = startingCell_NW + 1;
+        //            }
+        //            ColumnPositions.Add(temp_cell_West);
+        //            ColumnPositions.Add(temp_cell_East);
+        //
+        //        }
         public bool CheckFirst(string cellCo)
         {
-
             int outInt = 0;
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
@@ -205,7 +281,6 @@ namespace ExcelInterface
                 Cell outPutCell = GetCell(wp, cellCo);
                 var Cell = outPutCell.CellValue;
                 string value = Cell.InnerText.ToString();
-
                 outInt = Convert.ToInt32(value);
             }
             if (outInt.Equals(0))
@@ -231,7 +306,6 @@ namespace ExcelInterface
             return Convert.ToDouble(doubleCell);
 
         }
-
         public void Update()
         {
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
@@ -252,7 +326,6 @@ namespace ExcelInterface
             }
             return (WorksheetPart)excelDoc.WorkbookPart.GetPartById(sheet.Id);
         }
-
         /// <see cref="IExcelDocument.ReadCell" />
         public string ReadCell(string sheetName, string cellCoordinates)
         {
@@ -275,12 +348,9 @@ namespace ExcelInterface
                 return "0";
             }
         }
-
         /// <see cref="IExcelDocument.InsertSharedStringItem(string, object)" />
-
         public void InsertText(string sheetName, Tuple<string, uint> cellCO, string text)
         {
-
             // Open the document for editing.
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {

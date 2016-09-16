@@ -71,7 +71,7 @@ namespace BallastCalculator
             // dxfButton
             // 
             this.dxfButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.dxfButton.Location = new System.Drawing.Point(12, 30);
+            this.dxfButton.Location = new System.Drawing.Point(352, 28);
             this.dxfButton.Name = "dxfButton";
             this.dxfButton.Size = new System.Drawing.Size(91, 23);
             this.dxfButton.TabIndex = 1;
@@ -83,7 +83,7 @@ namespace BallastCalculator
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.button1.Location = new System.Drawing.Point(12, 60);
+            this.button1.Location = new System.Drawing.Point(352, 54);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(91, 23);
             this.button1.TabIndex = 2;
@@ -96,9 +96,10 @@ namespace BallastCalculator
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(12, 11);
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(352, 10);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 13);
+            this.textBox1.Size = new System.Drawing.Size(153, 14);
             this.textBox1.TabIndex = 3;
             this.textBox1.TabStop = false;
             this.textBox1.Text = "Select I/O File Paths: ";
@@ -106,26 +107,29 @@ namespace BallastCalculator
             // 
             // excelTextBox
             // 
-            this.excelTextBox.Location = new System.Drawing.Point(118, 62);
+            this.excelTextBox.Location = new System.Drawing.Point(458, 57);
             this.excelTextBox.Name = "excelTextBox";
-            this.excelTextBox.Size = new System.Drawing.Size(100, 20);
+            this.excelTextBox.Size = new System.Drawing.Size(212, 20);
             this.excelTextBox.TabIndex = 4;
+            this.excelTextBox.Text = "<-- Select Excel File";
             this.excelTextBox.TextChanged += new System.EventHandler(this.excelTextBox_TextChanged);
             // 
             // dxfTextBox
             // 
-            this.dxfTextBox.Location = new System.Drawing.Point(118, 32);
+            this.dxfTextBox.Location = new System.Drawing.Point(458, 31);
             this.dxfTextBox.Name = "dxfTextBox";
-            this.dxfTextBox.Size = new System.Drawing.Size(100, 20);
+            this.dxfTextBox.Size = new System.Drawing.Size(212, 20);
             this.dxfTextBox.TabIndex = 5;
+            this.dxfTextBox.Text = "<-- Select DXF File";
             this.dxfTextBox.TextChanged += new System.EventHandler(this.dxfTextBox_TextChanged);
             // 
             // excelButton
             // 
             this.excelButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.excelButton.Location = new System.Drawing.Point(235, 189);
+            this.excelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.excelButton.Location = new System.Drawing.Point(404, 155);
             this.excelButton.Name = "excelButton";
-            this.excelButton.Size = new System.Drawing.Size(155, 22);
+            this.excelButton.Size = new System.Drawing.Size(198, 26);
             this.excelButton.TabIndex = 6;
             this.excelButton.Text = "Execute Ballast Calculations\r\n";
             this.excelButton.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -135,11 +139,11 @@ namespace BallastCalculator
             // outPutButton
             // 
             this.outPutButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.outPutButton.Location = new System.Drawing.Point(12, 98);
+            this.outPutButton.Location = new System.Drawing.Point(400, 109);
             this.outPutButton.Name = "outPutButton";
-            this.outPutButton.Size = new System.Drawing.Size(186, 23);
+            this.outPutButton.Size = new System.Drawing.Size(202, 23);
             this.outPutButton.TabIndex = 9;
-            this.outPutButton.Text = "(Optional) Select Outpath";
+            this.outPutButton.Text = "(Optional) Select Output DXF Path";
             this.outPutButton.UseVisualStyleBackColor = false;
             this.outPutButton.Click += new System.EventHandler(this.outPutButton_Click);
             // 
@@ -147,7 +151,7 @@ namespace BallastCalculator
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(12, 127);
+            this.textBox2.Location = new System.Drawing.Point(12, 118);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(111, 13);
             this.textBox2.TabIndex = 11;
@@ -162,9 +166,9 @@ namespace BallastCalculator
             // 
             // DefaultTextBox
             // 
-            this.DefaultTextBox.Location = new System.Drawing.Point(12, 146);
+            this.DefaultTextBox.Location = new System.Drawing.Point(118, 115);
             this.DefaultTextBox.Name = "DefaultTextBox";
-            this.DefaultTextBox.Size = new System.Drawing.Size(217, 20);
+            this.DefaultTextBox.Size = new System.Drawing.Size(212, 20);
             this.DefaultTextBox.TabIndex = 12;
             this.DefaultTextBox.TextChanged += new System.EventHandler(this.DefaultTextBox_TextChanged);
             // 
@@ -172,9 +176,10 @@ namespace BallastCalculator
             // 
             this.textBox3.BackColor = System.Drawing.SystemColors.Control;
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(236, 11);
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox3.Location = new System.Drawing.Point(12, 10);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 13);
+            this.textBox3.Size = new System.Drawing.Size(100, 14);
             this.textBox3.TabIndex = 13;
             this.textBox3.TabStop = false;
             this.textBox3.Text = "Saved Inputs: ";
@@ -184,7 +189,7 @@ namespace BallastCalculator
             // 
             this.textBox4.BackColor = System.Drawing.SystemColors.Control;
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(236, 35);
+            this.textBox4.Location = new System.Drawing.Point(12, 41);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 13);
             this.textBox4.TabIndex = 14;
@@ -196,7 +201,7 @@ namespace BallastCalculator
             // 
             this.textBox5.BackColor = System.Drawing.SystemColors.Control;
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(236, 80);
+            this.textBox5.Location = new System.Drawing.Point(12, 67);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 13);
             this.textBox5.TabIndex = 15;
@@ -205,24 +210,24 @@ namespace BallastCalculator
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(236, 54);
+            this.textBox6.Location = new System.Drawing.Point(118, 38);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(154, 20);
+            this.textBox6.Size = new System.Drawing.Size(212, 20);
             this.textBox6.TabIndex = 16;
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(236, 99);
+            this.textBox7.Location = new System.Drawing.Point(118, 64);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(154, 20);
+            this.textBox7.Size = new System.Drawing.Size(212, 20);
             this.textBox7.TabIndex = 17;
             this.textBox7.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(236, 144);
+            this.textBox8.Location = new System.Drawing.Point(118, 90);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(154, 20);
+            this.textBox8.Size = new System.Drawing.Size(212, 20);
             this.textBox8.TabIndex = 18;
             this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             // 
@@ -230,7 +235,7 @@ namespace BallastCalculator
             // 
             this.textBox9.BackColor = System.Drawing.SystemColors.Control;
             this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox9.Location = new System.Drawing.Point(236, 125);
+            this.textBox9.Location = new System.Drawing.Point(12, 93);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 13);
             this.textBox9.TabIndex = 19;
@@ -240,17 +245,18 @@ namespace BallastCalculator
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(118, 180);
+            this.textBox10.Location = new System.Drawing.Point(458, 83);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(100, 20);
+            this.textBox10.Size = new System.Drawing.Size(212, 20);
             this.textBox10.TabIndex = 21;
+            this.textBox10.Text = "-- Enter Panel Block Name Here --";
             this.textBox10.TextChanged += new System.EventHandler(this.textBox10_TextChanged);
             // 
             // textBox11
             // 
             this.textBox11.BackColor = System.Drawing.SystemColors.Control;
             this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox11.Location = new System.Drawing.Point(12, 183);
+            this.textBox11.Location = new System.Drawing.Point(352, 86);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(91, 13);
             this.textBox11.TabIndex = 22;
@@ -261,12 +267,12 @@ namespace BallastCalculator
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(246, 170);
+            this.checkBox1.Location = new System.Drawing.Point(66, 155);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(90, 17);
+            this.checkBox1.Size = new System.Drawing.Size(167, 17);
             this.checkBox1.TabIndex = 24;
             this.checkBox1.Tag = "";
-            this.checkBox1.Text = "Use Defaults ";
+            this.checkBox1.Text = "Use Saved Values / Defaults ";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -274,7 +280,7 @@ namespace BallastCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(412, 247);
+            this.ClientSize = new System.Drawing.Size(705, 206);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.textBox10);

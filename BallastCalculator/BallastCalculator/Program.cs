@@ -105,26 +105,34 @@ namespace BallastCalculator
                     panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
                 }
 
-                //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
-                //Console.WriteLine("NE zone: " + panel.NE_Zone);
-                //Console.WriteLine("NW zone: " + panel.NW_Zone);
-                //Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
-                //Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
-                //Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
-                //Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
-                //Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
-                //Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
-                //Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
-                //Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
-                //Console.WriteLine("Below are the two values output from Excel:");
-                //Console.ReadKey();
-
-
+                Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
+                Console.WriteLine("Panel Lift count: " + panel.Uplift);
+                Console.WriteLine("Panel Sliding Count: " + panel.Sliding);
+                Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
+                Console.WriteLine("-----------------------------------");
+                Console.WriteLine("NE zone: " + panel.NE_Zone);
+                Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
+                Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
+                Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
+                Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
+                Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+                Console.WriteLine("-----------------------------------");
+                Console.WriteLine("NW zone: " + panel.NW_Zone);
+                Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " or " + panel.IFI_NORTH_Port);
+                Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
+                Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
+                Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
+                Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+                Console.WriteLine("-----------------------------------");
+                Console.WriteLine("Max output from Excel:" + panel.ValueFromExcel);
+                Console.WriteLine("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+                Console.ReadKey();
             }
+
             grid.SetPanelList(processedList);
-           
             grid.RunBasePanelCalculations();
             var final_bases = grid.GetPanelBases();
+
             dxfInterface.GenerateFileOut(final_bases);
             //foreach(var c in final_bases)
             //{

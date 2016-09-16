@@ -29,3 +29,4 @@ C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\ExcelInterface\ExcelInt
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.csprojResolveAssemblyReference.cache
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.dll
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.pdb
+C:\Users\KBasarich\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.csprojResolveAssemblyReference.cache
