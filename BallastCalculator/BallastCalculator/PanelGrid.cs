@@ -36,9 +36,6 @@ namespace BallastCalculator
             {
                 CalculateBlockTotalValues(pb);
             }
-
-
-
         }
         //Called By Constructor
         private void CalculatePanelCorners(EcoPanel EcoPanel)
@@ -46,9 +43,9 @@ namespace BallastCalculator
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NWest
-            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + (17.494 + BlocksValues.Height));//NEast
-            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - (17.494 - BlocksValues.Height)); //SEast
-            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - (17.494 - BlocksValues.Height)); //SWest
+            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height));//NEast
+            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 - BlocksValues.Height)); //SEast
+            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 - BlocksValues.Height)); //SWest
             List<Tuple<double, double>> temp_list = new List<Tuple<double, double>>();
             temp_list.Add(corner_neighbor_east);
             temp_list.Add(corner_neighbor_west);
@@ -312,10 +309,6 @@ namespace BallastCalculator
         {
             foreach (var panel in PanelList)
             {
-//            if (panel.TrueE2Wcol_LAND == 1)
-//            {
-//                panel.IFI_E2W_Land = 0;
-//            }
                 if (panel.TrueE2Wcol_LAND >= 1 && panel.TrueE2Wcol_LAND <= 4)
                     panel.IFI_E2W_Land = 1;
                 else
@@ -326,10 +319,6 @@ namespace BallastCalculator
         {
             foreach (var panel in PanelList)
             {
-//              if (panel.TrueE2Wcol_PORT == 1)
-//              {
-//                  panel.IFI_E2W_Port = 0;
-//              }
                 if (panel.TrueE2Wcol_PORT >= 1 && panel.TrueE2Wcol_PORT <= 10)
                     panel.IFI_E2W_Port = 1;
                 else
@@ -340,10 +329,6 @@ namespace BallastCalculator
         {
             foreach (var panel in PanelList)
             {
-//              if (panel.TrueW2Ecol_LAND == 1)
-//              {
-//                  panel.IFI_W2E_Land = 0;
-//              }
                 if (panel.TrueW2Ecol_LAND >= 1 && panel.TrueW2Ecol_LAND <= 4)
                     panel.IFI_W2E_Land = 1;
                 else
@@ -354,10 +339,6 @@ namespace BallastCalculator
         {
             foreach (var panel in PanelList)
             {
-//               if (panel.TrueW2Ecol_PORT == 1)
-//               {
-//                   panel.IFI_W2E_Port = 0;
-//               }
                 if (panel.TrueW2Ecol_PORT >= 1 && panel.TrueW2Ecol_PORT <= 10)
                     panel.IFI_W2E_Port = 1;
                 else
