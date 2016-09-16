@@ -952,8 +952,7 @@ namespace BallastCalculator
                 W2ELandCheck(PanelList);
                 W2EPortCheck(PanelList);
             }
-            Console.WriteLine("End IFI calculations. Proceed to Excel parse?");
-            Console.ReadKey();
+          
             }
         public List<EcoPanel> GetPanels()
         {

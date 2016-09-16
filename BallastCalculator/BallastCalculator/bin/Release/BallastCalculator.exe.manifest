@@ -49,7 +49,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>m49yDEMtz4bXj/BjX6BAaRkcJkRzThR6fg96EiNjHsQ=</dsig:DigestValue>
+        <dsig:DigestValue>PyNuvCaZegWbGqsbzUWwbvgfPreXF1/rLOe6GxyCcFM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DXFInterface.dll" size="10240">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DXFInterface.dll" size="10752">
       <assemblyIdentity name="DXFInterface" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MFeWnfV7bM1T5k3Rggsrt/ZsYxqOAqqS3lXJuXmEMI0=</dsig:DigestValue>
+        <dsig:DigestValue>YKLeDMj9MavfsIVrTRHBmp4IUcKojCwbC2TIbz20knk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

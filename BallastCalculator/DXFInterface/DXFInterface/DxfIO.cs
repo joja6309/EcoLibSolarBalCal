@@ -8,7 +8,8 @@ using Dimensions;
 namespace DXFInterface
 {
     public class DxfIO
-    {
+    {   //5852
+        //7649
         //public InputParser InParse;
         //public OutputGenerator OutGen;
         private int block_start = 0;
@@ -37,26 +38,7 @@ namespace DXFInterface
 
         }
 
-        public void RunOutTesting()
-        {
-            //Random rand = new Random();
-            //string uniqueId = RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
-            //List<PanelBase> test_list = new List<PanelBase>();
-            //for (int x = 0; x < 11; x++)
-            //{
-            //    Tuple<double, double> temp_base = new Tuple<double, double>(0.000000000000000, 0.0000000000000);
-            //    PanelBase temp = new PanelBase(Convert.ToString(0), 0, temp_base, 0);
-            //    temp.BlockTotal = rand.Next(1, 6);
-            //    test_list.Add(temp);
-
-            //}
-
-            //GenerateFileOut(test_list);
-            //Console.WriteLine(_outputFilePath, _inputFile, _inputFilePath);
-            Write2Entities();
-            return;
-
-        }
+      
         private FileStream CreateFile()
         {
             FileStream fs = new FileStream(_outputFilePath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -77,11 +59,12 @@ namespace DXFInterface
         private string TableTemplatingFunction(string uniqueId, int block_case)
         {
 
-            string template = @"100" + Environment.NewLine + "AcDbBlockTableRecord" +
+            string template = @"AcDbSymbolTableRecord" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockTableRecord" +
                                          Environment.NewLine + " 2" + Environment.NewLine +
                                          "EF3_HATCH_{0}" + Environment.NewLine + "340" + Environment.NewLine +
                                          "0" + Environment.NewLine + "310" + Environment.NewLine +
-                                         "{1}";
+                                         "{1}" + Environment.NewLine 
+                                         ;
             string formated = String.Format(template, block_case, uniqueId);
 
             return formated;
@@ -141,87 +124,148 @@ namespace DXFInterface
         {
             int count = 0;
             string long_string = "";
-            string long_string_tables = ""; 
+            string long_string_tables = "";
+            Console.WriteLine(entity_end);
+            Console.WriteLine(tables_end);
+            Console.ReadKey();
             foreach(var key in outPutDic.Keys)
             {
                 long_string = long_string + outPutDic[key];
                 long_string_tables = long_string_tables + key;  
             }
-            
+            //Console.WriteLine(long_string_tables);
+            //Console.ReadKey(); 
             var text = new StringBuilder();
-            using (StreamWriter outFile = new StreamWriter(_outputFilePath))
+           
+           
+            List<string> new_file = new List<string>();
+            foreach (var x in _inputFile)
             {
-                bool inTables = false;
-                foreach(var x in _inputFile)
+                new_file.Add(x);
+                if (count == tables_end - 1 )
                 {
-                    outFile.WriteLine(x);
-                    if (count == (entity_end - 1) )
+                    //outFile.Write(long_string_tables + Environment.NewLine);
+                    foreach (var key in outPutDic.Keys)
                     {
-                        outFile.Write(long_string + Environment.NewLine);
-                    
+                        new_file.Add(key);
                     }
-                    else if(count == first_Acdb - 2 )
-                    {
-                        outFile.Write(long_string_tables + Environment.NewLine);
-                    }
-                   
 
-                   count += 1; 
+
                 }
-              
 
+                if (count == (entity_end - 2))
+                {
+                    foreach (var key in outPutDic.Keys)
+                    {
+                        new_file.Add(outPutDic[key]);
+                    }
+
+                }
+                count += 1;
+            }
+            
+                using (StreamWriter outFile = new StreamWriter(_outputFilePath))
+                {
+                foreach ( var line in new_file)
+                {
+                    outFile.WriteLine(line);
+                    
+                }
+                
                 outFile.Flush();
                 outFile.Close();
-            }
+                 }
         }
 
         public void ParseFile()
         {
 
             int index = 0;
+            bool entities_hit = false;
+            bool tables_hit = false;
+            bool blocks_hit = false; 
 
             foreach (string x in _inputFile)
             {
-                if(tables_start != 0)
-                {
-                    if(x.Contains("AcDbBlockTableRecord"))
-                        {
-                        first_Acdb = index; 
-                    }
-                }
+
                 if (x.Contains("BLOCKS"))
                 {
                     block_start = index;
+                    blocks_hit = true;
 
                 }
-                if (block_start != 0)
+                if (blocks_hit)
                 {
                     if (x.Contains("ENDSEC"))
                     {
                         block_end = index;
+                        blocks_hit = false;
                     }
                 }
 
                 if (x.Contains("ENTITIES"))
                 {
                     entity_start = index;
+                    entities_hit = true; 
 
                 }
-                if (entity_start != 0)
+                if (entities_hit)
                 {
                     if (x.Contains("ENDSEC"))
                     {
                         entity_end = index;
+                        entities_hit = false; 
                     }
                 }
                 if (x.Contains("TABLES"))
                 {
                     tables_start = index;
+                    tables_hit = true; 
+                   
+
+                }
+                if(tables_hit)
+                {
                     if (x.Contains("ENDSEC"))
                     {
                         tables_end = index;
+                        tables_hit = false;
+
+
                     }
                 }
+               
+
+                //if(tables_start != 0)
+                //{
+                //    if (x.Contains("AcDbBlockTableRecord"))
+                //    {
+                //        Console.WriteLine(_inputFile[index + 2]);
+                //        Console.WriteLine(_inputFile[index + 1 ]);
+
+                //        Console.WriteLine(_inputFile[index]);
+                //        Console.WriteLine(_inputFile[index - 2]);
+                //        Console.WriteLine(_inputFile[index - 3]);
+                //        Console.WriteLine(_inputFile[index - 4]);
+                //        Console.WriteLine(_inputFile[index - 5]);
+                //        Console.WriteLine(_inputFile[index - 6]);
+                //        Console.WriteLine(_inputFile[index - 7]);
+                //        Console.WriteLine(_inputFile[index - 8]);
+                //        Console.WriteLine(_inputFile[index - 9]);
+                //        Console.WriteLine(_inputFile[index - 10]);
+
+
+
+
+
+
+
+
+                //        Console.ReadKey();
+                //    }
+
+
+
 
                 index += 1;
             }
@@ -231,6 +275,7 @@ namespace DXFInterface
             return;
 
         }
+        
         public BasicDimensions GetValuesFromBlockSection()
         {
             return BlocksSectionValues;

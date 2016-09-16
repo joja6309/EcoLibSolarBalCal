@@ -61,7 +61,6 @@ namespace BallastCalculator
             string output_path = FilePathContainer.outPath;
             string excel_path = FilePathContainer.excelPath;
             string panelName = FilePathContainer.panelName;
-            Console.WriteLine(excel_path);
           
             bool land; 
 
