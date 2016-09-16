@@ -17,6 +17,7 @@ namespace DXFInterface
         private int entity_end = 0;
         private int tables_start = 0;
         private int tables_end = 0;
+        private int first_Acdb = 0;
         private string BlockTitle;
         private readonly string _outputFilePath;
         private readonly string _inputFilePath;
@@ -140,31 +141,34 @@ namespace DXFInterface
         {
             int count = 0;
             string long_string = "";
+            string long_string_tables = ""; 
             foreach(var key in outPutDic.Keys)
             {
-                long_string = long_string + outPutDic[key]; 
+                long_string = long_string + outPutDic[key];
+                long_string_tables = long_string_tables + key;  
             }
+            
             var text = new StringBuilder();
             using (StreamWriter outFile = new StreamWriter(_outputFilePath))
             {
-                
+                bool inTables = false;
                 foreach(var x in _inputFile)
                 {
                     outFile.WriteLine(x);
                     if (count == (entity_end - 1) )
                     {
-                        outFile.Write(long_string);
+                        outFile.Write(long_string + Environment.NewLine);
                     
                     }
+                    else if(count == first_Acdb - 2 )
+                    {
+                        outFile.Write(long_string_tables + Environment.NewLine);
+                    }
+                   
 
                    count += 1; 
                 }
-                //foreach (string key in outPutDic.Keys)
-                //{
-                //    outFile.WriteLine(key);
-                //    outFile.WriteLine(outPutDic[key]);
-
-                //}
+              
 
                 outFile.Flush();
                 outFile.Close();
@@ -178,6 +182,13 @@ namespace DXFInterface
 
             foreach (string x in _inputFile)
             {
+                if(tables_start != 0)
+                {
+                    if(x.Contains("AcDbBlockTableRecord"))
+                        {
+                        first_Acdb = index; 
+                    }
+                }
                 if (x.Contains("BLOCKS"))
                 {
                     block_start = index;
