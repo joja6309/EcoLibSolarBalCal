@@ -65,6 +65,7 @@ namespace ExcelInterface
             Console.WriteLine(sliding);
             Console.WriteLine("========");
             Update();
+            Refresh();
             return;
         }
         public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest) //KB DEBUG: changed to case style code, simpler to read/debug
@@ -339,7 +340,6 @@ namespace ExcelInterface
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
                 excelDoc.WorkbookPart.Workbook.Save();
-                Refresh(); 
 
 
             }
@@ -457,6 +457,7 @@ namespace ExcelInterface
                 cell.CellValue = new CellValue(cellValue.ToString());
                 worksheetPart.Worksheet.Save();
             }
+            
         }
 
         /// <summary>Refreshes an Excel document by opening it and closing in background by the Excep Application</summary>
@@ -464,9 +465,11 @@ namespace ExcelInterface
         public void Refresh()
         {
             var excelApp = new Application();
-            var workbook = excelApp.Workbooks.Open(Path.GetFullPath(_filePath));
+            var workbook = excelApp.Workbooks.Open(_filePath,true );
             workbook.Close(true);
             excelApp.Quit();
+          
+
         }
         private Cell GetCell(SpreadsheetDocument excelDoc, string sheetName, string cellCoordinates)
         {
