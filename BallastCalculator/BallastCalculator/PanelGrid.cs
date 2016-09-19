@@ -12,6 +12,40 @@ namespace BallastCalculator
         private readonly BasicDimensions BlocksValues;
         private List<EcoPanel> PanelList;
         private List<PanelBase> PanelBaseList = new List<PanelBase>();
+        private List<double> list = new List<double>{ 155.573628951034,90.3798510480827,
+                109.436766290018,
+                108.672042183518,
+                99.9250064931934,
+                89.5751514696727,
+                79.4525671971918,
+                133.959639797999,
+                75.0400248738035,
+                95.8335446926647,
+                97.2094696723151,
+                87.1839679312824,
+                74.2970806754946,
+                66.560550033073,
+                77.9123674347747,
+                115.083674833155,
+                125.417775213692,
+                118.060996242743,
+                66.560550033073,
+                95.8335446926647,
+                97.2094696723151,
+                87.1839679312824,
+                74.2970806754946,
+                66.560550033073,
+                71.8378419830429 };
+        public Random rand = new Random();
+        public void SetExcelValues()
+        {
+            foreach (var x in PanelList)
+            {
+                x.ValueFromExcel = Convert.ToDouble(rand.Next(Convert.ToInt32(list.Min()),Convert.ToInt32(list.Max()))); 
+            }
+        }
+
+
 
         private bool Landscape;
         public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist) // Called First 
@@ -56,23 +90,27 @@ namespace BallastCalculator
             {
                 //Console.WriteLine(temp_list[x]); 
                 List<PanelBase> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) < .5 && Math.Abs(c.Center.Item2 -temp_list[x].Item2) < .5 ).ToList();
-                if (matching_bases.Count() != 0)
+                List<EcoPanel> matching_panels = PanelList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) < .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) < .5).ToList();
+                if (matching_bases.Count() == 0)
                 {
-                    foreach (PanelBase pb in matching_bases)
-                    {
-                        pb.PanelIDList.Add(EcoPanel.PanelID);
-                        pb.BlockWeightList.Add(EcoPanel.ValueFromExcel);
-                    }
-
+                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
+                    temp.BlockWeight = EcoPanel.ValueFromExcel;
+                    temp.BlockWeightList.Add(EcoPanel.ValueFromExcel);
+                    PanelBaseList.Add(temp);
                 }
+                //if(matching_panels.Count() != 0)
+                //{
+                //    foreach (var i in matching_panels)
+                //    {
+                //        i.BlockWeightList.Add(i.ValueFromExcel);
+                //    }
+
+                //}
                 else
                 {
                     //Console.WriteLine(EcoPanel.ValueFromExcel);
                     //Console.ReadKey();
-                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
-                    temp.BlockWeight = EcoPanel.ValueFromExcel;
-                    temp.BlockWeightList.Add(EcoPanel.ValueFromExcel); 
-                    PanelBaseList.Add(temp);
+                   
 
 
                 }
@@ -87,7 +125,6 @@ namespace BallastCalculator
                 IFI_Base_Total += cornerValue; //IFI_Base_Total
 
             }
-            Console.WriteLine(base_panel.BlockWeight);
             base_panel.BlockTotal = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
 
         }

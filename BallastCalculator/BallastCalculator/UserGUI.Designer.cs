@@ -127,7 +127,7 @@ namespace BallastCalculator
             // 
             this.excelButton.BackColor = System.Drawing.SystemColors.ControlDark;
             this.excelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.excelButton.Location = new System.Drawing.Point(404, 155);
+            this.excelButton.Location = new System.Drawing.Point(369, 155);
             this.excelButton.Name = "excelButton";
             this.excelButton.Size = new System.Drawing.Size(198, 26);
             this.excelButton.TabIndex = 6;
@@ -139,7 +139,7 @@ namespace BallastCalculator
             // outPutButton
             // 
             this.outPutButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.outPutButton.Location = new System.Drawing.Point(400, 109);
+            this.outPutButton.Location = new System.Drawing.Point(369, 112);
             this.outPutButton.Name = "outPutButton";
             this.outPutButton.Size = new System.Drawing.Size(202, 23);
             this.outPutButton.TabIndex = 9;
@@ -151,7 +151,7 @@ namespace BallastCalculator
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(12, 118);
+            this.textBox2.Location = new System.Drawing.Point(12, 122);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(111, 13);
             this.textBox2.TabIndex = 11;
@@ -166,7 +166,7 @@ namespace BallastCalculator
             // 
             // DefaultTextBox
             // 
-            this.DefaultTextBox.Location = new System.Drawing.Point(118, 115);
+            this.DefaultTextBox.Location = new System.Drawing.Point(129, 115);
             this.DefaultTextBox.Name = "DefaultTextBox";
             this.DefaultTextBox.Size = new System.Drawing.Size(212, 20);
             this.DefaultTextBox.TabIndex = 12;
@@ -189,7 +189,7 @@ namespace BallastCalculator
             // 
             this.textBox4.BackColor = System.Drawing.SystemColors.Control;
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(12, 41);
+            this.textBox4.Location = new System.Drawing.Point(12, 33);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 13);
             this.textBox4.TabIndex = 14;
@@ -201,7 +201,7 @@ namespace BallastCalculator
             // 
             this.textBox5.BackColor = System.Drawing.SystemColors.Control;
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(12, 67);
+            this.textBox5.Location = new System.Drawing.Point(12, 57);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 13);
             this.textBox5.TabIndex = 15;
@@ -210,14 +210,15 @@ namespace BallastCalculator
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(118, 38);
+            this.textBox6.Location = new System.Drawing.Point(118, 31);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(212, 20);
             this.textBox6.TabIndex = 16;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(118, 64);
+            this.textBox7.Location = new System.Drawing.Point(118, 57);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(212, 20);
             this.textBox7.TabIndex = 17;
@@ -225,7 +226,7 @@ namespace BallastCalculator
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(118, 90);
+            this.textBox8.Location = new System.Drawing.Point(118, 83);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(212, 20);
             this.textBox8.TabIndex = 18;
@@ -235,7 +236,7 @@ namespace BallastCalculator
             // 
             this.textBox9.BackColor = System.Drawing.SystemColors.Control;
             this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox9.Location = new System.Drawing.Point(12, 93);
+            this.textBox9.Location = new System.Drawing.Point(12, 83);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 13);
             this.textBox9.TabIndex = 19;

@@ -28,8 +28,7 @@ namespace DXFInterface
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
         private readonly bool isLandScape;
         public DxfIO(string inputfilePath, string outputfilename, string panelName, bool land)
-        {
-
+        { 
             _outputFilePath = outputfilename;
             _inputFilePath = inputfilePath;
             _inputFile = File.ReadAllLines(_inputFilePath);
@@ -66,14 +65,12 @@ namespace DXFInterface
                                          "{1}" + Environment.NewLine
                                          ;
             string formated = String.Format(template, block_case, uniqueId);
-
             return formated;
         }
         private string EntitiesTemplatingFunction(string uniqueId, int block_case, Tuple<double, double> centerpoint)
         {
             var formated_X = Math.Round(centerpoint.Item1, 13);
             var formated_Y = Math.Round(centerpoint.Item2, 13);
-
             string template = @" 0" + Environment.NewLine + "INSERT" + Environment.NewLine + " 5" + Environment.NewLine +
                                            "{1}" + Environment.NewLine + "330" + Environment.NewLine + "2" + Environment.NewLine + "100" + Environment.NewLine +
                                            "AcDbEntity" + Environment.NewLine + "  8" + Environment.NewLine +
@@ -84,7 +81,6 @@ namespace DXFInterface
                                            + " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
                                            " 30" + Environment.NewLine + "0.0";
             string formated_template = String.Format(template, block_case, uniqueId, centerpoint.Item1, centerpoint.Item2);
-
             return formated_template;
         }
 
@@ -99,7 +95,6 @@ namespace DXFInterface
             {
                 rand_num = rand_num + 1;
                 string newId = uniqueId + rand_num.ToString();
-
                 if (pb.BlockTotal == 1)
                     InputDictionary[TableTemplatingFunction(newId, 1)] = EntitiesTemplatingFunction(newId, 1, pb.Center);
                 else if (pb.BlockTotal == 2)
@@ -238,39 +233,6 @@ namespace DXFInterface
 
                     }
                 }
-
-
-                //if(tables_start != 0)
-                //{
-                //    if (x.Contains("AcDbBlockTableRecord"))
-                //    {
-                //        Console.WriteLine(_inputFile[index + 2]);
-                //        Console.WriteLine(_inputFile[index + 1 ]);
-
-                //        Console.WriteLine(_inputFile[index]);
-                //        Console.WriteLine(_inputFile[index - 2]);
-                //        Console.WriteLine(_inputFile[index - 3]);
-                //        Console.WriteLine(_inputFile[index - 4]);
-                //        Console.WriteLine(_inputFile[index - 5]);
-                //        Console.WriteLine(_inputFile[index - 6]);
-                //        Console.WriteLine(_inputFile[index - 7]);
-                //        Console.WriteLine(_inputFile[index - 8]);
-                //        Console.WriteLine(_inputFile[index - 9]);
-                //        Console.WriteLine(_inputFile[index - 10]);
-
-
-
-
-
-
-
-
-                //        Console.ReadKey();
-                //    }
-
-
-
-
                 index += 1;
             }
 
@@ -294,24 +256,7 @@ namespace DXFInterface
         }
         private void ParseBlocks(int _blockstart, int _blockend)
         {
-            //KB DEBUG: added block title input request for simplified debugging
-            //BLOCKTITLESTART:
-            //    Console.WriteLine("What solar panel block title should we look for in DXF?");
-            //    string BlockTitle = Console.ReadLine();
-            //BLOCKTITLECHECK:
-            //    Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
-            //    string BlockYN = Console.ReadLine();
-
-            //    if (BlockYN == "Y" || BlockYN == "y")
-            //        Console.WriteLine("Searching for block names including " + BlockTitle);
-            //    else if (BlockYN == "N" || BlockYN == "n")
-            //        goto BLOCKTITLESTART;
-            //    else
-            //    {
-            //        Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
-            //        goto BLOCKTITLECHECK;
-            //    }
-            //KB DEBUG: end block title input request 
+            
             var start = _blockstart;
 
             var end = _blockend;
@@ -357,24 +302,6 @@ namespace DXFInterface
         }
         private void ParseEntities(int _start, int _end)
         {
-            //KB DEBUG: added block title input request for simplified debugging
-            //BLOCKTITLESTART:
-            //    Console.WriteLine("What solar panel block title should we look for in DXF?");
-            //    string BlockTitle = Console.ReadLine();
-            //BLOCKTITLECHECK:
-            //    Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
-            //    string BlockYN = Console.ReadLine();
-
-            //    if (BlockYN == "Y" || BlockYN == "y")
-            //        Console.WriteLine("Searching for block names including " + BlockTitle);
-            //    else if (BlockYN == "N" || BlockYN == "n")
-            //        goto BLOCKTITLESTART;
-            //    else
-            //    {
-            //        Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
-            //        goto BLOCKTITLECHECK;
-            //    }
-            //KB DEBUG: end block title input request
             var start = _start;
             var end = _end;
             string[] entites_section = new string[end - start];
@@ -436,67 +363,20 @@ namespace DXFInterface
                     listOfIndicies.Add(line_count);
                 }
                 line_count = line_count + 1;
-
             }
             return listOfIndicies;
         }
-        private void Write2Entities()
-        {   // -0|ENDSEC List<string> entities_entries
-            //string[] entites_section = new string[entity_end - entity_start];
-            //Array.Copy(_inputFile, entity_start, entites_section, 0, entity_end - entity_start);
-            //var listOfMarkerIndices = ScanForMarker("AcDbBlockReference", entites_section);
-            //int placementIndex = listOfMarkerIndices[listOfMarkerIndices.Count]; 
-            var text = new StringBuilder();
-            //int count = 0; 
-            //foreach (string s in File.ReadAllLines(_inputFilePath))
-            //{
-
-            //    //text.AppendLine(s.Replace("SS", "SS" + Environment.NewLine + replacement));
-            //    if (count == entity_end)
-            //    {
-
-            //        if(_inputFile[entity_end - 1].Equals("0"))
-            //        {
-            //            Console.WriteLine(_inputFile[entity_end - 1]);
-            //        }
-            //        Console.WriteLine(_inputFile[count]);
-
-            //        Console.ReadKey(); 
-
-            //    }
-            //}
-
-
-        }
-        private void Write2Tables()
-        {   // - 0|ENDTAB|0|ENDSEC List<string> tables_entries
-            //string[] tables_section = new string[tables_end = tables_start];
-            //Array.Copy(_inputFile, tables_start, tables_section, 0, tables_end - tables_start);
-            //var listOfMarkerIndices = ScanForMarker("AcDbBlockTableRecord", tables_section);
-            //int placementIndex = listOfMarkerIndices[listOfMarkerIndices.Count];
-
-
-
-        }
-        //5832 TABLES
-        // AcDbBlockTableRecord 7074 7094 7190 7302
-        //7649 ENDSEC
-
-        //////////////////////////////
-        //Just Before this marker 
-        //////////////////////////////
-        //1001      
-        //AcDbBlockRepBTag
-
-
-        //10753 ENTITIES
-        //14458 ENDSEC
-
-        //5852 TABLES
-        //7649 ENDSEC
-
-
-        //14458
-
     }
 }
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//

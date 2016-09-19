@@ -30,7 +30,8 @@ namespace ExcelInterface
         public ExcelIO(string filePath)
         {
             _filePath = filePath;
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+            
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath,true ))
             {
                 _firstSheetName = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAt(1).Name;
             }
@@ -61,9 +62,9 @@ namespace ExcelInterface
         {
             InsertText(referenceSheet, upliftCell, uplift);
             InsertText(referenceSheet, slidingCell, sliding);
-            Console.WriteLine(uplift);
-            Console.WriteLine(sliding);
-            Console.WriteLine("========");
+            //Console.WriteLine(uplift);
+            //Console.WriteLine(sliding);
+            //Console.WriteLine("========");
             Update();
             Refresh();
             return;
@@ -77,96 +78,7 @@ namespace ExcelInterface
             int w2emod = 0;
             int defmod = 0;
             List<int> ColumnPositions = new List<int>();
-
-            //          if (def)
-            //          {   // reference sheet 10d at correct zone 
-            //              //KB DEBUG: corrected with or without deflector call
-            //              startingCell_NE = WDeflector_Refzones[NE_Zone - 1];
-            //              startingCell_NW = WDeflector_Refzones[NW_Zone - 1];
-            //          }
-            //          else
-            //          {   // Same Row Reference Array if sheet 5d at correct zone 
-            //              //KB DEBUG: corrected with or without deflector call
-            //              startingCell_NE = WODeflector_Refzones[NE_Zone - 1];
-            //              startingCell_NW = WODeflector_Refzones[NW_Zone - 1];
-            //          }
-            //
-            //          if (IFINorth == 0)
-            //          {
-            //              int temp_cell_West = startingCell_NW + 1;
-            //              int temp_cell_East = startingCell_NE + 1;
-            //
-            //              if (IFIEast.Equals(2))
-            //              {
-            //                  temp_cell_East = startingCell_NE + 1;
-            //
-            //
-            //              }
-            //              else if (IFIEast.Equals(2))
-            //              {
-            //                  temp_cell_West = startingCell_NW + 1;
-            //              }
-            //              ColumnPositions.Add(temp_cell_West);
-            //              ColumnPositions.Add(temp_cell_East);
-            //
-            //          }
-            //          else if (IFISouth == 0 && IFINorth != 0)
-            //          {
-            //              if (IFINorth == 1)
-            //              {
-            //                  int temp_cell_West = startingCell_NW + 1;
-            //                  int temp_cell_East = startingCell_NE + 1;
-            //                  if (IFIEast.Equals(2))
-            //                  {
-            //                      temp_cell_West = startingCell_NE + 1;
-            //
-            //
-            //                  }
-            //                  else if (IFIEast.Equals(2))
-            //                  {
-            //                      temp_cell_East = startingCell_NW + 1;
-            //                  }
-            //                  ColumnPositions.Add(temp_cell_West);
-            //                  ColumnPositions.Add(temp_cell_East);
-            //
-            //              }
-            //              else if (IFINorth == 2)
-            //              {
-            //                  int temp_cell_West = startingCell_NW + 2;
-            //                  int temp_cell_East = startingCell_NE + 2;
-            //                  if (IFIEast.Equals(2))
-            //                  {
-            //                      temp_cell_West = startingCell_NE + 1;
-            //
-            //
-            //                  }
-            //                  else if (IFIEast.Equals(2))
-            //                  {
-            //                      temp_cell_East = startingCell_NW + 1;
-            //                  }
-            //                  ColumnPositions.Add(temp_cell_West);
-            //                  ColumnPositions.Add(temp_cell_East);
-            //              }
-            //
-            //          }
-            //          else if (IFISouth == 1 | IFISouth == 0)
-            //          {
-            //              int temp_cell_West = startingCell_NW + 6;
-            //              int temp_cell_East = startingCell_NE + 6;
-            //              if (IFIEast.Equals(2))
-            //              {
-            //                  temp_cell_West = startingCell_NE + 1;
-            //
-            //              }
-            //              else if (IFIEast.Equals(2))
-            //              {
-            //                  temp_cell_East = startingCell_NW + 1;
-            //              }
-            //              ColumnPositions.Add(temp_cell_West);
-            //              ColumnPositions.Add(temp_cell_East);
-            //          }
-            //Console.WriteLine("Tab being referenced: " + referenceSheet);
-            //Console.WriteLine("Column letter being used is: " + column);
+           
             if (!def)
                            defmod = 52;
             
@@ -227,7 +139,7 @@ namespace ExcelInterface
                                {
                                     e2wmod = 0;
                                     int tempe = startingCell_NE + defmod + nmod + e2wmod;
-                        Console.WriteLine("row number for E2W: " + tempe);
+                        //Console.WriteLine("row number for E2W: " + tempe);
                         ColumnPositions.Add(tempe);
                                     break;
                                }
@@ -235,7 +147,7 @@ namespace ExcelInterface
                                {
                                     e2wmod = 1;
                                     int tempe = startingCell_NE + defmod + nmod + e2wmod;
-                        Console.WriteLine("row number for E2W: " + tempe);
+                        //Console.WriteLine("row number for E2W: " + tempe);
                         ColumnPositions.Add(tempe);
                                     break;
                                }
@@ -247,7 +159,7 @@ namespace ExcelInterface
                                {
                                    w2emod = 0;
                         int tempw = startingCell_NW + defmod + nmod + w2emod;
-                        Console.WriteLine("row number for W2E: " + tempw);
+                        //Console.WriteLine("row number for W2E: " + tempw);
                         ColumnPositions.Add(tempw);
                                    break;
                                }
@@ -255,18 +167,18 @@ namespace ExcelInterface
                                {
                                    w2emod = 1;
                         int tempw = startingCell_NW + defmod + nmod + w2emod;
-                        Console.WriteLine("row number for W2E: " + tempw);
+                        //Console.WriteLine("row number for W2E: " + tempw);
                         ColumnPositions.Add(tempw);
                         break;
                                }
                        }
             
-                       if (IFISouth == 0 && IFINorth < 1)
+                       if (IFISouth == 0)
                        {
                             int tempsw = startingCell_NW + defmod + 6 + w2emod;
                             int tempse = startingCell_NE + defmod + 6 + e2wmod;
-                Console.WriteLine("south row locations: " + tempse + " and " + tempsw);
-                ColumnPositions.Add(tempse);
+                            //Console.WriteLine("south row locations: " + tempse + " and " + tempsw);
+                            ColumnPositions.Add(tempse);
                             ColumnPositions.Add(tempsw);
                        }
 
@@ -277,10 +189,10 @@ namespace ExcelInterface
                 Results.Add(Convert.ToDouble(return_cell));
             }
 
-            foreach( var r in Results)
-            {
-                Console.WriteLine(r); 
-            }
+            //foreach( var r in Results)
+            //{
+            //    Console.WriteLine(r); 
+            //}
             //Console.ReadKey(); 
 
             double final_value = Results.Max();
@@ -358,7 +270,7 @@ namespace ExcelInterface
         public string ReadCell(string sheetName, string cellCoordinates)
         {
             string string_cell = null;
-            Console.WriteLine(cellCoordinates);
+            //Console.WriteLine(cellCoordinates);
             //Console.ReadKey(); 
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {

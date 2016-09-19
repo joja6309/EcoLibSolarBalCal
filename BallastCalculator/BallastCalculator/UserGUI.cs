@@ -43,7 +43,7 @@ namespace BallastCalculator
                 {
                 excelTextBox.Text = openFileDialog1.FileName;
                 string wanted_path = openFileDialog1.FileName;
-                excelPathStorage = wanted_path = "/" + openFileDialog1.FileName; 
+                excelPathStorage = wanted_path; 
 
                 }
 
@@ -65,12 +65,14 @@ namespace BallastCalculator
                     if (line.Contains("Ex:"))
                     {
                         excelPathStorage = line.Substring(line.LastIndexOf(':') + 1);
-                        textBox6.Text = line.Substring(line.LastIndexOf(':') + 1);
+                        textBox7.Text = line.Substring(line.LastIndexOf(':') + 1);
+
                     }
                     else if (line.Contains("Dx:"))
                     {
                         dxfPathStorage = line.Substring(line.LastIndexOf(':') + 1);
-                        textBox7.Text = line.Substring(line.LastIndexOf(':') + 1);
+                        textBox6.Text = line.Substring(line.LastIndexOf(':') + 1);
+
                     }
                     else if (line.Contains("Panel:"))
                     {
@@ -278,6 +280,11 @@ namespace BallastCalculator
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             useDefaults = !useDefaults;
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
     }

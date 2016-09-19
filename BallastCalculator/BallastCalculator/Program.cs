@@ -55,14 +55,14 @@ namespace BallastCalculator
             //Console.WriteLine(excel_path);
             //Console.WriteLine(output_path);
             //Console.WriteLine(file_path);
-         
+
 
             string file_path = FilePathContainer.dxfPath;
             string output_path = FilePathContainer.outPath;
             string excel_path = FilePathContainer.excelPath;
             string panelName = FilePathContainer.panelName;
-          
-            bool land; 
+
+            bool land;
 
             ExcelIO ExInterface = new ExcelIO(excel_path);
             //Def B32
@@ -89,50 +89,82 @@ namespace BallastCalculator
                 EcoPanel.SetPanelZones(IFIboarder);
             }
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
-            List<EcoPanel> processedList = grid.GetPanels();
+            
+            //{
+            //    //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
+            //    //Console.WriteLine("Panel Lift count: " + panel.Uplift);
+            //    //Console.WriteLine("Panel Sliding Count: " + panel.Sliding);
 
-            foreach (var panel in processedList)
-            {
-                //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
-                //Console.WriteLine("Panel Lift count: " + panel.Uplift);
-                //Console.WriteLine("Panel Sliding Count: " + panel.Sliding);
+            //    if (land)
+            //    {
+            //        //KB DEBUG: uplift and sliding were backwards, fixed it.
+            //        ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+            //        panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
+            //    }
+            //    else
+            //    {
+            //        //KB DEBUG: uplift and sliding were backwards, fixed it.
+            //        ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+            //        panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
+            //    }
+            //    Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
 
-                if (land)
-                {
-                    //KB DEBUG: uplift and sliding were backwards, fixed it.
-                    ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-                    panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
-                }
-                else
-                {
-                    //KB DEBUG: uplift and sliding were backwards, fixed it.
-                    ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-                    panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
-                }
+            //    //Console.WriteLine("-----------------------------------");
+            //    //Console.WriteLine("NE zone: " + panel.NE_Zone);
+            //    //Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " should be same as " + panel.IFI_NORTH_Port);
+            //    //Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
+            //    //Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
+            //    //Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
+            //    //Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+            //    //Console.WriteLine("-----------------------------------");
+            //    //Console.WriteLine("NW zone: " + panel.NW_Zone);
+            //    //Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " should be same as " + panel.IFI_NORTH_Port);
+            //    //Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
+            //    //Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
+            //    //Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
+            //    //Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
+            //    //Console.WriteLine("-----------------------------------");
+            //    //Console.WriteLine("Max output from Excel:" + panel.ValueFromExcel);
+            //    //Console.WriteLine("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+            //    //Console.ReadKey();
+            //
+            Stack<double> excel_val = new Stack<double>();
 
-                Console.WriteLine("-----------------------------------");
-                Console.WriteLine("NE zone: " + panel.NE_Zone);
-                Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " should be same as " + panel.IFI_NORTH_Port);
-                Console.WriteLine("E2W col: " + panel.ColumnNumberE2W_LAND + " or " + panel.ColumnNumberE2W_PORT);
-                Console.WriteLine("E2W trucol: " + panel.TrueE2Wcol_LAND + " or " + panel.TrueE2Wcol_PORT);
-                Console.WriteLine("E2W zone: " + panel.IFI_E2W_Land + " or " + panel.IFI_E2W_Port);
-                Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
-                Console.WriteLine("-----------------------------------");
-                Console.WriteLine("NW zone: " + panel.NW_Zone);
-                Console.WriteLine("north zone: " + panel.IFI_NORTH_Land + " should be same as " + panel.IFI_NORTH_Port);
-                Console.WriteLine("W2E col: " + panel.ColumnNumberW2E_LAND + " or " + panel.ColumnNumberW2E_PORT);
-                Console.WriteLine("W2E trucol: " + panel.TrueW2Ecol_LAND + " or " + panel.TrueW2Ecol_PORT);
-                Console.WriteLine("W2E zone: " + panel.IFI_W2E_Land + " or " + panel.IFI_W2E_Port);
-                Console.WriteLine("south zone: " + panel.IFI_SOUTH_Land + " should be same as " + panel.IFI_SOUTH_Port);
-                Console.WriteLine("-----------------------------------");
-                Console.WriteLine("Max output from Excel:" + panel.ValueFromExcel);
-                Console.WriteLine("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
-                Console.ReadKey();
-            }
 
-            grid.SetPanelList(processedList);
+            //foreach( var x in list)
+            //{
+            //    excel_val.Push(x);
+            //    Console.WriteLine(x);
+            //}
+            //Console.WriteLine(excel_val.Count); 
+            //Console.ReadKey();
+            //foreach( var x in p_list)
+            //{
+            //    x.ValueFromExcel = excel_val.Pop();
+            //}
+            grid.SetExcelValues();
+            
+          
+            
+            Console.WriteLine("Block Calculations: ");
+            Console.WriteLine("=================="); 
             grid.RunBasePanelCalculations();
             var final_bases = grid.GetPanelBases();
+            foreach( var panel in final_bases)
+            {
+                Console.WriteLine("=======================");
+                Console.WriteLine("Base Id {0}", panel.UniqueID);
+                Console.WriteLine("Block Weights on this base"); 
+                foreach(var p in panel.BlockWeightList)
+                {
+                    Console.WriteLine(p); 
+                }
+                Console.WriteLine("Block Total {0}", panel.BlockTotal);
+                Console.WriteLine("Block Weight {0}", panel.BlockWeight);
+                Console.WriteLine("=======================");
+                
+            }
+            Console.ReadKey();
 
             dxfInterface.GenerateFileOut(final_bases);
             //foreach(var c in final_bases)

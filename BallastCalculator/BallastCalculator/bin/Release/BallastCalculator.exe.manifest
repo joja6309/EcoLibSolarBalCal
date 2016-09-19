@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="54784">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="54272">
       <assemblyIdentity name="BallastCalculator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>+qvPbpcnwpu/mCHhFv0862PA6KzRLJm5ogHINCIM/M4=</dsig:DigestValue>
+        <dsig:DigestValue>ujm+OqkJ5/E3BVQkcg0/QXzI2PDPpDOFGqDTpLW+WC8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -61,7 +61,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cZQN1akSZhksrBx5TCcddIql4vMpwjCbXdu6o606ihQ=</dsig:DigestValue>
+        <dsig:DigestValue>4RH/1NTYoZjU5b/3DRDoHR6xCBiSoeV5U08dJ4pY2PM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -85,19 +85,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>qDMJVU8GWRBlQwZSi5LJBD1TV+NHbirrBVm21zXnw18=</dsig:DigestValue>
+        <dsig:DigestValue>84+pA1wga31g/Wwd+MWvWYyIyIekeK4cdzxouXI302k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelInterface.dll" size="15360">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelInterface.dll" size="14848">
       <assemblyIdentity name="ExcelInterface" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Nz38Uv0EG3PhtnuvtWj4sSAuv3Vsc5aK/ckWD3avZTk=</dsig:DigestValue>
+        <dsig:DigestValue>GP0DpZYRNSGTSpp6yAeXEnoWJ0cQ3qu4WxYbF+SJQC8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
