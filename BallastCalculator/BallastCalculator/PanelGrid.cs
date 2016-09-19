@@ -67,6 +67,8 @@ namespace BallastCalculator
                 }
                 else
                 {
+                    //Console.WriteLine(EcoPanel.ValueFromExcel);
+                    //Console.ReadKey();
                     PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
                     temp.BlockWeight = EcoPanel.ValueFromExcel;
                     temp.BlockWeightList.Add(EcoPanel.ValueFromExcel); 
@@ -85,7 +87,7 @@ namespace BallastCalculator
                 IFI_Base_Total += cornerValue; //IFI_Base_Total
 
             }
-            
+            Console.WriteLine(base_panel.BlockWeight);
             base_panel.BlockTotal = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
 
         }

@@ -38,7 +38,7 @@ namespace DXFInterface
 
         }
 
-      
+
         private FileStream CreateFile()
         {
             FileStream fs = new FileStream(_outputFilePath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -63,7 +63,7 @@ namespace DXFInterface
                                          Environment.NewLine + " 2" + Environment.NewLine +
                                          "EF3_HATCH_{0}" + Environment.NewLine + "340" + Environment.NewLine +
                                          "0" + Environment.NewLine + "310" + Environment.NewLine +
-                                         "{1}" + Environment.NewLine 
+                                         "{1}" + Environment.NewLine
                                          ;
             string formated = String.Format(template, block_case, uniqueId);
 
@@ -81,7 +81,7 @@ namespace DXFInterface
                                            Environment.NewLine + "  2" + Environment.NewLine
                                            + "EF3_HATCH_{0}" + Environment.NewLine +
                                            " 10" + Environment.NewLine + "{2}" + Environment.NewLine
-                                           + " 20" + Environment.NewLine + "{3}" + Environment.NewLine + 
+                                           + " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
                                            " 30" + Environment.NewLine + "0.0";
             string formated_template = String.Format(template, block_case, uniqueId, centerpoint.Item1, centerpoint.Item2);
 
@@ -102,52 +102,54 @@ namespace DXFInterface
 
                 if (pb.BlockTotal == 1)
                     InputDictionary[TableTemplatingFunction(newId, 1)] = EntitiesTemplatingFunction(newId, 1, pb.Center);
-                else if (pb.BlockTotal == 2)             
+                else if (pb.BlockTotal == 2)
                     InputDictionary[TableTemplatingFunction(newId, 2)] = EntitiesTemplatingFunction(newId, 2, pb.Center);
-                else if (pb.BlockTotal == 3)              
+                else if (pb.BlockTotal == 3)
                     InputDictionary[TableTemplatingFunction(newId, 3)] = EntitiesTemplatingFunction(newId, 3, pb.Center);
-                else if (pb.BlockTotal == 4)           
+                else if (pb.BlockTotal == 4)
                     InputDictionary[TableTemplatingFunction(newId, 4)] = EntitiesTemplatingFunction(newId, 4, pb.Center);
-                else if (pb.BlockTotal == 5)             
+                else if (pb.BlockTotal == 5)
                     InputDictionary[TableTemplatingFunction(newId, 5)] = EntitiesTemplatingFunction(newId, 5, pb.Center);
-                else if (pb.BlockTotal == 6)           
+                else if (pb.BlockTotal == 6)
                     InputDictionary[TableTemplatingFunction(newId, 6)] = EntitiesTemplatingFunction(newId, 6, pb.Center);
 
             }
             TexttoFile(InputDictionary);
         }
-            
 
-        
+
+
 
         private void TexttoFile(Dictionary<string, string> outPutDic)
         {
             int count = 0;
             string long_string = "";
             string long_string_tables = "";
-            Console.WriteLine(entity_end);
-            Console.WriteLine(tables_end);
-            Console.ReadKey();
-            foreach(var key in outPutDic.Keys)
+            //Console.WriteLine(entity_end);
+            //Console.WriteLine(tables_end);
+            //Console.WriteLine("============");
+            //Console.ReadKey();
+            foreach (var key in outPutDic.Keys)
             {
                 long_string = long_string + outPutDic[key];
-                long_string_tables = long_string_tables + key;  
+                long_string_tables = long_string_tables + key;
             }
             //Console.WriteLine(long_string_tables);
             //Console.ReadKey(); 
             var text = new StringBuilder();
-           
-           
+
+
             List<string> new_file = new List<string>();
             foreach (var x in _inputFile)
             {
                 new_file.Add(x);
-                if (count == tables_end - 1 )
+                if (count == (tables_end - 1))
                 {
                     //outFile.Write(long_string_tables + Environment.NewLine);
                     foreach (var key in outPutDic.Keys)
                     {
                         new_file.Add(key);
+                        Console.WriteLine(key);
                     }
 
 
@@ -163,18 +165,18 @@ namespace DXFInterface
                 }
                 count += 1;
             }
-            
-                using (StreamWriter outFile = new StreamWriter(_outputFilePath))
-                {
-                foreach ( var line in new_file)
+
+            using (StreamWriter outFile = new StreamWriter(_outputFilePath))
+            {
+                foreach (var line in new_file)
                 {
                     outFile.WriteLine(line);
-                    
+
                 }
-                
+
                 outFile.Flush();
                 outFile.Close();
-                 }
+            }
         }
 
         public void ParseFile()
@@ -183,7 +185,7 @@ namespace DXFInterface
             int index = 0;
             bool entities_hit = false;
             bool tables_hit = false;
-            bool blocks_hit = false; 
+            bool blocks_hit = false;
 
             foreach (string x in _inputFile)
             {
@@ -206,7 +208,7 @@ namespace DXFInterface
                 if (x.Contains("ENTITIES"))
                 {
                     entity_start = index;
-                    entities_hit = true; 
+                    entities_hit = true;
 
                 }
                 if (entities_hit)
@@ -214,27 +216,29 @@ namespace DXFInterface
                     if (x.Contains("ENDSEC"))
                     {
                         entity_end = index;
-                        entities_hit = false; 
+                        entities_hit = false;
                     }
                 }
-                if (x.Contains("TABLES"))
+                if (x.Contains("TABLES") && (_inputFile[index + 2].Contains("TABLE")))
                 {
                     tables_start = index;
-                    tables_hit = true; 
-                   
+                    tables_hit = true;
+                    
+
 
                 }
-                if(tables_hit)
+                if (tables_hit != false)
                 {
                     if (x.Contains("ENDSEC"))
                     {
                         tables_end = index;
+                        
                         tables_hit = false;
 
 
                     }
                 }
-               
+
 
                 //if(tables_start != 0)
                 //{
@@ -275,7 +279,7 @@ namespace DXFInterface
             return;
 
         }
-        
+
         public BasicDimensions GetValuesFromBlockSection()
         {
             return BlocksSectionValues;
@@ -290,23 +294,23 @@ namespace DXFInterface
         }
         private void ParseBlocks(int _blockstart, int _blockend)
         {
-        //KB DEBUG: added block title input request for simplified debugging
-        //BLOCKTITLESTART:
-        //    Console.WriteLine("What solar panel block title should we look for in DXF?");
-        //    string BlockTitle = Console.ReadLine();
-        //BLOCKTITLECHECK:
-        //    Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
-        //    string BlockYN = Console.ReadLine();
+            //KB DEBUG: added block title input request for simplified debugging
+            //BLOCKTITLESTART:
+            //    Console.WriteLine("What solar panel block title should we look for in DXF?");
+            //    string BlockTitle = Console.ReadLine();
+            //BLOCKTITLECHECK:
+            //    Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
+            //    string BlockYN = Console.ReadLine();
 
-        //    if (BlockYN == "Y" || BlockYN == "y")
-        //        Console.WriteLine("Searching for block names including " + BlockTitle);
-        //    else if (BlockYN == "N" || BlockYN == "n")
-        //        goto BLOCKTITLESTART;
-        //    else
-        //    {
-        //        Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
-        //        goto BLOCKTITLECHECK;
-        //    }
+            //    if (BlockYN == "Y" || BlockYN == "y")
+            //        Console.WriteLine("Searching for block names including " + BlockTitle);
+            //    else if (BlockYN == "N" || BlockYN == "n")
+            //        goto BLOCKTITLESTART;
+            //    else
+            //    {
+            //        Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
+            //        goto BLOCKTITLECHECK;
+            //    }
             //KB DEBUG: end block title input request 
             var start = _blockstart;
 
@@ -353,23 +357,23 @@ namespace DXFInterface
         }
         private void ParseEntities(int _start, int _end)
         {
-        //KB DEBUG: added block title input request for simplified debugging
-        //BLOCKTITLESTART:
-        //    Console.WriteLine("What solar panel block title should we look for in DXF?");
-        //    string BlockTitle = Console.ReadLine();
-        //BLOCKTITLECHECK:
-        //    Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
-        //    string BlockYN = Console.ReadLine();
+            //KB DEBUG: added block title input request for simplified debugging
+            //BLOCKTITLESTART:
+            //    Console.WriteLine("What solar panel block title should we look for in DXF?");
+            //    string BlockTitle = Console.ReadLine();
+            //BLOCKTITLECHECK:
+            //    Console.WriteLine("You entered " + BlockTitle + ". Is this correct? (Y/N)");
+            //    string BlockYN = Console.ReadLine();
 
-        //    if (BlockYN == "Y" || BlockYN == "y")
-        //        Console.WriteLine("Searching for block names including " + BlockTitle);
-        //    else if (BlockYN == "N" || BlockYN == "n")
-        //        goto BLOCKTITLESTART;
-        //    else
-        //    {
-        //        Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
-        //        goto BLOCKTITLECHECK;
-        //    }
+            //    if (BlockYN == "Y" || BlockYN == "y")
+            //        Console.WriteLine("Searching for block names including " + BlockTitle);
+            //    else if (BlockYN == "N" || BlockYN == "n")
+            //        goto BLOCKTITLESTART;
+            //    else
+            //    {
+            //        Console.WriteLine("You've entered an incorrect value, please select 'Y' or 'N'.");
+            //        goto BLOCKTITLECHECK;
+            //    }
             //KB DEBUG: end block title input request
             var start = _start;
             var end = _end;
@@ -424,17 +428,17 @@ namespace DXFInterface
         private List<int> ScanForMarker(string marker, string[] section)
         {
             List<int> listOfIndicies = new List<int>();
-            int line_count = 0; 
-            foreach(var line in section)
+            int line_count = 0;
+            foreach (var line in section)
             {
-                if(line.Contains(marker))
+                if (line.Contains(marker))
                 {
                     listOfIndicies.Add(line_count);
                 }
-                line_count = line_count + 1; 
-                 
+                line_count = line_count + 1;
+
             }
-            return listOfIndicies; 
+            return listOfIndicies;
         }
         private void Write2Entities()
         {   // -0|ENDSEC List<string> entities_entries
@@ -444,24 +448,24 @@ namespace DXFInterface
             //int placementIndex = listOfMarkerIndices[listOfMarkerIndices.Count]; 
             var text = new StringBuilder();
             //int count = 0; 
-                      //foreach (string s in File.ReadAllLines(_inputFilePath))
+            //foreach (string s in File.ReadAllLines(_inputFilePath))
             //{
 
             //    //text.AppendLine(s.Replace("SS", "SS" + Environment.NewLine + replacement));
             //    if (count == entity_end)
             //    {
-                    
+
             //        if(_inputFile[entity_end - 1].Equals("0"))
             //        {
             //            Console.WriteLine(_inputFile[entity_end - 1]);
             //        }
             //        Console.WriteLine(_inputFile[count]);
-                
+
             //        Console.ReadKey(); 
 
             //    }
             //}
-           
+
 
         }
         private void Write2Tables()
@@ -496,4 +500,3 @@ namespace DXFInterface
 
     }
 }
-    

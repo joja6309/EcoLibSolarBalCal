@@ -1,0 +1,4 @@
+row number for E2W: 70
+row number for W2E: 60
+73.9896563757776
+109.389549023403

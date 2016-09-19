@@ -61,6 +61,9 @@ namespace ExcelInterface
         {
             InsertText(referenceSheet, upliftCell, uplift);
             InsertText(referenceSheet, slidingCell, sliding);
+            Console.WriteLine(uplift);
+            Console.WriteLine(sliding);
+            Console.WriteLine("========");
             Update();
             return;
         }
@@ -161,8 +164,8 @@ namespace ExcelInterface
             //              ColumnPositions.Add(temp_cell_West);
             //              ColumnPositions.Add(temp_cell_East);
             //          }
-            Console.WriteLine("Tab being referenced: " + referenceSheet);
-            Console.WriteLine("Column letter being used is: " + column);
+            //Console.WriteLine("Tab being referenced: " + referenceSheet);
+            //Console.WriteLine("Column letter being used is: " + column);
             if (!def)
                            defmod = 52;
             
@@ -223,16 +226,16 @@ namespace ExcelInterface
                                {
                                     e2wmod = 0;
                                     int tempe = startingCell_NE + defmod + nmod + e2wmod;
-                                    Console.WriteLine("row number for E2W: " + tempe);
-                                    ColumnPositions.Add(tempe);
+                        Console.WriteLine("row number for E2W: " + tempe);
+                        ColumnPositions.Add(tempe);
                                     break;
                                }
                            case 2:
                                {
                                     e2wmod = 1;
                                     int tempe = startingCell_NE + defmod + nmod + e2wmod;
-                                    Console.WriteLine("row number for E2W: " + tempe);
-                                    ColumnPositions.Add(tempe);
+                        Console.WriteLine("row number for E2W: " + tempe);
+                        ColumnPositions.Add(tempe);
                                     break;
                                }
                        }
@@ -261,8 +264,8 @@ namespace ExcelInterface
                        {
                             int tempsw = startingCell_NW + defmod + 6 + w2emod;
                             int tempse = startingCell_NE + defmod + 6 + e2wmod;
-                            Console.WriteLine("south row locations: " + tempse + " and " + tempsw);
-                            ColumnPositions.Add(tempse);
+                Console.WriteLine("south row locations: " + tempse + " and " + tempsw);
+                ColumnPositions.Add(tempse);
                             ColumnPositions.Add(tempsw);
                        }
 
@@ -272,7 +275,15 @@ namespace ExcelInterface
                 var return_cell = ReadCell(referenceSheet, column + position.ToString());
                 Results.Add(Convert.ToDouble(return_cell));
             }
+
+            foreach( var r in Results)
+            {
+                Console.WriteLine(r); 
+            }
+            //Console.ReadKey(); 
+
             double final_value = Results.Max();
+
             return final_value;
         }
         //          KB DEBUG: I couldn't see errors, so I tried to impliment the case structure I described
@@ -328,6 +339,9 @@ namespace ExcelInterface
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
                 excelDoc.WorkbookPart.Workbook.Save();
+                Refresh(); 
+
+
             }
         }
         private WorksheetPart GetWorksheetPart(SpreadsheetDocument excelDoc, string sheetName)
@@ -344,6 +358,8 @@ namespace ExcelInterface
         public string ReadCell(string sheetName, string cellCoordinates)
         {
             string string_cell = null;
+            Console.WriteLine(cellCoordinates);
+            //Console.ReadKey(); 
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
                 WorksheetPart wbpart = GetWorksheetPart(excelDoc, sheetName);

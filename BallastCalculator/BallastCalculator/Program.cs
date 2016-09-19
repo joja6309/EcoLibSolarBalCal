@@ -90,12 +90,12 @@ namespace BallastCalculator
             }
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
             List<EcoPanel> processedList = grid.GetPanels();
-          
+
             foreach (var panel in processedList)
             {
-                Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
-                Console.WriteLine("Panel Lift count: " + panel.Uplift);
-                Console.WriteLine("Panel Sliding Count: " + panel.Sliding);
+                //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
+                //Console.WriteLine("Panel Lift count: " + panel.Uplift);
+                //Console.WriteLine("Panel Sliding Count: " + panel.Sliding);
 
                 if (land)
                 {
