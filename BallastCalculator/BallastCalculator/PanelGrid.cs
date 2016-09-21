@@ -44,16 +44,22 @@ namespace BallastCalculator
                 x.ValueFromExcel = Convert.ToDouble(rand.Next(Convert.ToInt32(list.Min()),Convert.ToInt32(list.Max()))); 
             }
         }
+<<<<<<< HEAD
         private double BallastValue;
                 private bool Landscape;
         public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist, double bal) // Called First 
+=======
+
+
+        private bool Landscape;
+        public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist) // Called First 
+>>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
         {
             BlocksValues = perimeter;
             PanelList = plist;
             BallastValue = bal;
             RunPanelCalculations(); // Generates Call -> Program Now in Run EcoPanel Calculations Function
-            BuildDirectionList();
-            CalculateBallastLocation();
+
         }
         public void SetPanelList(List<EcoPanel> plist)
         {
@@ -100,7 +106,11 @@ namespace BallastCalculator
             double southRow = 1.6;
             List<double> mod_values = new List<double>();
 
+<<<<<<< HEAD
             //KB DEBUG! no ballastLoc == 0
+=======
+//KB DEBUG! no ballastLoc == 0
+>>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
             if (ballastLoc == 1)
             {
                 ModNW = IFI_Value * 2 / 7 * northRow;
@@ -210,6 +220,7 @@ namespace BallastCalculator
                 return mod_values;
             }
             else
+<<<<<<< HEAD
                 mod_values.Add(1);
                 mod_values.Add(1);
                 mod_values.Add(1);
@@ -217,13 +228,16 @@ namespace BallastCalculator
             mod_values.Add(1);
 
             return mod_values;
+=======
+                return mod_values;
+>>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
         }
         private void CalculatePanelCorners(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             Tuple<double, double> corner_neighbor_NW = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NWest
-            Tuple<double, double> corner_neighbor_NE = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height));//NEast
+            Tuple<double, double> corner_neighbor_NE = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NEast
             Tuple<double, double> corner_neighbor_SE = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 + BlocksValues.Height)); //SEast
             Tuple<double, double> corner_neighbor_SW = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 + BlocksValues.Height)); //SWest
             List<Tuple<double, double>> temp_list = new List<Tuple<double, double>>();
@@ -231,6 +245,7 @@ namespace BallastCalculator
             temp_list.Add(corner_neighbor_NW);
             temp_list.Add(corner_neighbor_SW);
             temp_list.Add(corner_neighbor_SE);
+<<<<<<< HEAD
             List<double> mod_values;
             if(EcoPanel.BallastLocation == 0)
             {
@@ -240,6 +255,19 @@ namespace BallastCalculator
             mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
            
             for (int x = 0; x < temp_list.Count(); x++)
+=======
+
+            //KB DEBUG! if I understand this, mod_values should never be 0, so can we eliminate this if?
+            var mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
+            if(mod_values.Count == 0 )
+            {
+                Console.WriteLine("Panel Location is: " + EcoPanel.BallastLocation);
+                Console.WriteLine("No contributions found:");
+                Console.WriteLine(EcoPanel.BallastLocation);
+                Console.ReadKey();
+            }
+            for (int x = 0; x < temp_list.Count; x++)
+>>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
             {
                 if(PanelBaseList.Count == 0 )
                 {
@@ -297,6 +325,7 @@ namespace BallastCalculator
             }
             RunIFILocationChecks();
             BuildDirectionList();
+            CalculateBallastLocation();
 
         }
         private Tuple<double, double, int> GenerateNeighbor(int n, double x_start, double y_start, int direction)
@@ -316,17 +345,22 @@ namespace BallastCalculator
         {
             foreach (EcoPanel panel in PanelList)
             {
+                //panel.DirectionList = null; //KB DEBUG! clears out potential direction 0?
+                //Console.WriteLine("direction list for panel " + panel.PanelID + " includes:");
                 for (int i = 0; i <= 3; i++)
                 {
                     var temp = GenerateNeighbor(1, panel.Center.Item1, panel.Center.Item2, i);
                     if (PanelList.Any(x => (Math.Abs(x.Center.Item1 - temp.Item1) <= .5) && (Math.Abs(x.Center.Item2 - temp.Item2) <= .5)))
                     {
-                        if (!panel.DirectionList.Contains(i))
-                            panel.DirectionList.Add(i);
+                        panel.DirectionList.Add(i);
+                        //Console.WriteLine(i);
                     }
 
                 }
+                
             }
+            Console.WriteLine("Direction Lists Populated, press any key to continue:");
+            Console.ReadKey();
 
         }
         public void CalculateBallastLocation()
@@ -392,8 +426,13 @@ namespace BallastCalculator
                 }
                 //Console.WriteLine("Module " + EcoPanel.PanelID + " has ballast location " + EcoPanel.BallastLocation);
             }
+<<<<<<< HEAD
             //Console.Write("Press any key to continue:");
             //Console.ReadKey();
+=======
+            Console.Write("Press any key to continue:");
+            Console.ReadKey();
+>>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
         }
         private void Set_E2WTruCol_LAND(List<EcoPanel> PanelList)
         {
