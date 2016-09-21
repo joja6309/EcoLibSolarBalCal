@@ -44,16 +44,10 @@ namespace BallastCalculator
                 x.ValueFromExcel = Convert.ToDouble(rand.Next(Convert.ToInt32(list.Min()),Convert.ToInt32(list.Max()))); 
             }
         }
-<<<<<<< HEAD
         private double BallastValue;
-                private bool Landscape;
-        public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist, double bal) // Called First 
-=======
-
 
         private bool Landscape;
-        public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist) // Called First 
->>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
+        public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist, double bal) // Called First 
         {
             BlocksValues = perimeter;
             PanelList = plist;
@@ -106,11 +100,7 @@ namespace BallastCalculator
             double southRow = 1.6;
             List<double> mod_values = new List<double>();
 
-<<<<<<< HEAD
-            //KB DEBUG! no ballastLoc == 0
-=======
-//KB DEBUG! no ballastLoc == 0
->>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
+
             if (ballastLoc == 1)
             {
                 ModNW = IFI_Value * 2 / 7 * northRow;
@@ -220,7 +210,6 @@ namespace BallastCalculator
                 return mod_values;
             }
             else
-<<<<<<< HEAD
                 mod_values.Add(1);
                 mod_values.Add(1);
                 mod_values.Add(1);
@@ -228,9 +217,7 @@ namespace BallastCalculator
             mod_values.Add(1);
 
             return mod_values;
-=======
                 return mod_values;
->>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
         }
         private void CalculatePanelCorners(EcoPanel EcoPanel)
         {
@@ -245,62 +232,59 @@ namespace BallastCalculator
             temp_list.Add(corner_neighbor_NW);
             temp_list.Add(corner_neighbor_SW);
             temp_list.Add(corner_neighbor_SE);
-<<<<<<< HEAD
             List<double> mod_values;
-            if(EcoPanel.BallastLocation == 0)
+            if (EcoPanel.BallastLocation == 0)
             {
                 mod_values = CornerWeightContribution(1, EcoPanel.ValueFromExcel);
 
             }
             mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
+
            
-            for (int x = 0; x < temp_list.Count(); x++)
-=======
-
-            //KB DEBUG! if I understand this, mod_values should never be 0, so can we eliminate this if?
-            var mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
-            if(mod_values.Count == 0 )
-            {
-                Console.WriteLine("Panel Location is: " + EcoPanel.BallastLocation);
-                Console.WriteLine("No contributions found:");
-                Console.WriteLine(EcoPanel.BallastLocation);
-                Console.ReadKey();
-            }
-            for (int x = 0; x < temp_list.Count; x++)
->>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
-            {
-                if(PanelBaseList.Count == 0 )
+                for (int x = 0; x < temp_list.Count; x++)
                 {
-                    Console.WriteLine(x);
-                    Console.WriteLine(temp_list[x]);
-                    Console.WriteLine(mod_values[x]);
-                    Console.ReadKey();  
-                    Base new_base = new Base(PanelBaseList.Count().ToString(),temp_list[x] );
-                    new_base.ContributionList.Add(mod_values[x]);
-                }
-                else
-                {
-                    List<Base> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) <= .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) <= .5).Distinct().ToList();
-                    if(matching_bases.Count() != 0 )
+                    if (PanelBaseList.Count == 0)
                     {
-                        foreach (var p in matching_bases)
-                        {
-                            p.ContributionList.Add(mod_values[x]);
-
-                        }
-
+                        Console.WriteLine(x);
+                        Console.WriteLine(temp_list[x]);
+                        Console.WriteLine(mod_values[x]);
+                        Console.ReadKey();
+                        Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
+                        new_base.ContributionList.Add(mod_values[x]);
                     }
                     else
                     {
-                        Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
-                        new_base.ContributionList.Add(mod_values[x]); 
+                        List<Base> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) <= .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) <= .5).Distinct().ToList();
+                        if (matching_bases.Count() != 0)
+                        {
+                            foreach (var p in matching_bases)
+                            {
+                                p.ContributionList.Add(mod_values[x]);
+
+                            }
+
+                        }
+                        else
+                        {
+                            Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
+                            new_base.ContributionList.Add(mod_values[x]);
+                        }
+
+
                     }
-                    
-                    
                 }
-            }
 
             }
+        
+
+
+
+
+
+
+
+            
+            
         private void CalculateBlockTotalValues(Base base_panel)
         {
             double IFI_Base_Total = 0;
@@ -424,15 +408,8 @@ namespace BallastCalculator
                     Console.WriteLine("Please revise layout to remove single rows or columns when using EF3.");
                     Console.ReadKey();
                 }
-                //Console.WriteLine("Module " + EcoPanel.PanelID + " has ballast location " + EcoPanel.BallastLocation);
+
             }
-<<<<<<< HEAD
-            //Console.Write("Press any key to continue:");
-            //Console.ReadKey();
-=======
-            Console.Write("Press any key to continue:");
-            Console.ReadKey();
->>>>>>> c05593ae60eaf2f358a6e7ffda12f3af003fdf36
         }
         private void Set_E2WTruCol_LAND(List<EcoPanel> PanelList)
         {

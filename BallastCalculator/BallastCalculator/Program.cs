@@ -168,6 +168,7 @@ namespace BallastCalculator
             Console.ReadKey();
 
             dxfInterface.GenerateFileOut(final_bases);
+
             //foreach(var c in final_bases)
             //{
             //    Console.WriteLine("============");
