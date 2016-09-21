@@ -150,7 +150,7 @@ namespace DXFInterface
                 }
 
             }
-            TexttoFile(tables_dic ,ent_string);
+            TexttoFile(tables_dic ,ent_string); 
         }
         //5848
         //8660
