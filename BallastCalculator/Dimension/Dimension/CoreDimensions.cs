@@ -188,7 +188,7 @@ namespace Dimensions
         {
             public int PanelID;
 
-            public List<PanelBase> PanelBases = new List<PanelBase>();
+            public List<Base> PanelBases = new List<Base>();
             public int BallastLocation = 0;
             public List<EcoPanel> E2W = new List<EcoPanel>();
             public List<EcoPanel> W2E = new List<EcoPanel>();
@@ -288,27 +288,21 @@ namespace Dimensions
             public double ValueFromExcel = 0;
         
         }
-        public class PanelBase : BasicDimensions
+        public class Base : BasicDimensions
         {
-            public PanelBase(string baseId, int ballastLocation, Tuple<double, double>  center, double excelValue)
+            public Base(string baseId, Tuple<double,double> center )
                 {
                     UniqueID = baseId;
-                    BallastLocation = ballastLocation;
-                    Center = center;
-                    ExcelValue = excelValue; 
-
+                    CenterPoint = center; 
+                   
                 }
             public string UniqueID;
-            public List<double> BlockWeightList = new List<double>(); 
-            public string EdgeID;
-            public int LoadShare;
-            List<double> Mod_Weight_Values; 
-            public double LoadValue;
-            public int BallastLocation;
-            public double BlockWeight;
-            public double IFIBaseTotal;
-            public double ExcelValue;
-            public int BlockTotal; 
+            public List<double> ContributionList = new List<double>();
+            public Tuple<double,double> CenterPoint = new Tuple<double,double>(0,0);
+            public List<Tuple<double, double>> PointList = new List<Tuple<double, double>>();
+            public double UnroundedBallastBlockValue;
+            public double BallastBlockValue; 
+           
             
         }
 

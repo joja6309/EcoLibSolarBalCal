@@ -70,6 +70,7 @@ namespace BallastCalculator
             //Bal B34 
             ExInterface.ProcessFirstSheet();
             land = ExInterface.land;
+            var bal = ExInterface.bal; 
 
             DxfIO dxfInterface = new DxfIO(file_path, output_path, panelName, land);
             dxfInterface.ParseFile();
@@ -88,7 +89,7 @@ namespace BallastCalculator
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
             }
-            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList);
+            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList,bal);
             
             //{
             //    //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
@@ -154,23 +155,23 @@ namespace BallastCalculator
             {
                 Console.WriteLine("=======================");
                 Console.WriteLine("Base Id {0}", panel.UniqueID);
-                Console.WriteLine("Block Weights on this base");
-                foreach (var p in panel.BlockWeightList)
+                Console.WriteLine("Contribution list for base");
+                foreach (var p in panel.ContributionList)
                 {
                     Console.WriteLine(p);
                 }
-                Console.WriteLine("Block Total {0}", panel.BlockTotal);
-                Console.WriteLine("Block Weight {0}", panel.BlockWeight);
+                Console.WriteLine("Ballast Block Value {0}", panel.BallastBlockValue);
+                Console.WriteLine("Ballast Block Unrounded Value {0}", panel.UnroundedBallastBlockValue);
                 Console.WriteLine("=======================");
 
             }
             Console.ReadKey();
 
-            //dxfInterface.GenerateFileOut(final_bases);
+            dxfInterface.GenerateFileOut(final_bases);
             //foreach(var c in final_bases)
             //{
             //    Console.WriteLine("============");
-            //    Console.WriteLine(c.BlockTotal);
+            //    Console.WriteLine(c.BallastBlockValue);
             //    Console.WriteLine(c.BlockWeight);
             //    Console.WriteLine(c.IFIBaseTotal);
             //    Console.WriteLine("============");

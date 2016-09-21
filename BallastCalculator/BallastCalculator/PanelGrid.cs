@@ -11,7 +11,7 @@ namespace BallastCalculator
     {
         private readonly BasicDimensions BlocksValues;
         private List<EcoPanel> PanelList;
-        private List<PanelBase> PanelBaseList = new List<PanelBase>();
+        private List<Base> PanelBaseList = new List<Base>();
         private List<double> list = new List<double>{ 155.573628951034,90.3798510480827,
                 109.436766290018,
                 108.672042183518,
@@ -44,14 +44,13 @@ namespace BallastCalculator
                 x.ValueFromExcel = Convert.ToDouble(rand.Next(Convert.ToInt32(list.Min()),Convert.ToInt32(list.Max()))); 
             }
         }
-
-
-
-        private bool Landscape;
-        public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist) // Called First 
+        private double BallastValue;
+                private bool Landscape;
+        public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist, double bal) // Called First 
         {
             BlocksValues = perimeter;
             PanelList = plist;
+            BallastValue = bal;
             RunPanelCalculations(); // Generates Call -> Program Now in Run EcoPanel Calculations Function
             BuildDirectionList();
             CalculateBallastLocation();
@@ -66,7 +65,7 @@ namespace BallastCalculator
             {
                 CalculatePanelCorners(panel); 
             }
-            foreach(PanelBase pb in PanelBaseList)
+            foreach(Base pb in PanelBaseList)
             {
                 CalculateBlockTotalValues(pb);
             }
@@ -101,7 +100,8 @@ namespace BallastCalculator
             double southRow = 1.6;
             List<double> mod_values = new List<double>();
 
-            if (ballastLoc == 1 | ballastLoc == 0 )
+            //KB DEBUG! no ballastLoc == 0
+            if (ballastLoc == 1)
             {
                 ModNW = IFI_Value * 2 / 7 * northRow;
                 ModNE = IFI_Value * 2 / 7 * northRow;
@@ -112,8 +112,6 @@ namespace BallastCalculator
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 2)
             {
@@ -126,136 +124,100 @@ namespace BallastCalculator
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 3)
             {
                 ModNW = IFI_Value * 2 / 7 * northRow;
-
                 ModNE = IFI_Value * 2 / 7 * northRow;
-
                 ModSW = IFI_Value * 1 / 7;
-
                 ModSE = IFI_Value * 2 / 7;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 4)
             {
                 ModNW = IFI_Value * 1 / 3;
-
                 ModNE = IFI_Value * 1 / 6;
-
                 ModSW = IFI_Value * 1 / 3;
-
                 ModSE = IFI_Value * 1 / 6;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 5)
             {
                 ModNW = IFI_Value * 1 / 4;
-
                 ModNE = IFI_Value * 1 / 4;
-
                 ModSW = IFI_Value * 1 / 4;
-
                 ModSE = IFI_Value * 1 / 4;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 6)
             {
                 ModNW = IFI_Value * 1 / 6;
-
                 ModNE = IFI_Value * 1 / 3;
-
                 ModSW = IFI_Value * 1 / 6;
-
                 ModSE = IFI_Value * 1 / 3;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 7)
             {
                 ModNW = IFI_Value * 1 / 3;
-
                 ModNE = IFI_Value * 1 / 6;
-
                 ModSW = IFI_Value * 1 / 3 * southRow;
-
                 ModSE = IFI_Value * 1 / 6 * southRow;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 8)
             {
                 ModNW = IFI_Value * 1 / 4;
-
                 ModNE = IFI_Value * 1 / 4;
-
-
                 ModSW = IFI_Value * 1 / 4 * southRow;
-
                 ModSE = IFI_Value * 1 / 4 * southRow;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else if (ballastLoc == 9)
             {
                 ModNW = IFI_Value * 1 / 6;
-
                 ModNE = IFI_Value * 1 / 3;
-
                 ModSW = IFI_Value * 1 / 6 * southRow;
-
                 ModSE = IFI_Value * 1 / 3 * southRow;
                 mod_values.Add(ModNE);
                 mod_values.Add(ModNW);
                 mod_values.Add(ModSW);
                 mod_values.Add(ModSE);
                 return mod_values;
-
-
             }
             else
-                return mod_values;
-          
-                                
+                mod_values.Add(1);
+                mod_values.Add(1);
+                mod_values.Add(1);
+            
+            mod_values.Add(1);
 
+            return mod_values;
         }
-        
         private void CalculatePanelCorners(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
@@ -268,65 +230,60 @@ namespace BallastCalculator
             temp_list.Add(corner_neighbor_NE);
             temp_list.Add(corner_neighbor_NW);
             temp_list.Add(corner_neighbor_SW);
-            
             temp_list.Add(corner_neighbor_SE);
-            var mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
-            if(mod_values.Count == 0 )
+            List<double> mod_values;
+            if(EcoPanel.BallastLocation == 0)
             {
-                Console.WriteLine(EcoPanel.BallastLocation); 
-                Console.ReadKey();
-            }
+                mod_values = CornerWeightContribution(1, EcoPanel.ValueFromExcel);
 
-            for (int x = 0; x < temp_list.Count; x++)
+            }
+            mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
+           
+            for (int x = 0; x < temp_list.Count(); x++)
             {
-                //Console.WriteLine(temp_list[x]); 
                 if(PanelBaseList.Count == 0 )
                 {
-                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
-
-                    temp.BlockWeight = mod_values[x];
-                    temp.BlockWeightList.Add(EcoPanel.ValueFromExcel);
-                    PanelBaseList.Add(temp);
+                    Console.WriteLine(x);
+                    Console.WriteLine(temp_list[x]);
+                    Console.WriteLine(mod_values[x]);
+                    Console.ReadKey();  
+                    Base new_base = new Base(PanelBaseList.Count().ToString(),temp_list[x] );
+                    new_base.ContributionList.Add(mod_values[x]);
                 }
                 else
                 {
-                    List<PanelBase> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) <= .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) <= .5).Distinct().ToList();
-                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
-                    temp.BlockWeight = mod_values[x];
-                    temp.BlockWeightList.Add(EcoPanel.ValueFromExcel);
-                    PanelBaseList.Add(temp);
-                    foreach (var p in matching_bases)
+                    List<Base> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) <= .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) <= .5).Distinct().ToList();
+                    if(matching_bases.Count() != 0 )
                     {
-                        p.BlockWeightList.Add(p.BlockWeight);
+                        foreach (var p in matching_bases)
+                        {
+                            p.ContributionList.Add(mod_values[x]);
+
+                        }
 
                     }
-
-
-
-
-                    //Console.WriteLine(matching_bases.Count);
-
-
-
-
+                    else
+                    {
+                        Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
+                        new_base.ContributionList.Add(mod_values[x]); 
+                    }
+                    
+                    
                 }
-                //List<EcoPanel> matching_panels = PanelList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) < .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) < .5).Distinct().ToList();
-
-
-
             }
 
             }
-        
-        private void CalculateBlockTotalValues(PanelBase base_panel)
+        private void CalculateBlockTotalValues(Base base_panel)
         {
             double IFI_Base_Total = 0;
-            foreach (double cornerValue in base_panel.BlockWeightList)
+            foreach (double cornerValue in base_panel.ContributionList)
             {
                 IFI_Base_Total += cornerValue; //IFI_Base_Total
 
             }
-            base_panel.BlockTotal = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
+            base_panel.UnroundedBallastBlockValue = (IFI_Base_Total / BallastValue) - 0.3; 
+
+            base_panel.BallastBlockValue = Convert.ToInt32(Math.Ceiling(base_panel.UnroundedBallastBlockValue));
 
         }
         private void RunPanelCalculations()
@@ -373,62 +330,70 @@ namespace BallastCalculator
 
         }
         public void CalculateBallastLocation()
-        {
+        {//KB DEBUG! Syntax wasn't working, returning all 0s for ballast locations
             foreach (EcoPanel EcoPanel in PanelList)
             {
-                if (EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)))
-                {
-                    EcoPanel.BallastLocation = 9;
-                    EcoPanel.isEdge = true;
-                }
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(2)))
-                {
-                    EcoPanel.BallastLocation = 7;
-                    EcoPanel.isEdge = true;
-                }
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)))
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)))
+                if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0) && !EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(1))
                 {
                     EcoPanel.BallastLocation = 1;
                     EcoPanel.isEdge = true;
                 }
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) && x.Equals(1)))
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(1)))
+                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(1))
+                {
+                    EcoPanel.BallastLocation = 2;
+                }
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) && x.Equals(1)))
+                else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(0) && !EcoPanel.DirectionList.Contains(1))
                 {
                     EcoPanel.BallastLocation = 3;
                     EcoPanel.isEdge = true;
                 }
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2)))
-                    EcoPanel.BallastLocation = 8;
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(1)))
-                    EcoPanel.BallastLocation = 2;
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3)))
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3)))
+                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(2) && !EcoPanel.DirectionList.Contains(3))
                 {
                     EcoPanel.BallastLocation = 4;
                     EcoPanel.isEdge = true;
                 }
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0)))
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0) && x.Equals(1)))
+                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3) && EcoPanel.DirectionList.Contains(2))
+                {
+                    EcoPanel.BallastLocation = 5;
+                }
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0)))
+                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(0))
                 {
                     EcoPanel.BallastLocation = 6;
                     EcoPanel.isEdge = true;
                 }
-
-                else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0) && x.Equals(1)))
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(2)))
+                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && !EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(2))
                 {
-                    EcoPanel.BallastLocation = 5;
+                    EcoPanel.BallastLocation = 7;
+                    EcoPanel.isEdge = true;
                 }
-
+                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2)))
+                else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(2))
+                {
+                    EcoPanel.BallastLocation = 8;
+                }
+                //if (EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)))
+                else if (EcoPanel.DirectionList.Contains(3) && EcoPanel.DirectionList.Contains(1) && !EcoPanel.DirectionList.Contains(2) && !EcoPanel.DirectionList.Contains(0))
+                {
+                    EcoPanel.BallastLocation = 9;
+                    EcoPanel.isEdge = true;
+                }
                 else
                 {
-                    //Console.WriteLine("ERROR! A module appears to be part of a single row or column. Please revise layout to remove single rows or columns when using EF3.");
-                    //Console.ReadKey();
+                    Console.WriteLine("ERROR! Module at (" + Math.Round(EcoPanel.Center.Item1, 3) + "," + Math.Round(EcoPanel.Center.Item2, 3) + ") appears to be part of a single row or column.");
+                    Console.WriteLine("Please revise layout to remove single rows or columns when using EF3.");
+                    Console.ReadKey();
                 }
+                //Console.WriteLine("Module " + EcoPanel.PanelID + " has ballast location " + EcoPanel.BallastLocation);
             }
+            //Console.Write("Press any key to continue:");
+            //Console.ReadKey();
         }
         private void Set_E2WTruCol_LAND(List<EcoPanel> PanelList)
         {
@@ -952,7 +917,7 @@ namespace BallastCalculator
         {
             return PanelList;
         }
-        public List<PanelBase> GetPanelBases()
+        public List<Base> GetPanelBases()
         {
             return PanelBaseList;
         }
@@ -988,14 +953,14 @@ namespace BallastCalculator
             }
             return;
         }
-        //private void CalculateBlockTotalValues(PanelBase base_panel)
+        //private void CalculateBlockTotalValues(Base base_panel)
         //{
         //    double IFI_Base_Total = 0;
-        //    foreach (double cornerValue in base_panel.BlockWeightList)
+        //    foreach (double cornerValue in base_panel.ContributionList)
         //    {
         //        IFI_Base_Total += cornerValue; //IFI_Base_Total
         //    }
-        //    base_panel.BlockTotal = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
+        //    base_panel.BallastBlockValue = Convert.ToInt32(Math.Ceiling(((IFI_Base_Total) / base_panel.BlockWeight) - .03));
         //}
 
 
@@ -1017,18 +982,18 @@ namespace BallastCalculator
         //    for (int x = 0; x < temp_list.Count; x++)
         //    {
         //        //Console.WriteLine(temp_list[x]); 
-        //        List<PanelBase> matching_bases = PanelBaseList.Where(c => c.Center.Item1 == temp_list[x].Item1 && c.Center.Item2 == temp_list[x].Item2).ToList();
+        //        List<Base> matching_bases = PanelBaseList.Where(c => c.Center.Item1 == temp_list[x].Item1 && c.Center.Item2 == temp_list[x].Item2).ToList();
         //        if (matching_bases.Count() != 0)
         //        {
-        //            foreach (PanelBase pb in matching_bases)
+        //            foreach (Base pb in matching_bases)
         //            {
         //                pb.PanelIDList.Add(EcoPanel.PanelID);
-        //                pb.BlockWeightList.Add(EcoPanel.ValueFromExcel);
+        //                pb.ContributionList.Add(EcoPanel.ValueFromExcel);
         //            }
         //        }
         //        else
         //        {
-        //            PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
+        //            Base temp = new Base(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
         //            PanelBaseList.Add(temp);
         //        }
 
@@ -1086,7 +1051,7 @@ namespace BallastCalculator
         //    {
         //        CalculatePanelCorners(EcoPanel);
         //    }
-        //    //foreach (PanelBase pb in PanelBaseList)
+        //    //foreach (Base pb in PanelBaseList)
         //    //{
         //    //    CalculateBlockTotalValues(pb);
         //    //}

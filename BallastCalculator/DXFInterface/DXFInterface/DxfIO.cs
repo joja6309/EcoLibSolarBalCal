@@ -19,7 +19,6 @@ namespace DXFInterface
         private int entity_end = 0;
         private int tables_start = 0;
         private int tables_end = 0;
-        private int first_Acdb = 0;
         private string BlockTitle;
         private readonly string _outputFilePath;
         private readonly string _inputFilePath;
@@ -27,6 +26,8 @@ namespace DXFInterface
         private BasicDimensions BlocksSectionValues = new BasicDimensions();
         private IFIPerimeter EntitiesIFI = new IFIPerimeter();
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
+        private  List<int> tables_indices_W310 = new List<int>();
+        private List<int> tables_indices_WO310 = new List<int>();
         private readonly bool isLandScape;
         public DxfIO(string inputfilePath, string outputfilename, string panelName, bool land)
         { 
@@ -59,7 +60,7 @@ namespace DXFInterface
        
         private string TableTemplatingFunction(string uniqueId, int block_case)
         {
-            string template = @"{1}" + Environment.NewLine + "0.0" + Environment.NewLine; 
+            string template = @"{1}" + Environment.NewLine; 
             string formated = String.Format(template, block_case, uniqueId);
             return formated;
         }
@@ -80,7 +81,7 @@ namespace DXFInterface
             return formated_template;
         }
 
-        public void GenerateFileOut(List<PanelBase> final_list)
+        public void GenerateFileOut(List<Base> final_list)
         {
             Random rand = new Random();
             int rand_num = rand.Next(0, 20);
@@ -96,20 +97,21 @@ namespace DXFInterface
             tables_dic.Add(6, empty_list);
             tables_dic.Add(7, empty_list);
 
+            Console.WriteLine(final_list.Count()); 
+            
 
-
-            foreach (PanelBase pb in final_list)
+            foreach (Base pb in final_list)
             {
                 rand_num = rand_num + 1;
                 string newId = uniqueId + rand_num.ToString();
-                if (pb.BlockTotal == 1)
+                if (pb.BallastBlockValue == 1)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 1, pb.Center);
                     tables_dic[1].Add(TableTemplatingFunction(uniqueId, 1));
 
                 }
                     
-                else if (pb.BlockTotal == 2)
+                else if (pb.BallastBlockValue == 2)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 2, pb.Center);
                     tables_dic[2].Add(TableTemplatingFunction(uniqueId, 2));
@@ -117,26 +119,26 @@ namespace DXFInterface
                 }
                    
 
-                else if (pb.BlockTotal == 3)
+                else if (pb.BallastBlockValue == 3)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 3, pb.Center);
                     tables_dic[3].Add(TableTemplatingFunction(uniqueId, 3)); 
 
                 }
                    
-                else if (pb.BlockTotal == 4)
+                else if (pb.BallastBlockValue == 4)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 4, pb.Center);
                     tables_dic[4].Add(TableTemplatingFunction(uniqueId, 4));
 
                 }
-                else if (pb.BlockTotal == 5)
+                else if (pb.BallastBlockValue == 5)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 5, pb.Center);
                     tables_dic[5].Add(TableTemplatingFunction(uniqueId, 5)); 
 
                 }
-                else if (pb.BlockTotal == 6)
+                else if (pb.BallastBlockValue == 6)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 6, pb.Center);
                     tables_dic[6].Add(TableTemplatingFunction(uniqueId, 6)); 
@@ -155,109 +157,96 @@ namespace DXFInterface
         //5848
         //8660
 
-        private List<int> FindTablesIndices()
+        private void FindTablesIndices()
         {
             //string template = @ +Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockTableRecord" +
             //                                 Environment.NewLine + " 2" + Environment.NewLine +
             //                                 "EF3_HATCH_{0}" + Environment.NewLine;
-            List<int> tables_input_list = new List<int>();
-            bool lookForZ = false;
-            Console.WriteLine(tables_start);
-            Console.WriteLine(tables_end);
+          
+          
             foreach (var x in Enumerable.Range(tables_start, tables_end))
             {
 
-                if (_inputFile[x].Contains("_HATCH_"))
+                if (_inputFile[x + 4 ].Contains("_HATCH_") && _inputFile[x].Contains("AcDbSymbolTableRecord") && _inputFile[x + 2].Contains("AcDbBlockTableRecord"))
                 {
-                    Console.WriteLine(_inputFile[x]);
+                    //Console.WriteLine(_inputFile[x]);
+                    //Console.WriteLine(x);
+                    if (_inputFile[x + 7].Contains("310"))
+                    {
+                        tables_indices_W310.Add(x + 7);
+                    }
+                    else if (_inputFile[x+5].Contains("340"))
+                    {  /* string add_310 = v*/
+                        tables_indices_WO310.Add(x + 6);
+                    }
+                    
                 }
-                //if (_inputFile[x].Contains("AcDbSymbolTableRecord") && _inputFile[x + 2].Contains("AcDbBlockTableRecord") && _inputFile[x+4].Contains("HATCH"))
-                //{
-                //    lookForZ = true;
-                   
-                //}
-                //if (lookForZ)
-                //{
-                //    if (_inputFile[x].Contains("0.0"))
-                //    {
-                //        tables_input_list.Add(x);
-                //        lookForZ = false;
-
-                //    }
-
-                //}
+               
+             
 
             }
-            return tables_input_list;
-
         }
 
 
 
         private void TexttoFile(Dictionary<int, List<string>> tables_dic, string entities_string)
         {
-            int count = 0;
-            string long_string = "";
-            string long_string_tables = "";
-
-            var indices = FindTablesIndices(); 
-            foreach( var index in indices)
-            {
-                Console.WriteLine(index); 
-            }
+            Console.WriteLine(_outputFilePath);
             Console.ReadKey(); 
+            int count = 0;
+            FindTablesIndices();
+            int hatch_2_write = 1; 
+            List<string> new_file = new List<string>();
+            foreach (var x in _inputFile)
+            {
+                new_file.Add(x);
+                var index_match_W310 = tables_indices_W310.Where(c => c.Equals(count));
+                var index_match_WO310 = tables_indices_WO310.Where(c => c.Equals(count)); 
+                if (index_match_W310.Count() != 0 )
+                {
+                  foreach(var r in tables_dic[hatch_2_write])
+                    {
+                        new_file.Add(r);
+                        Console.WriteLine(r);
 
-            //Console.WriteLine(entity_end);
-            //Console.WriteLine(tables_end);
-            //Console.WriteLine("============");
-            //Console.ReadKey();
-            //foreach (var key in outPutDic.Keys)
-            //{
-            //    long_string = long_string + outPutDic[key];
-            //    long_string_tables = long_string_tables + key;
-            //}
-            //Console.WriteLine(long_string_tables);
-            //Console.ReadKey(); 
-            //var text = new StringBuilder();
+                    }
+                    hatch_2_write = hatch_2_write + 1;
+                }
+                else if (index_match_WO310.Count() != 0 )
+                {
+                    new_file.Add(Environment.NewLine);
+                    new_file.Add("310");
+                    new_file.Add(Environment.NewLine); 
+                    foreach(var t in tables_dic[hatch_2_write])
+                    {
+                        new_file.Add(t);
+                        Console.WriteLine(t);
+                    }
+                    hatch_2_write = hatch_2_write + 1;
+                 }
 
-
-            //List<string> new_file = new List<string>();
-            //foreach (var x in _inputFile)
-            //{
-            //    new_file.Add(x);
-            //    if (count == (tables_end - 1))
-            //    {
-            //        //outFile.Write(long_string_tables + Environment.NewLine);
-            //        //foreach (var key in outPutDic.Keys)
-            //        //{
-            //        //    new_file.Add(key);
-            //        //    Console.WriteLine(key);
-            //        //}
-
-
-            //    }
-
-            //    if (count == (entity_end - 2))
-            //    {
-                   
-            //            new_file.Add(entities_string);
+                if (count == (entity_end - 2))
+                {
+                    Console.WriteLine(entities_string);
+                    new_file.Add(entities_string);
                     
+                }
+                count += 1;
+            }
+            Console.ReadKey();
 
-            //    }
-            //    count += 1;
-            //}
 
-            //using (StreamWriter outFile = new StreamWriter(_outputFilePath))
-            //{
-            //    foreach (var line in new_file)
-            //    {
-            //        outFile.WriteLine(line);
+            using (StreamWriter outFile = new StreamWriter(_outputFilePath))
+            {
+                foreach (var line in new_file)
+                {
+                    outFile.WriteLine(line);
 
-            //    }
+                }
 
-            //    outFile.Flush();
-            //    outFile.Close();
-            //}
+                outFile.Flush();
+                outFile.Close();
+            }
         }
 
         public void ParseFile()
