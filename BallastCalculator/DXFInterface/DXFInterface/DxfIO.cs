@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Dimensions;
+using System.Linq;
 
 
 namespace DXFInterface
@@ -55,15 +56,10 @@ namespace DXFInterface
                 return Convert.ToString(let);
             }
         }
+       
         private string TableTemplatingFunction(string uniqueId, int block_case)
         {
-
-            string template = @"AcDbSymbolTableRecord" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockTableRecord" +
-                                         Environment.NewLine + " 2" + Environment.NewLine +
-                                         "EF3_HATCH_{0}" + Environment.NewLine + "340" + Environment.NewLine +
-                                         "0" + Environment.NewLine + "310" + Environment.NewLine +
-                                         "{1}" + Environment.NewLine
-                                         ;
+            string template = @"{1}" + Environment.NewLine + "0.0" + Environment.NewLine; 
             string formated = String.Format(template, block_case, uniqueId);
             return formated;
         }
@@ -89,89 +85,179 @@ namespace DXFInterface
             Random rand = new Random();
             int rand_num = rand.Next(0, 20);
             string uniqueId = RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
-            Dictionary<string, string> InputDictionary = new Dictionary<string, string>();
+            Dictionary<int, List<string>> tables_dic = new Dictionary<int, List<string>>();
+            List<string> empty_list = new List<string>();
+            string ent_string = ""; 
+            tables_dic.Add(1,empty_list );
+            tables_dic.Add(2, empty_list);
+            tables_dic.Add(3, empty_list);
+            tables_dic.Add(4, empty_list);
+            tables_dic.Add(5, empty_list);
+            tables_dic.Add(6, empty_list);
+            tables_dic.Add(7, empty_list);
+
+
 
             foreach (PanelBase pb in final_list)
             {
                 rand_num = rand_num + 1;
                 string newId = uniqueId + rand_num.ToString();
                 if (pb.BlockTotal == 1)
-                    InputDictionary[TableTemplatingFunction(newId, 1)] = EntitiesTemplatingFunction(newId, 1, pb.Center);
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 1, pb.Center);
+                    tables_dic[1].Add(TableTemplatingFunction(uniqueId, 1));
+
+                }
+                    
                 else if (pb.BlockTotal == 2)
-                    InputDictionary[TableTemplatingFunction(newId, 2)] = EntitiesTemplatingFunction(newId, 2, pb.Center);
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 2, pb.Center);
+                    tables_dic[2].Add(TableTemplatingFunction(uniqueId, 2));
+
+                }
+                   
+
                 else if (pb.BlockTotal == 3)
-                    InputDictionary[TableTemplatingFunction(newId, 3)] = EntitiesTemplatingFunction(newId, 3, pb.Center);
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 3, pb.Center);
+                    tables_dic[3].Add(TableTemplatingFunction(uniqueId, 3)); 
+
+                }
+                   
                 else if (pb.BlockTotal == 4)
-                    InputDictionary[TableTemplatingFunction(newId, 4)] = EntitiesTemplatingFunction(newId, 4, pb.Center);
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 4, pb.Center);
+                    tables_dic[4].Add(TableTemplatingFunction(uniqueId, 4));
+
+                }
                 else if (pb.BlockTotal == 5)
-                    InputDictionary[TableTemplatingFunction(newId, 5)] = EntitiesTemplatingFunction(newId, 5, pb.Center);
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 5, pb.Center);
+                    tables_dic[5].Add(TableTemplatingFunction(uniqueId, 5)); 
+
+                }
                 else if (pb.BlockTotal == 6)
-                    InputDictionary[TableTemplatingFunction(newId, 6)] = EntitiesTemplatingFunction(newId, 6, pb.Center);
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 6, pb.Center);
+                    tables_dic[6].Add(TableTemplatingFunction(uniqueId, 6)); 
+
+                }
+                else
+                {
+                    ent_string = ent_string + EntitiesTemplatingFunction(newId, 7, pb.Center);
+                    tables_dic[7].Add(TableTemplatingFunction(uniqueId, 7));
+
+                }
 
             }
-            TexttoFile(InputDictionary);
+            TexttoFile(tables_dic ,ent_string);
+        }
+        //5848
+        //8660
+
+        private List<int> FindTablesIndices()
+        {
+            //string template = @ +Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockTableRecord" +
+            //                                 Environment.NewLine + " 2" + Environment.NewLine +
+            //                                 "EF3_HATCH_{0}" + Environment.NewLine;
+            List<int> tables_input_list = new List<int>();
+            bool lookForZ = false;
+            Console.WriteLine(tables_start);
+            Console.WriteLine(tables_end);
+            foreach (var x in Enumerable.Range(tables_start, tables_end))
+            {
+
+                if (_inputFile[x].Contains("_HATCH_"))
+                {
+                    Console.WriteLine(_inputFile[x]);
+                }
+                //if (_inputFile[x].Contains("AcDbSymbolTableRecord") && _inputFile[x + 2].Contains("AcDbBlockTableRecord") && _inputFile[x+4].Contains("HATCH"))
+                //{
+                //    lookForZ = true;
+                   
+                //}
+                //if (lookForZ)
+                //{
+                //    if (_inputFile[x].Contains("0.0"))
+                //    {
+                //        tables_input_list.Add(x);
+                //        lookForZ = false;
+
+                //    }
+
+                //}
+
+            }
+            return tables_input_list;
+
         }
 
 
 
-
-        private void TexttoFile(Dictionary<string, string> outPutDic)
+        private void TexttoFile(Dictionary<int, List<string>> tables_dic, string entities_string)
         {
             int count = 0;
             string long_string = "";
             string long_string_tables = "";
+
+            var indices = FindTablesIndices(); 
+            foreach( var index in indices)
+            {
+                Console.WriteLine(index); 
+            }
+            Console.ReadKey(); 
+
             //Console.WriteLine(entity_end);
             //Console.WriteLine(tables_end);
             //Console.WriteLine("============");
             //Console.ReadKey();
-            foreach (var key in outPutDic.Keys)
-            {
-                long_string = long_string + outPutDic[key];
-                long_string_tables = long_string_tables + key;
-            }
+            //foreach (var key in outPutDic.Keys)
+            //{
+            //    long_string = long_string + outPutDic[key];
+            //    long_string_tables = long_string_tables + key;
+            //}
             //Console.WriteLine(long_string_tables);
             //Console.ReadKey(); 
-            var text = new StringBuilder();
+            //var text = new StringBuilder();
 
 
-            List<string> new_file = new List<string>();
-            foreach (var x in _inputFile)
-            {
-                new_file.Add(x);
-                if (count == (tables_end - 1))
-                {
-                    //outFile.Write(long_string_tables + Environment.NewLine);
-                    foreach (var key in outPutDic.Keys)
-                    {
-                        new_file.Add(key);
-                        Console.WriteLine(key);
-                    }
+            //List<string> new_file = new List<string>();
+            //foreach (var x in _inputFile)
+            //{
+            //    new_file.Add(x);
+            //    if (count == (tables_end - 1))
+            //    {
+            //        //outFile.Write(long_string_tables + Environment.NewLine);
+            //        //foreach (var key in outPutDic.Keys)
+            //        //{
+            //        //    new_file.Add(key);
+            //        //    Console.WriteLine(key);
+            //        //}
 
 
-                }
+            //    }
 
-                if (count == (entity_end - 2))
-                {
-                    foreach (var key in outPutDic.Keys)
-                    {
-                        new_file.Add(outPutDic[key]);
-                    }
+            //    if (count == (entity_end - 2))
+            //    {
+                   
+            //            new_file.Add(entities_string);
+                    
 
-                }
-                count += 1;
-            }
+            //    }
+            //    count += 1;
+            //}
 
-            using (StreamWriter outFile = new StreamWriter(_outputFilePath))
-            {
-                foreach (var line in new_file)
-                {
-                    outFile.WriteLine(line);
+            //using (StreamWriter outFile = new StreamWriter(_outputFilePath))
+            //{
+            //    foreach (var line in new_file)
+            //    {
+            //        outFile.WriteLine(line);
 
-                }
+            //    }
 
-                outFile.Flush();
-                outFile.Close();
-            }
+            //    outFile.Flush();
+            //    outFile.Close();
+            //}
         }
 
         public void ParseFile()

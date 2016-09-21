@@ -72,51 +72,252 @@ namespace BallastCalculator
             }
         }
         //Called By Constructor
+//Variables used:
+//IFI_Value(pulled from excel, per module)
+//ballastLoc variable(previously calculated, per module)...
+//-------------
+//| 1 | 2 | 3 |
+//-------------
+//| 4 | 5 | 6 |
+//-------------
+//| 7 | 8 | 9 |
+//-------------
+
+//ModNW - portion of IFI_Value sent to northwest corner of module
+//ModNE - portion of IFI_Value sent to northeast corner of module
+//ModSW - portion of IFI_Value sent to southwest corner of module
+//ModSE - portion of IFI_Value sent to southeast corner of module
+//northRow - modifier for north row feet(1.4 for now)
+//southRow - modifier for south row feet(1.6 for now)
+
+// */
+        private List<double> CornerWeightContribution(int ballastLoc, double IFI_Value)
+        {
+            double ModNW = 0;
+            double ModNE = 0;
+            double ModSW = 0;
+            double ModSE = 0;
+            double northRow = 1.4;
+            double southRow = 1.6;
+            List<double> mod_values = new List<double>();
+
+            if (ballastLoc == 1 | ballastLoc == 0 )
+            {
+                ModNW = IFI_Value * 2 / 7 * northRow;
+                ModNE = IFI_Value * 2 / 7 * northRow;
+                ModSW = IFI_Value * 2 / 7;
+                ModSE = IFI_Value * 1 / 7;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 2)
+            {
+                ModNW = IFI_Value * 1 / 3 * northRow;
+                ModNE = IFI_Value * 1 / 3 * northRow;
+                ModSW = IFI_Value * 1 / 6;
+                ModSE = IFI_Value * 1 / 6;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 3)
+            {
+                ModNW = IFI_Value * 2 / 7 * northRow;
+
+                ModNE = IFI_Value * 2 / 7 * northRow;
+
+                ModSW = IFI_Value * 1 / 7;
+
+                ModSE = IFI_Value * 2 / 7;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 4)
+            {
+                ModNW = IFI_Value * 1 / 3;
+
+                ModNE = IFI_Value * 1 / 6;
+
+                ModSW = IFI_Value * 1 / 3;
+
+                ModSE = IFI_Value * 1 / 6;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 5)
+            {
+                ModNW = IFI_Value * 1 / 4;
+
+                ModNE = IFI_Value * 1 / 4;
+
+                ModSW = IFI_Value * 1 / 4;
+
+                ModSE = IFI_Value * 1 / 4;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 6)
+            {
+                ModNW = IFI_Value * 1 / 6;
+
+                ModNE = IFI_Value * 1 / 3;
+
+                ModSW = IFI_Value * 1 / 6;
+
+                ModSE = IFI_Value * 1 / 3;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 7)
+            {
+                ModNW = IFI_Value * 1 / 3;
+
+                ModNE = IFI_Value * 1 / 6;
+
+                ModSW = IFI_Value * 1 / 3 * southRow;
+
+                ModSE = IFI_Value * 1 / 6 * southRow;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 8)
+            {
+                ModNW = IFI_Value * 1 / 4;
+
+                ModNE = IFI_Value * 1 / 4;
+
+
+                ModSW = IFI_Value * 1 / 4 * southRow;
+
+                ModSE = IFI_Value * 1 / 4 * southRow;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else if (ballastLoc == 9)
+            {
+                ModNW = IFI_Value * 1 / 6;
+
+                ModNE = IFI_Value * 1 / 3;
+
+                ModSW = IFI_Value * 1 / 6 * southRow;
+
+                ModSE = IFI_Value * 1 / 3 * southRow;
+                mod_values.Add(ModNE);
+                mod_values.Add(ModNW);
+                mod_values.Add(ModSW);
+                mod_values.Add(ModSE);
+                return mod_values;
+
+
+            }
+            else
+                return mod_values;
+          
+                                
+
+        }
+        
         private void CalculatePanelCorners(EcoPanel EcoPanel)
         {
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
-            Tuple<double, double> corner_neighbor_east = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NWest
-            Tuple<double, double> corner_neighbor_north = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height));//NEast
-            Tuple<double, double> corner_neighbor_south = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 - BlocksValues.Height)); //SEast
-            Tuple<double, double> corner_neighbor_west = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 - BlocksValues.Height)); //SWest
+            Tuple<double, double> corner_neighbor_NW = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height)); //NWest
+            Tuple<double, double> corner_neighbor_NE = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start + .5 * (17.494 + BlocksValues.Height));//NEast
+            Tuple<double, double> corner_neighbor_SE = new Tuple<double, double>(x_start + .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 + BlocksValues.Height)); //SEast
+            Tuple<double, double> corner_neighbor_SW = new Tuple<double, double>(x_start - .5 * (.5 + BlocksValues.Width), y_start - .5 * (17.494 + BlocksValues.Height)); //SWest
             List<Tuple<double, double>> temp_list = new List<Tuple<double, double>>();
-            temp_list.Add(corner_neighbor_east);
-            temp_list.Add(corner_neighbor_west);
-            temp_list.Add(corner_neighbor_north);
-            temp_list.Add(corner_neighbor_south);
-          
+            temp_list.Add(corner_neighbor_NE);
+            temp_list.Add(corner_neighbor_NW);
+            temp_list.Add(corner_neighbor_SW);
+            
+            temp_list.Add(corner_neighbor_SE);
+            var mod_values = CornerWeightContribution(EcoPanel.BallastLocation, EcoPanel.ValueFromExcel);
+            if(mod_values.Count == 0 )
+            {
+                Console.WriteLine(EcoPanel.BallastLocation); 
+                Console.ReadKey();
+            }
+
             for (int x = 0; x < temp_list.Count; x++)
             {
                 //Console.WriteLine(temp_list[x]); 
-                List<PanelBase> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) < .5 && Math.Abs(c.Center.Item2 -temp_list[x].Item2) < .5 ).ToList();
-                List<EcoPanel> matching_panels = PanelList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) < .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) < .5).ToList();
-                if (matching_bases.Count() == 0)
+                if(PanelBaseList.Count == 0 )
                 {
                     PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
-                    temp.BlockWeight = EcoPanel.ValueFromExcel;
+
+                    temp.BlockWeight = mod_values[x];
                     temp.BlockWeightList.Add(EcoPanel.ValueFromExcel);
                     PanelBaseList.Add(temp);
                 }
-                //if(matching_panels.Count() != 0)
-                //{
-                //    foreach (var i in matching_panels)
-                //    {
-                //        i.BlockWeightList.Add(i.ValueFromExcel);
-                //    }
-
-                //}
                 else
                 {
-                    //Console.WriteLine(EcoPanel.ValueFromExcel);
-                    //Console.ReadKey();
-                   
+                    List<PanelBase> matching_bases = PanelBaseList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) <= .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) <= .5).Distinct().ToList();
+                    PanelBase temp = new PanelBase(PanelBaseList.Count.ToString(), EcoPanel.BallastLocation, temp_list[x], EcoPanel.ValueFromExcel);
+                    temp.BlockWeight = mod_values[x];
+                    temp.BlockWeightList.Add(EcoPanel.ValueFromExcel);
+                    PanelBaseList.Add(temp);
+                    foreach (var p in matching_bases)
+                    {
+                        p.BlockWeightList.Add(p.BlockWeight);
+
+                    }
+
+
+
+
+                    //Console.WriteLine(matching_bases.Count);
+
+
 
 
                 }
+                //List<EcoPanel> matching_panels = PanelList.Where(c => Math.Abs(c.Center.Item1 - temp_list[x].Item1) < .5 && Math.Abs(c.Center.Item2 - temp_list[x].Item2) < .5).Distinct().ToList();
+
+
 
             }
-        }
+
+            }
+        
         private void CalculateBlockTotalValues(PanelBase base_panel)
         {
             double IFI_Base_Total = 0;

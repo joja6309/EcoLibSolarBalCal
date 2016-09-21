@@ -143,30 +143,30 @@ namespace BallastCalculator
             //    x.ValueFromExcel = excel_val.Pop();
             //}
             grid.SetExcelValues();
-            
-          
-            
-            Console.WriteLine("Block Calculations: ");
-            Console.WriteLine("=================="); 
+
+
+
+            //Console.WriteLine("Block Calculations: ");
+            //Console.WriteLine("=================="); 
             grid.RunBasePanelCalculations();
             var final_bases = grid.GetPanelBases();
-            foreach( var panel in final_bases)
+            foreach (var panel in final_bases)
             {
                 Console.WriteLine("=======================");
                 Console.WriteLine("Base Id {0}", panel.UniqueID);
-                Console.WriteLine("Block Weights on this base"); 
-                foreach(var p in panel.BlockWeightList)
+                Console.WriteLine("Block Weights on this base");
+                foreach (var p in panel.BlockWeightList)
                 {
-                    Console.WriteLine(p); 
+                    Console.WriteLine(p);
                 }
                 Console.WriteLine("Block Total {0}", panel.BlockTotal);
                 Console.WriteLine("Block Weight {0}", panel.BlockWeight);
                 Console.WriteLine("=======================");
-                
+
             }
             Console.ReadKey();
 
-            dxfInterface.GenerateFileOut(final_bases);
+            //dxfInterface.GenerateFileOut(final_bases);
             //foreach(var c in final_bases)
             //{
             //    Console.WriteLine("============");

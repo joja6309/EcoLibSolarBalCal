@@ -16,3 +16,4 @@ C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\bin
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\bin\Debug\Dimension.pdb
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\obj\Debug\Dimension.dll
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\obj\Debug\Dimension.pdb
+C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\Dimension\Dimension\obj\Debug\Dimension.csprojResolveAssemblyReference.cache

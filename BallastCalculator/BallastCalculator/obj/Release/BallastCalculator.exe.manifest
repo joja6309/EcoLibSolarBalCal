@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="54272">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="55808">
       <assemblyIdentity name="BallastCalculator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ujm+OqkJ5/E3BVQkcg0/QXzI2PDPpDOFGqDTpLW+WC8=</dsig:DigestValue>
+        <dsig:DigestValue>vIjqyZac8lYqHycLui4sqvtEaTMP6BaWtOjtX14olcY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -61,7 +61,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4RH/1NTYoZjU5b/3DRDoHR6xCBiSoeV5U08dJ4pY2PM=</dsig:DigestValue>
+        <dsig:DigestValue>pWOas+L8B53DIcGR8fKsUdOpyMk0C44kEQKtSAUdC9E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DXFInterface.dll" size="10752">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DXFInterface.dll" size="10240">
       <assemblyIdentity name="DXFInterface" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>84+pA1wga31g/Wwd+MWvWYyIyIekeK4cdzxouXI302k=</dsig:DigestValue>
+        <dsig:DigestValue>hxRQMvHENPZ4mDXz8eoc8SsnlnSUTERuMn/XKdZWPZg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -299,10 +299,10 @@ namespace Dimensions
 
                 }
             public string UniqueID;
-            public List<int> PanelIDList = new List<int>();
             public List<double> BlockWeightList = new List<double>(); 
             public string EdgeID;
             public int LoadShare;
+            List<double> Mod_Weight_Values; 
             public double LoadValue;
             public int BallastLocation;
             public double BlockWeight;
