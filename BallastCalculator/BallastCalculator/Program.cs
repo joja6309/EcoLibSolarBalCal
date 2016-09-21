@@ -150,7 +150,7 @@ namespace BallastCalculator
             //Console.WriteLine("Block Calculations: ");
             //Console.WriteLine("=================="); 
             grid.RunBasePanelCalculations();
-            var final_bases = grid.GetPanelBases();
+            List<Base> final_bases = grid.PanelBaseList;
             foreach (var panel in final_bases)
             {
                 Console.WriteLine("=======================");

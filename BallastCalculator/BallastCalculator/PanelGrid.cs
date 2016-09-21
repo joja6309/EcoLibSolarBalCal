@@ -11,7 +11,7 @@ namespace BallastCalculator
     {
         private readonly BasicDimensions BlocksValues;
         private List<EcoPanel> PanelList;
-        private List<Base> PanelBaseList = new List<Base>();
+        public List<Base> PanelBaseList = new List<Base>();
         private List<double> list = new List<double>{ 155.573628951034,90.3798510480827,
                 109.436766290018,
                 108.672042183518,
@@ -245,12 +245,13 @@ namespace BallastCalculator
                 {
                     if (PanelBaseList.Count == 0)
                     {
-                        Console.WriteLine(x);
-                        Console.WriteLine(temp_list[x]);
-                        Console.WriteLine(mod_values[x]);
-                        Console.ReadKey();
+                        //Console.WriteLine(x);
+                        //Console.WriteLine(temp_list[x]);
+                        //Console.WriteLine(mod_values[x]);
+                        //Console.ReadKey();
                         Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
                         new_base.ContributionList.Add(mod_values[x]);
+                    PanelBaseList.Add(new_base);
                     }
                     else
                     {
@@ -268,10 +269,12 @@ namespace BallastCalculator
                         {
                             Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
                             new_base.ContributionList.Add(mod_values[x]);
-                        }
-
+                        PanelBaseList.Add(new_base);
 
                     }
+
+
+                }
                 }
 
             }
