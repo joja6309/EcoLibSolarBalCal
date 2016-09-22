@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using Dimensions;
 using System.Linq;
+//using Autodesk.AutoCAD.
 
 
 namespace DXFInterface
@@ -23,8 +24,6 @@ namespace DXFInterface
         private BasicDimensions BlocksSectionValues = new BasicDimensions();
         private IFIPerimeter EntitiesIFI = new IFIPerimeter();
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
-        private  List<int> tables_indices_W310 = new List<int>();
-        private List<int> tables_indices_WO310 = new List<int>();
         private readonly bool isLandScape;
         public DxfIO(string inputfilePath, string outputfilename, string panelName, bool land)
         { 
@@ -70,11 +69,10 @@ namespace DXFInterface
                                            + "EF3_HATCH_{0}" + Environment.NewLine +
                                            " 10" + Environment.NewLine + "{2}" + Environment.NewLine
                                            + " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
-                                           " 30" + Environment.NewLine + "0.0" + Environment.NewLine;
+                                           " 30" + Environment.NewLine + "0.0";
             string formated_template = String.Format(template, block_case, uniqueId,formated_X, formated_Y);
             return formated_template;
         }
-
         public void GenerateFileOut(List<Base> final_list)
         {
             Random rand = new Random();
@@ -97,6 +95,7 @@ namespace DXFInterface
                 rand_num = rand_num + 1;
                 string formated_number = String.Format("{0:00000}", rand_num);
                 string newId = uniqueId + formated_number;
+                
                 if (pb.BallastBlockValue == 1)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 1, pb.Center);
@@ -143,6 +142,12 @@ namespace DXFInterface
                     list_7_template.Add(TableTemplatingFunction(newId, 7));
 
                 }
+                if (pb != final_list[final_list.Count - 1 ])
+                {
+                    ent_string = ent_string + Environment.NewLine; 
+
+                }
+
 
             }
             tables_dic.Add(1, list_1_template);
@@ -155,84 +160,15 @@ namespace DXFInterface
                 );
             TexttoFile(tables_dic ,ent_string); 
         }
-      
-        private void FindTablesIndices()
-        {
-          
-            foreach (var x in Enumerable.Range(tables_start, tables_end))
-            {
-
-                if (_inputFile[x + 4 ].Contains("_HATCH_") && _inputFile[x].Contains("AcDbSymbolTableRecord") && _inputFile[x + 2].Contains("AcDbBlockTableRecord"))
-                {
-                  
-                    if (_inputFile[x + 7].Contains("310"))
-                    {
-                        tables_indices_W310.Add(x + 7);
-                    }
-                    else if (_inputFile[x+5].Contains("340"))
-                    {  
-
-                        tables_indices_WO310.Add(x + 6);
-                    }
-                    
-                }
-               
-             
-
-            }
-        }
-
-
-
         private void TexttoFile(Dictionary<int, List<string>> tables_dic, string entities_string)
         {
            
             int count = 0;
-            FindTablesIndices();
-            int hatch_2_write = 1; 
             List<string> new_file = new List<string>();
             foreach (var x in _inputFile)
             {
                 new_file.Add(x);
-                var index_match_W310 = tables_indices_W310.Where(c => c.Equals(count));
-                var index_match_WO310 = tables_indices_WO310.Where(c => c.Equals(count)); 
-                if (index_match_W310.Count() != 0 )
-                {
-                  foreach(var r in tables_dic[hatch_2_write])
-                    {
-                        new_file.Add(r);
-                        if (r != tables_dic[hatch_2_write][tables_dic[hatch_2_write].Count - 1 ])
-                        {
-                            new_file.Add("310");
-
-                        }
-                        else
-                        {
-                            new_file.Add("0");
-                        }
-
-                    }
-                    hatch_2_write = hatch_2_write + 1;
-                }
-                else if (index_match_WO310.Count() != 0 )
-                {
-                    new_file.Add("310");
-                    foreach(var t in tables_dic[hatch_2_write])
-                    {
-                        new_file.Add(t);
-                        if (t != tables_dic[hatch_2_write][tables_dic[hatch_2_write].Count - 1 ])
-                        {
-                            new_file.Add("310");
-
-                        }
-                        else
-                        {
-                            new_file.Add("0");
-                        }
-                    }
-                    hatch_2_write = hatch_2_write + 1;
-                 }
-
+                
                 if (count.Equals(entity_start))
                 {
                     new_file.Add(entities_string);
@@ -254,7 +190,6 @@ namespace DXFInterface
                 outFile.Close();
             }
         }
-
         public void ParseFile()
         {
 
@@ -322,7 +257,6 @@ namespace DXFInterface
             return;
 
         }
-
         public BasicDimensions GetValuesFromBlockSection()
         {
             return BlocksSectionValues;

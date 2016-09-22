@@ -53,9 +53,15 @@ namespace BallastCalculator
             bool land;
             ExcelIO ExInterface = new ExcelIO(excel_path);
             ExInterface.ProcessFirstSheet();
+            Console.WriteLine("Processing First Sheet...");
+
             land = ExInterface.land;
             var bal = ExInterface.bal; 
             DxfIO dxfInterface = new DxfIO(file_path, output_path, panelName, land);
+            Console.WriteLine("Complete!");
+
+            Console.WriteLine("Parsing DXF input... ");
+
             dxfInterface.ParseFile();
             BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
             IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
@@ -63,16 +69,41 @@ namespace BallastCalculator
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
+            Console.WriteLine("Complete!");
+
             foreach (EcoPanel EcoPanel in PanelList)
             {
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
             }
+            Console.WriteLine("Reading/Writing Excel..."); 
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList,bal);
-            Stack<double> excel_val = new Stack<double>();
-            grid.SetExcelValues();
+            foreach(var panel in grid.PanelList )
+            {
+                if (land)
+                {
+                    //KB DEBUG: uplift and sliding were backwards, fixed it.
+                    ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+                    panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
+                    Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+
+                }
+                else
+                {
+                    //KB DEBUG: uplift and sliding were backwards, fixed it.
+                    ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+                    panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
+                    Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+
+                }
+
+            }
+            Console.WriteLine("Complete!");
+    
             grid.RunBasePanelCalculations();
+
             List<Base> final_bases = grid.PanelBaseList;
+
             dxfInterface.GenerateFileOut(final_bases);
 
 
@@ -82,19 +113,7 @@ namespace BallastCalculator
             //    //Console.WriteLine("Panel Lift count: " + panel.Uplift);
             //    //Console.WriteLine("Panel Sliding Count: " + panel.Sliding);
 
-            //    if (land)
-            //    {
-            //        //KB DEBUG: uplift and sliding were backwards, fixed it.
-            //        ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-            //        panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
-            //    }
-            //    else
-            //    {
-            //        //KB DEBUG: uplift and sliding were backwards, fixed it.
-            //        ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-            //        panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
-            //    }
-            //    Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+          
 
             //    //Console.WriteLine("-----------------------------------");
             //    //Console.WriteLine("NE zone: " + panel.NE_Zone);

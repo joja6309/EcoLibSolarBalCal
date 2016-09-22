@@ -10,7 +10,7 @@ namespace BallastCalculator
     class PanelGrid
     {
         private readonly BasicDimensions BlocksValues;
-        private List<EcoPanel> PanelList;
+        public List<EcoPanel> PanelList;
         public List<Base> PanelBaseList = new List<Base>();
         private List<double> list = new List<double>{ 155.573628951034,90.3798510480827,
                 109.436766290018,
