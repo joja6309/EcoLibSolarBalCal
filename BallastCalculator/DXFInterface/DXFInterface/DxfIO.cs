@@ -60,7 +60,7 @@ namespace DXFInterface
        
         private string TableTemplatingFunction(string uniqueId, int block_case)
         {
-            string template = @"{1}" + Environment.NewLine; 
+            string template = @"{1}"; 
             string formated = String.Format(template, block_case, uniqueId);
             return formated;
         }
@@ -76,7 +76,7 @@ namespace DXFInterface
                                            + "EF3_HATCH_{0}" + Environment.NewLine +
                                            " 10" + Environment.NewLine + "{2}" + Environment.NewLine
                                            + " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
-                                           " 30" + Environment.NewLine + "0.0";
+                                           " 30" + Environment.NewLine + "0.0" + Environment.NewLine;
             string formated_template = String.Format(template, block_case, uniqueId, centerpoint.Item1, centerpoint.Item2);
             return formated_template;
         }
@@ -89,16 +89,17 @@ namespace DXFInterface
             Dictionary<int, List<string>> tables_dic = new Dictionary<int, List<string>>();
             List<string> empty_list = new List<string>();
             string ent_string = ""; 
-            tables_dic.Add(1,empty_list );
-            tables_dic.Add(2, empty_list);
-            tables_dic.Add(3, empty_list);
-            tables_dic.Add(4, empty_list);
-            tables_dic.Add(5, empty_list);
-            tables_dic.Add(6, empty_list);
-            tables_dic.Add(7, empty_list);
-
-            Console.WriteLine(final_list.Count()); 
             
+            List<string> list_1_template = new List<string>();
+            List<string> list_2_template = new List<string>();
+            List<string> list_3_template = new List<string>();
+            List<string> list_4_template = new List<string>();
+            List<string> list_5_template = new List<string>();
+            List<string> list_6_template = new List<string>();
+            List<string> list_7_template = new List<string>();
+
+
+
 
             foreach (Base pb in final_list)
             {
@@ -107,14 +108,14 @@ namespace DXFInterface
                 if (pb.BallastBlockValue == 1)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 1, pb.Center);
-                    tables_dic[1].Add(TableTemplatingFunction(uniqueId, 1));
+                    list_1_template.Add(TableTemplatingFunction(newId, 1));
 
                 }
                     
                 else if (pb.BallastBlockValue == 2)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 2, pb.Center);
-                    tables_dic[2].Add(TableTemplatingFunction(uniqueId, 2));
+                    list_2_template.Add(TableTemplatingFunction(newId, 2));
 
                 }
                    
@@ -122,36 +123,44 @@ namespace DXFInterface
                 else if (pb.BallastBlockValue == 3)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 3, pb.Center);
-                    tables_dic[3].Add(TableTemplatingFunction(uniqueId, 3)); 
+                    list_3_template.Add(TableTemplatingFunction(newId, 3));
 
                 }
                    
                 else if (pb.BallastBlockValue == 4)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 4, pb.Center);
-                    tables_dic[4].Add(TableTemplatingFunction(uniqueId, 4));
+                    list_4_template.Add(TableTemplatingFunction(newId, 4));
 
                 }
                 else if (pb.BallastBlockValue == 5)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 5, pb.Center);
-                    tables_dic[5].Add(TableTemplatingFunction(uniqueId, 5)); 
+                    list_5_template.Add(TableTemplatingFunction(newId, 5));
 
                 }
                 else if (pb.BallastBlockValue == 6)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 6, pb.Center);
-                    tables_dic[6].Add(TableTemplatingFunction(uniqueId, 6)); 
+                    list_6_template.Add(TableTemplatingFunction(newId, 6));
 
                 }
                 else
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 7, pb.Center);
-                    tables_dic[7].Add(TableTemplatingFunction(uniqueId, 7));
+                    list_7_template.Add(TableTemplatingFunction(newId, 7));
 
                 }
 
             }
+            tables_dic.Add(1, list_1_template);
+            tables_dic.Add(2, list_2_template);
+            tables_dic.Add(3, list_3_template);
+            tables_dic.Add(4, list_4_template);
+            tables_dic.Add(5, list_5_template);
+            tables_dic.Add(6, list_6_template);
+            tables_dic.Add(7, list_7_template
+                );
             TexttoFile(tables_dic ,ent_string); 
         }
         //5848
@@ -191,8 +200,7 @@ namespace DXFInterface
 
         private void TexttoFile(Dictionary<int, List<string>> tables_dic, string entities_string)
         {
-            Console.WriteLine(_outputFilePath);
-            Console.ReadKey(); 
+           
             int count = 0;
             FindTablesIndices();
             int hatch_2_write = 1; 
@@ -207,33 +215,45 @@ namespace DXFInterface
                   foreach(var r in tables_dic[hatch_2_write])
                     {
                         new_file.Add(r);
-                        Console.WriteLine(r);
+                        if (r != tables_dic[hatch_2_write][tables_dic[hatch_2_write].Count - 1 ])
+                        {
+                            new_file.Add("310");
+
+                        }
+                        else
+                        {
+                            new_file.Add("0");
+                        }
 
                     }
                     hatch_2_write = hatch_2_write + 1;
                 }
                 else if (index_match_WO310.Count() != 0 )
                 {
-                    new_file.Add(Environment.NewLine);
                     new_file.Add("310");
-                    new_file.Add(Environment.NewLine); 
                     foreach(var t in tables_dic[hatch_2_write])
                     {
                         new_file.Add(t);
-                        Console.WriteLine(t);
+                        if (t != tables_dic[hatch_2_write][tables_dic[hatch_2_write].Count - 1 ])
+                        {
+                            new_file.Add("310");
+
+                        }
+                        else
+                        {
+                            new_file.Add("0");
+                        }
                     }
                     hatch_2_write = hatch_2_write + 1;
                  }
 
-                if (count == (entity_end - 2))
+                if (count.Equals(entity_end - 2))
                 {
-                    Console.WriteLine(entities_string);
                     new_file.Add(entities_string);
                     
                 }
                 count += 1;
             }
-            Console.ReadKey();
 
 
             using (StreamWriter outFile = new StreamWriter(_outputFilePath))

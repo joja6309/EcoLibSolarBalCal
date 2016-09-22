@@ -151,21 +151,21 @@ namespace BallastCalculator
             //Console.WriteLine("=================="); 
             grid.RunBasePanelCalculations();
             List<Base> final_bases = grid.PanelBaseList;
-            foreach (var panel in final_bases)
-            {
-                Console.WriteLine("=======================");
-                Console.WriteLine("Base Id {0}", panel.UniqueID);
-                Console.WriteLine("Contribution list for base");
-                foreach (var p in panel.ContributionList)
-                {
-                    Console.WriteLine(p);
-                }
-                Console.WriteLine("Ballast Block Value {0}", panel.BallastBlockValue);
-                Console.WriteLine("Ballast Block Unrounded Value {0}", panel.UnroundedBallastBlockValue);
-                Console.WriteLine("=======================");
+            //foreach (var panel in final_bases)
+            //{
+            //    Console.WriteLine("=======================");
+            //    Console.WriteLine("Base Id {0}", panel.UniqueID);
+            //    Console.WriteLine("Contribution list for base");
+            //    foreach (var p in panel.ContributionList)
+            //    {
+            //        Console.WriteLine(p);
+            //    }
+            //    Console.WriteLine("Ballast Block Value {0}", panel.BallastBlockValue);
+            //    Console.WriteLine("Ballast Block Unrounded Value {0}", panel.UnroundedBallastBlockValue);
+            //    Console.WriteLine("=======================");
 
-            }
-            Console.ReadKey();
+            //}
+            //Console.ReadKey();
 
             dxfInterface.GenerateFileOut(final_bases);
 

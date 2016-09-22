@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="54784">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BallastCalculator.exe" size="54272">
       <assemblyIdentity name="BallastCalculator" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>yX5c0j6FGFoRtOKcLxvM0zkv0hAB+sGZULvad+h1Td8=</dsig:DigestValue>
+        <dsig:DigestValue>C9ztHwAbObsqLPraw9OJRHKXBwYcnv7+xKRDsTpjpk0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -85,7 +85,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>hrW3oekeRqQReH/oW66mhhtKb7Z+VORKOnDnOzWVeK8=</dsig:DigestValue>
+        <dsig:DigestValue>nSqu7oyIxwMXnCNRODwpcNI+7nk42PCu3qCU9mvUu3E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
