@@ -9,10 +9,7 @@ using System.Linq;
 namespace DXFInterface
 {
     public class DxfIO
-    {   //5852
-        //7649
-        //public InputParser InParse;
-        //public OutputGenerator OutGen;
+    {   
         private int block_start = 0;
         private int block_end = 0;
         private int entity_start = 0;
@@ -38,8 +35,6 @@ namespace DXFInterface
             isLandScape = land;
 
         }
-
-
         private FileStream CreateFile()
         {
             FileStream fs = new FileStream(_outputFilePath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -57,8 +52,7 @@ namespace DXFInterface
                 return Convert.ToString(let);
             }
         }
-       
-        private string TableTemplatingFunction(string uniqueId, int block_case)
+       private string TableTemplatingFunction(string uniqueId, int block_case)
         {
             string template = @"{1}"; 
             string formated = String.Format(template, block_case, uniqueId);
@@ -68,16 +62,16 @@ namespace DXFInterface
         {
             var formated_X = Math.Round(centerpoint.Item1, 13);
             var formated_Y = Math.Round(centerpoint.Item2, 13);
-            string template = @" 0" + Environment.NewLine + "INSERT" + Environment.NewLine + " 5" + Environment.NewLine +
+            string template = @"  0" + Environment.NewLine + "INSERT" + Environment.NewLine + " 5" + Environment.NewLine +
                                            "{1}" + Environment.NewLine + "330" + Environment.NewLine + "2" + Environment.NewLine + "100" + Environment.NewLine +
                                            "AcDbEntity" + Environment.NewLine + "  8" + Environment.NewLine +
-                                           "HATCH 1" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockReference" +
+                                           "HATCH {0}" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockReference" +
                                            Environment.NewLine + "  2" + Environment.NewLine
                                            + "EF3_HATCH_{0}" + Environment.NewLine +
                                            " 10" + Environment.NewLine + "{2}" + Environment.NewLine
                                            + " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
                                            " 30" + Environment.NewLine + "0.0" + Environment.NewLine;
-            string formated_template = String.Format(template, block_case, uniqueId, centerpoint.Item1, centerpoint.Item2);
+            string formated_template = String.Format(template, block_case, uniqueId,formated_X, formated_Y);
             return formated_template;
         }
 
@@ -85,11 +79,11 @@ namespace DXFInterface
         {
             Random rand = new Random();
             int rand_num = rand.Next(0, 20);
-            string uniqueId = RandomLetter.GetLetter() + RandomLetter.GetLetter() + RandomLetter.GetLetter();
+            string uniqueId = rand.Next(0,20).ToString() + rand.Next(0, 20).ToString() + rand.Next(0, 20).ToString();
+            
             Dictionary<int, List<string>> tables_dic = new Dictionary<int, List<string>>();
             List<string> empty_list = new List<string>();
             string ent_string = ""; 
-            
             List<string> list_1_template = new List<string>();
             List<string> list_2_template = new List<string>();
             List<string> list_3_template = new List<string>();
@@ -97,14 +91,12 @@ namespace DXFInterface
             List<string> list_5_template = new List<string>();
             List<string> list_6_template = new List<string>();
             List<string> list_7_template = new List<string>();
-
-
-
-
+            
             foreach (Base pb in final_list)
             {
                 rand_num = rand_num + 1;
-                string newId = uniqueId + rand_num.ToString();
+                string formated_number = String.Format("{0:00000}", rand_num);
+                string newId = uniqueId + formated_number;
                 if (pb.BallastBlockValue == 1)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 1, pb.Center);
@@ -163,29 +155,23 @@ namespace DXFInterface
                 );
             TexttoFile(tables_dic ,ent_string); 
         }
-        //5848
-        //8660
-
+      
         private void FindTablesIndices()
         {
-            //string template = @ +Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockTableRecord" +
-            //                                 Environment.NewLine + " 2" + Environment.NewLine +
-            //                                 "EF3_HATCH_{0}" + Environment.NewLine;
-          
           
             foreach (var x in Enumerable.Range(tables_start, tables_end))
             {
 
                 if (_inputFile[x + 4 ].Contains("_HATCH_") && _inputFile[x].Contains("AcDbSymbolTableRecord") && _inputFile[x + 2].Contains("AcDbBlockTableRecord"))
                 {
-                    //Console.WriteLine(_inputFile[x]);
-                    //Console.WriteLine(x);
+                  
                     if (_inputFile[x + 7].Contains("310"))
                     {
                         tables_indices_W310.Add(x + 7);
                     }
                     else if (_inputFile[x+5].Contains("340"))
-                    {  /* string add_310 = v*/
+                    {  
+
                         tables_indices_WO310.Add(x + 6);
                     }
                     
@@ -247,7 +233,7 @@ namespace DXFInterface
                     hatch_2_write = hatch_2_write + 1;
                  }
 
-                if (count.Equals(entity_end - 2))
+                if (count.Equals(entity_start))
                 {
                     new_file.Add(entities_string);
                     
@@ -423,8 +409,6 @@ namespace DXFInterface
                     temp_base.PanelID = panel_count;
                     EntitiesPanelList.Add(temp_base);
                     panel_count = panel_count + 1;
-
-
                 }
 
                 if (x.Contains("IFI"))
@@ -446,7 +430,6 @@ namespace DXFInterface
             }
 
         }
-
         private List<int> ScanForMarker(string marker, string[] section)
         {
             List<int> listOfIndicies = new List<int>();
@@ -464,14 +447,3 @@ namespace DXFInterface
     }
 }
 
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//

@@ -17,13 +17,10 @@ namespace ExcelInterface
         public bool def;
         public bool land;
         public double bal;
-
         private List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
         private List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
-        //KB DEBUG: corrected sliding and uplift cell values from 38 to 39
         private Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 39);
         private Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 39);
-        //List<int> WOBallasrreference_zones = new List<int>() {}
         private string referenceSheet;
         private string column;
 
@@ -43,7 +40,6 @@ namespace ExcelInterface
             land = CheckFirst("C33");
             bal = GetBalast("B34");
             SetReferences();
-
         }
         public void SetReferences()
         {
@@ -62,9 +58,6 @@ namespace ExcelInterface
         {
             InsertText(referenceSheet, upliftCell, uplift);
             InsertText(referenceSheet, slidingCell, sliding);
-            //Console.WriteLine(uplift);
-            //Console.WriteLine(sliding);
-            //Console.WriteLine("========");
             Update();
             Refresh();
             return;
@@ -139,7 +132,6 @@ namespace ExcelInterface
                                {
                                     e2wmod = 0;
                                     int tempe = startingCell_NE + defmod + nmod + e2wmod;
-                        //Console.WriteLine("row number for E2W: " + tempe);
                         ColumnPositions.Add(tempe);
                                     break;
                                }
@@ -147,7 +139,6 @@ namespace ExcelInterface
                                {
                                     e2wmod = 1;
                                     int tempe = startingCell_NE + defmod + nmod + e2wmod;
-                        //Console.WriteLine("row number for E2W: " + tempe);
                         ColumnPositions.Add(tempe);
                                     break;
                                }
@@ -159,7 +150,6 @@ namespace ExcelInterface
                                {
                                    w2emod = 0;
                         int tempw = startingCell_NW + defmod + nmod + w2emod;
-                        //Console.WriteLine("row number for W2E: " + tempw);
                         ColumnPositions.Add(tempw);
                                    break;
                                }
@@ -167,7 +157,6 @@ namespace ExcelInterface
                                {
                                    w2emod = 1;
                         int tempw = startingCell_NW + defmod + nmod + w2emod;
-                        //Console.WriteLine("row number for W2E: " + tempw);
                         ColumnPositions.Add(tempw);
                         break;
                                }
@@ -177,7 +166,6 @@ namespace ExcelInterface
                        {
                             int tempsw = startingCell_NW + defmod + 6 + w2emod;
                             int tempse = startingCell_NE + defmod + 6 + e2wmod;
-                            //Console.WriteLine("south row locations: " + tempse + " and " + tempsw);
                             ColumnPositions.Add(tempse);
                             ColumnPositions.Add(tempsw);
                        }
@@ -189,27 +177,12 @@ namespace ExcelInterface
                 Results.Add(Convert.ToDouble(return_cell));
             }
 
-            //foreach( var r in Results)
-            //{
-            //    Console.WriteLine(r); 
-            //}
-            //Console.ReadKey(); 
-
+           
             double final_value = Results.Max();
 
             return final_value;
         }
-        //          KB DEBUG: I couldn't see errors, so I tried to impliment the case structure I described
-                            
-        //           N0 S0 both
-        //           S0 1N only south
-        //           S1 just north
-        //           NEZone -> E2W
-        //           NWZone -> W2E
-        //          N0
-        //          N1 S1
-        //          N2 S1
-        //          S0
+     
         public bool CheckFirst(string cellCo)
         {
             int outInt = 0;
@@ -248,7 +221,6 @@ namespace ExcelInterface
         {
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
-                // tell Excel to recalculate formulas next time it opens the doc
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
                 excelDoc.WorkbookPart.Workbook.Save();
@@ -266,12 +238,10 @@ namespace ExcelInterface
             }
             return (WorksheetPart)excelDoc.WorkbookPart.GetPartById(sheet.Id);
         }
-        /// <see cref="IExcelDocument.ReadCell" />
         public string ReadCell(string sheetName, string cellCoordinates)
         {
             string string_cell = null;
-            //Console.WriteLine(cellCoordinates);
-            //Console.ReadKey(); 
+          
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
                 WorksheetPart wbpart = GetWorksheetPart(excelDoc, sheetName);
@@ -290,7 +260,6 @@ namespace ExcelInterface
                 return "0";
             }
         }
-        /// <see cref="IExcelDocument.InsertSharedStringItem(string, object)" />
         public void InsertText(string sheetName, Tuple<string, uint> cellCO, string text)
         {
             // Open the document for editing.

@@ -46,51 +46,37 @@ namespace BallastCalculator
 
 
             Application.Run(new UserGUI());
-            //Application.Run(new UserGUI());
-
-            //string file_path = FilePathContainer.dxfPath;
-            //string output_path = FilePathContainer.outPath;
-            //string excel_path = FilePathContainer.excelPath;
-            //string panelName = FilePathContainer.panelName;
-            //Console.WriteLine(excel_path);
-            //Console.WriteLine(output_path);
-            //Console.WriteLine(file_path);
-
-
             string file_path = FilePathContainer.dxfPath;
             string output_path = FilePathContainer.outPath;
             string excel_path = FilePathContainer.excelPath;
             string panelName = FilePathContainer.panelName;
-
             bool land;
-
             ExcelIO ExInterface = new ExcelIO(excel_path);
-            //Def B32
-            //Orent B33 
-            //Bal B34 
             ExInterface.ProcessFirstSheet();
             land = ExInterface.land;
             var bal = ExInterface.bal; 
-
             DxfIO dxfInterface = new DxfIO(file_path, output_path, panelName, land);
             dxfInterface.ParseFile();
-
-            //dxfInterface.RunOutTesting();
             BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
             IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
             List<EcoPanel> PanelList = dxfInterface.GetEntitiesPanels();
-
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
-
             foreach (EcoPanel EcoPanel in PanelList)
             {
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
             }
             PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList,bal);
-            
+            Stack<double> excel_val = new Stack<double>();
+            grid.SetExcelValues();
+            grid.RunBasePanelCalculations();
+            List<Base> final_bases = grid.PanelBaseList;
+            dxfInterface.GenerateFileOut(final_bases);
+
+
+
             //{
             //    //Console.WriteLine("Panel No. " + panel.PanelID + " " + panel.Center);
             //    //Console.WriteLine("Panel Lift count: " + panel.Uplift);
@@ -129,45 +115,7 @@ namespace BallastCalculator
             //    //Console.WriteLine("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
             //    //Console.ReadKey();
             //
-            Stack<double> excel_val = new Stack<double>();
 
-
-            //foreach( var x in list)
-            //{
-            //    excel_val.Push(x);
-            //    Console.WriteLine(x);
-            //}
-            //Console.WriteLine(excel_val.Count); 
-            //Console.ReadKey();
-            //foreach( var x in p_list)
-            //{
-            //    x.ValueFromExcel = excel_val.Pop();
-            //}
-            grid.SetExcelValues();
-
-
-
-            //Console.WriteLine("Block Calculations: ");
-            //Console.WriteLine("=================="); 
-            grid.RunBasePanelCalculations();
-            List<Base> final_bases = grid.PanelBaseList;
-            //foreach (var panel in final_bases)
-            //{
-            //    Console.WriteLine("=======================");
-            //    Console.WriteLine("Base Id {0}", panel.UniqueID);
-            //    Console.WriteLine("Contribution list for base");
-            //    foreach (var p in panel.ContributionList)
-            //    {
-            //        Console.WriteLine(p);
-            //    }
-            //    Console.WriteLine("Ballast Block Value {0}", panel.BallastBlockValue);
-            //    Console.WriteLine("Ballast Block Unrounded Value {0}", panel.UnroundedBallastBlockValue);
-            //    Console.WriteLine("=======================");
-
-            //}
-            //Console.ReadKey();
-
-            dxfInterface.GenerateFileOut(final_bases);
 
             //foreach(var c in final_bases)
             //{

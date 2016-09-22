@@ -31,6 +31,10 @@ namespace BallastCalculator
                 dxfTextBox.Text = openFileDialog1.FileName;
                 dxfPathStorage = openFileDialog1.FileName;
                 string out_name = openFileDialog1.FileName + "_out.dxf";
+                //var fn = System.IO.Path.GetFileNameWithoutExtension(openFileDialog1.FileName);
+                //Console.WriteLine(fn);
+                //Console.ReadKey(); 
+
                 DefaultTextBox.Text = out_name;
                 defaultOutStorage = out_name;
 

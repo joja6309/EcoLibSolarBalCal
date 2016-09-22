@@ -70,8 +70,7 @@ namespace BallastCalculator
                 CalculateBlockTotalValues(pb);
             }
         }
-        //Called By Constructor
-//Variables used:
+       
 //IFI_Value(pulled from excel, per module)
 //ballastLoc variable(previously calculated, per module)...
 //-------------
@@ -81,7 +80,6 @@ namespace BallastCalculator
 //-------------
 //| 7 | 8 | 9 |
 //-------------
-
 //ModNW - portion of IFI_Value sent to northwest corner of module
 //ModNE - portion of IFI_Value sent to northeast corner of module
 //ModSW - portion of IFI_Value sent to southwest corner of module
@@ -89,7 +87,6 @@ namespace BallastCalculator
 //northRow - modifier for north row feet(1.4 for now)
 //southRow - modifier for south row feet(1.6 for now)
 
-// */
         private List<double> CornerWeightContribution(int ballastLoc, double IFI_Value)
         {
             double ModNW = 0;
@@ -245,10 +242,7 @@ namespace BallastCalculator
                 {
                     if (PanelBaseList.Count == 0)
                     {
-                        //Console.WriteLine(x);
-                        //Console.WriteLine(temp_list[x]);
-                        //Console.WriteLine(mod_values[x]);
-                        //Console.ReadKey();
+                       
                         Base new_base = new Base(PanelBaseList.Count().ToString(), temp_list[x]);
                         new_base.ContributionList.Add(mod_values[x]);
                     PanelBaseList.Add(new_base);
@@ -278,16 +272,6 @@ namespace BallastCalculator
                 }
 
             }
-        
-
-
-
-
-
-
-
-            
-            
         private void CalculateBlockTotalValues(Base base_panel)
         {
             double IFI_Base_Total = 0;
@@ -354,52 +338,43 @@ namespace BallastCalculator
         {//KB DEBUG! Syntax wasn't working, returning all 0s for ballast locations
             foreach (EcoPanel EcoPanel in PanelList)
             {
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)))
                 if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0) && !EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(1))
                 {
                     EcoPanel.BallastLocation = 1;
                     EcoPanel.isEdge = true;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(1)))
                 else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(1))
                 {
                     EcoPanel.BallastLocation = 2;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0) && x.Equals(1)))
                 else if (EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(0) && !EcoPanel.DirectionList.Contains(1))
                 {
                     EcoPanel.BallastLocation = 3;
                     EcoPanel.isEdge = true;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3)))
                 else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(2) && !EcoPanel.DirectionList.Contains(3))
                 {
                     EcoPanel.BallastLocation = 4;
                     EcoPanel.isEdge = true;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(0) && x.Equals(1)))
                 else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3) && EcoPanel.DirectionList.Contains(2))
                 {
                     EcoPanel.BallastLocation = 5;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(0)))
                 else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(2) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(0))
                 {
                     EcoPanel.BallastLocation = 6;
                     EcoPanel.isEdge = true;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(2)))
                 else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && !EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(2))
                 {
                     EcoPanel.BallastLocation = 7;
                     EcoPanel.isEdge = true;
                 }
-                //else if (EcoPanel.DirectionList.Exists(x => x.Equals(1) && x.Equals(3) && x.Equals(0)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2)))
                 else if (EcoPanel.DirectionList.Contains(1) && EcoPanel.DirectionList.Contains(0) && EcoPanel.DirectionList.Contains(3) && !EcoPanel.DirectionList.Contains(2))
                 {
                     EcoPanel.BallastLocation = 8;
                 }
-                //if (EcoPanel.DirectionList.Exists(x => x.Equals(3) && x.Equals(1)) && !EcoPanel.DirectionList.Exists(x => x.Equals(2) && x.Equals(0)))
                 else if (EcoPanel.DirectionList.Contains(3) && EcoPanel.DirectionList.Contains(1) && !EcoPanel.DirectionList.Contains(2) && !EcoPanel.DirectionList.Contains(0))
                 {
                     EcoPanel.BallastLocation = 9;

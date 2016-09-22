@@ -188,14 +188,12 @@ namespace Dimensions
         {
             public int PanelID;
 
-            public List<Base> PanelBases = new List<Base>();
             public int BallastLocation = 0;
             public List<EcoPanel> E2W = new List<EcoPanel>();
             public List<EcoPanel> W2E = new List<EcoPanel>();
             public List<EcoPanel> N2S = new List<EcoPanel>();
             public bool isEdge = false; 
             public List<EcoPanel> NeighborHood = new List<EcoPanel>();
-
             public int ColumnNumberE2W_LAND;
             public int ColumnNumberW2E_LAND;
             public int TrueE2Wcol_LAND;
@@ -293,12 +291,11 @@ namespace Dimensions
             public Base(string baseId, Tuple<double,double> center )
                 {
                     UniqueID = baseId;
-                    CenterPoint = center; 
+                    Center = center; 
                    
                 }
             public string UniqueID;
             public List<double> ContributionList = new List<double>();
-            public Tuple<double,double> CenterPoint = new Tuple<double,double>(0,0);
             public List<Tuple<double, double>> PointList = new List<Tuple<double, double>>();
             public double UnroundedBallastBlockValue;
             public double BallastBlockValue; 
