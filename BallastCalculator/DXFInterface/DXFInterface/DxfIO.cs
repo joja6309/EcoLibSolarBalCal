@@ -254,6 +254,11 @@ namespace DXFInterface
 
             ParseBlocks(block_start, block_end);
             ParseEntities(entity_start, entity_end);
+            List<string> scan = ScanForPanels(); 
+            foreach(var x in scan)
+            {
+                Console.WriteLine(x.ToString());
+            }
             return;
 
         }
@@ -364,19 +369,18 @@ namespace DXFInterface
             }
 
         }
-        private List<int> ScanForMarker(string marker, string[] section)
+        public List<string> ScanForPanels()
         {
-            List<int> listOfIndicies = new List<int>();
-            int line_count = 0;
-            foreach (var line in section)
+            List<string > listOflines = new List<string>();
+            foreach(var line in _inputFile)
             {
-                if (line.Contains(marker))
+                if(line.Contains("deg10") | line.Contains("deg5"))
                 {
-                    listOfIndicies.Add(line_count);
+                    listOflines.Add(line);
                 }
-                line_count = line_count + 1;
             }
-            return listOfIndicies;
+
+            return listOflines;
         }
     }
 }

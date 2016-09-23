@@ -209,19 +209,14 @@ namespace Dimensions
 
             public int NE_Zone = 4;
             public int NW_Zone = 4;
-
             public int IFI_W2E_Port = 4; //count of total panels east of a given module until break
             public int IFI_W2E_Land = 4;
-
             public int IFI_SOUTH_Land = 4; //EcoPanel.IFI_south = EcoPanel variable. For 0, EcoPanel is south edge. For 1, EcoPanel is NOT south edge.
             public int IFI_SOUTH_Port = 4; //EcoPanel.IFI_south = EcoPanel variable. For 0, EcoPanel is south edge. For 1, EcoPanel is NOT south edge.
-
             public int IFI_NORTH_Land = 4;
             public int IFI_NORTH_Port = 4;
-
             public int IFI_E2W_Port = 4;  //EcoPanel.IFI_E2W = EcoPanel variable. For 0, EcoPanel is east edge. For 1, EcoPanel is in col 2-4, for 2, EcoPanel is >= col 5
             public int IFI_E2W_Land = 4;   //EcoPanel.IFI_E2W = EcoPanel variable. For 0, EcoPanel is east edge. For 1, EcoPanel is in col 2-4, for 2, EcoPanel is >= col 5
-
             public List<int> DirectionList = new List<int>();
             public void SetPanelZones(IFIPerimeter perimeter)
             {
@@ -275,14 +270,11 @@ namespace Dimensions
 
 
             }
-
             public void CalculatePanelCenter(double center_x, double center_y)
             {
                 Center = new Tuple<double, double>((Xvalue + center_x), (Yvalue + center_y));
 
             }
-
-            public Dictionary<string, List<string>> ExcelResults = new Dictionary<string, List<string>>();
             public double ValueFromExcel = 0;
         
         }

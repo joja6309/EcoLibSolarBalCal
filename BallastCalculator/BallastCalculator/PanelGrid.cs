@@ -12,40 +12,8 @@ namespace BallastCalculator
         private readonly BasicDimensions BlocksValues;
         public List<EcoPanel> PanelList;
         public List<Base> PanelBaseList = new List<Base>();
-        private List<double> list = new List<double>{ 155.573628951034,90.3798510480827,
-                109.436766290018,
-                108.672042183518,
-                99.9250064931934,
-                89.5751514696727,
-                79.4525671971918,
-                133.959639797999,
-                75.0400248738035,
-                95.8335446926647,
-                97.2094696723151,
-                87.1839679312824,
-                74.2970806754946,
-                66.560550033073,
-                77.9123674347747,
-                115.083674833155,
-                125.417775213692,
-                118.060996242743,
-                66.560550033073,
-                95.8335446926647,
-                97.2094696723151,
-                87.1839679312824,
-                74.2970806754946,
-                66.560550033073,
-                71.8378419830429 };
         public Random rand = new Random();
-        public void SetExcelValues()
-        {
-            foreach (var x in PanelList)
-            {
-                x.ValueFromExcel = Convert.ToDouble(rand.Next(Convert.ToInt32(list.Min()),Convert.ToInt32(list.Max()))); 
-            }
-        }
         private double BallastValue;
-
         private bool Landscape;
         public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist, double bal) // Called First 
         {
@@ -330,9 +298,7 @@ namespace BallastCalculator
                 }
                 
             }
-            Console.WriteLine("Direction Lists Populated, press any key to continue:");
-            Console.ReadKey();
-
+      
         }
         public void CalculateBallastLocation()
         {//KB DEBUG! Syntax wasn't working, returning all 0s for ballast locations
