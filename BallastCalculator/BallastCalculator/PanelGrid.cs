@@ -14,7 +14,7 @@ namespace BallastCalculator
         public List<Base> PanelBaseList = new List<Base>();
         public Random rand = new Random();
         private double BallastValue;
-        private bool Landscape;
+        //private bool Landscape;
         public PanelGrid(BasicDimensions perimeter, List<EcoPanel> plist, double bal) // Called First 
         {
             BlocksValues = perimeter;
@@ -809,7 +809,7 @@ namespace BallastCalculator
         {
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
-            int input_n = 4;
+            int input_n = 6;
             List<Tuple<double, double, int>> neighborhood = new List<Tuple<double, double, int>>();
             for (int x = 0; x <= input_n; x++)
             {

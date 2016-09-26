@@ -75,28 +75,32 @@ namespace BallastCalculator
                 EcoPanel.SetPanelZones(IFIboarder);
             }
             //Console.WriteLine("Reading/Writing Excel..."); 
-            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList,bal);
-            //foreach(var panel in grid.PanelList )
-            //{
-            //    if (land)
-            //    {
-            //        //KB DEBUG: uplift and sliding were backwards, fixed it.
-            //        ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-            //        panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
-            //        //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList, bal);
 
-            //    }
-            //    else
-            //    {
-            //        //KB DEBUG: uplift and sliding were backwards, fixed it.
-            //        ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-            //        panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
-            //        //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+            ExcelIO.RUNIO(land, PanelList);
 
-            //    }
+//          foreach (var panel in grid.PanelList )
+//          {
+//              if (land)
+//              {
+//                  //KB DEBUG: uplift and sliding were backwards, fixed it.
+//                  ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+//                  panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
+//                  //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+//
+//              }
+//              else
+//              {
+//                  //KB DEBUG: uplift and sliding were backwards, fixed it.
+//                  ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+//                  panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
+//                  //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+//
+//              }
+//
+//          }
 
-            //}
-            //Console.WriteLine("Complete!");
+            Console.WriteLine("Complete!");
     
             grid.RunBasePanelCalculations();
 

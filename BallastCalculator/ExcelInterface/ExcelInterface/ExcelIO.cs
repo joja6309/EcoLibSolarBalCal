@@ -7,7 +7,6 @@ using DocumentFormat.OpenXml;
 using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 
-
 namespace ExcelInterface
 {
     public class ExcelIO
@@ -19,10 +18,10 @@ namespace ExcelInterface
         public double bal;
         private List<int> WODeflector_Refzones = new List<int>() { 103, 112, 121, 130, 139 };
         private List<int> WDeflector_Refzones = new List<int>() { 51, 60, 69, 78, 87 };
-        private Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 39);
-        private Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 39);
-        private string referenceSheet;
-        private string column;
+        public Tuple<string, uint> slidingCell = new Tuple<string, uint>("G", 39);
+        public Tuple<string, uint> upliftCell = new Tuple<string, uint>("C", 39);
+        public string referenceSheet;
+        public string column;
 
         public ExcelIO(string filePath)
         {
@@ -59,8 +58,8 @@ namespace ExcelInterface
         {
             InsertText(referenceSheet, upliftCell, uplift);
             InsertText(referenceSheet, slidingCell, sliding);
-            Update();
-            Refresh();
+            //Update();
+            //Refresh();
             return;
         }
         public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest) //KB DEBUG: changed to case style code, simpler to read/debug
@@ -182,8 +181,7 @@ namespace ExcelInterface
             double final_value = Results.Max();
 
             return final_value;
-        }
-     
+        }    
         public bool CheckFirst(string cellCo)
         {
             int outInt = 0;
@@ -218,17 +216,17 @@ namespace ExcelInterface
             return Convert.ToDouble(doubleCell);
 
         }
-        public void Update()
-        {
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
-            {
-                excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
-                excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
-                excelDoc.WorkbookPart.Workbook.Save();
-
-
-            }
-        }
+//      public void Update()
+//      {
+//          using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+//          {
+//              excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
+//              excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
+//              excelDoc.WorkbookPart.Workbook.Save();
+//
+//
+//          }
+//      }
         private WorksheetPart GetWorksheetPart(SpreadsheetDocument excelDoc, string sheetName)
         {
             Sheet sheet = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().SingleOrDefault(s => s.Name == sheetName);
@@ -344,15 +342,41 @@ namespace ExcelInterface
 
         /// <summary>Refreshes an Excel document by opening it and closing in background by the Excep Application</summary>
         /// <see cref="IExcelDocument.Refresh" />
-        public void Refresh()
+//       public void Refresh()
+//       {
+//           var excelApp = new Application();
+//           var workbook = excelApp.Workbooks.Open(_filePath,true );
+//           workbook.Close(true);
+//           excelApp.Quit();
+//       }
+        public void RUNIO(bool land, List<Dimensions.EcoPanel> PanelList)
         {
             var excelApp = new Application();
-            var workbook = excelApp.Workbooks.Open(_filePath,true );
-            workbook.Close(true);
+            foreach (var panel in PanelList )
+            {
+                if (land)
+                {
+                    //KB DEBUG: uplift and sliding were backwards, fixed it.
+                    WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+                    var workbook = excelApp.Workbooks.Open(_filePath, true);
+                    workbook.Close(true);
+                    panel.ValueFromExcel = CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
+                    //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+                }
+                else
+                {
+                    //KB DEBUG: uplift and sliding were backwards, fixed it.
+                    WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+                    var workbook = excelApp.Workbooks.Open(_filePath, true);
+                    workbook.Close(true);
+                    panel.ValueFromExcel = CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
+                    //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+                }
+            }
             excelApp.Quit();
-          
-
+            
         }
+
         private Cell GetCell(SpreadsheetDocument excelDoc, string sheetName, string cellCoordinates)
         {
             WorksheetPart worksheetPart = GetWorksheetPart(excelDoc, sheetName);

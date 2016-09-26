@@ -100,6 +100,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Dimension\Dimension\Dimension.csproj">
+      <Project>{9c034c84-95e8-4178-b400-82c9346c3291}</Project>
+      <Name>Dimension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DXFInterface\DXFInterface\DXFInterface.csproj">
+      <Project>{0dfb7611-5a1e-440c-af5b-48c084b34dbd}</Project>
+      <Name>DXFInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
