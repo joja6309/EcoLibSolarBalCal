@@ -61,19 +61,40 @@ namespace DXFInterface
         {
             var formated_X = Math.Round(centerpoint.Item1, 13);
             var formated_Y = Math.Round(centerpoint.Item2, 13);
-            string template = @"  0" + Environment.NewLine + "INSERT" + Environment.NewLine + " 5" + Environment.NewLine +
-                                           "{1}" + Environment.NewLine + "330" + Environment.NewLine + "2" + Environment.NewLine + "100" + Environment.NewLine +
-                                           "AcDbEntity" + Environment.NewLine + "  8" + Environment.NewLine +
-                                           "HATCH {0}" + Environment.NewLine + "100" + Environment.NewLine + "AcDbBlockReference" +
-                                           Environment.NewLine + "  2" + Environment.NewLine
-                                           + "EF3_HATCH_{0}" + Environment.NewLine +
-                                           " 10" + Environment.NewLine + "{2}" + Environment.NewLine
-                                           + " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
-                                           " 30" + Environment.NewLine + "0.0";
-            string formated_template = String.Format(template, block_case, uniqueId,formated_X, formated_Y);
+            string template = @"  0" + Environment.NewLine + "INSERT" + Environment.NewLine +
+                                "  5" + Environment.NewLine + "{1}" + Environment.NewLine +
+                                "330" + Environment.NewLine + "2" + Environment.NewLine +
+                                "100" + Environment.NewLine + "AcDbEntity" + Environment.NewLine +
+                                "  8" + Environment.NewLine + "HATCH {0}" + Environment.NewLine +
+                                "100" + Environment.NewLine + "AcDbBlockReference" + Environment.NewLine +
+                                "  2" + Environment.NewLine + "EF3_HATCH_{0}" + Environment.NewLine +
+                                " 10" + Environment.NewLine + "{2}" + Environment.NewLine +
+                                " 20" + Environment.NewLine + "{3}" + Environment.NewLine +
+                                " 30" + Environment.NewLine + "0.0";
+            string formated_template = string.Format(template, block_case, uniqueId, formated_X, formated_Y);
             return formated_template;
         }
-        public void GenerateFileOut(List<Base> final_list)
+        private string EntitiesTextTemplatingFunction(string uniqueId, Tuple<double, double> centerpoint, double input)
+        {
+            var formated_X = Math.Round(centerpoint.Item1, 13) + 8;
+            var formated_Y = Math.Round(centerpoint.Item2, 13);
+            string template = @"  0" + Environment.NewLine + "TEXT" + Environment.NewLine +
+                                "  5" + Environment.NewLine + "{0}" + Environment.NewLine +
+                                "330" + Environment.NewLine + "2" + Environment.NewLine +
+                                "100" + Environment.NewLine + "AcDbEntity" + Environment.NewLine +
+                                "  8" + Environment.NewLine + "EF3 TEXT" + Environment.NewLine +
+                                "100" + Environment.NewLine + "AcDbText" + Environment.NewLine +
+                                " 10" + Environment.NewLine + "{1}" + Environment.NewLine +
+                                " 20" + Environment.NewLine + "{2}" + Environment.NewLine +
+                                " 30" + Environment.NewLine + "0.0" + Environment.NewLine +
+                                " 40" + Environment.NewLine + "4.0" + Environment.NewLine +
+                                "  1" + Environment.NewLine + "{3}" + Environment.NewLine +
+                                "  7" + Environment.NewLine + "mytext" + Environment.NewLine +
+                                "100" + Environment.NewLine + "AcDbText";
+            string formated_template = string.Format(template, uniqueId, formated_X, formated_Y, input);
+            return formated_template;
+        }
+        public void GenerateFileOut(List<Base> final_list, List<EcoPanel> PanelList)
         {
             Random rand = new Random();
             int rand_num = rand.Next(0, 20);
@@ -82,13 +103,13 @@ namespace DXFInterface
             Dictionary<int, List<string>> tables_dic = new Dictionary<int, List<string>>();
             List<string> empty_list = new List<string>();
             string ent_string = ""; 
-            List<string> list_1_template = new List<string>();
-            List<string> list_2_template = new List<string>();
-            List<string> list_3_template = new List<string>();
-            List<string> list_4_template = new List<string>();
-            List<string> list_5_template = new List<string>();
-            List<string> list_6_template = new List<string>();
-            List<string> list_7_template = new List<string>();
+//          List<string> list_1_template = new List<string>();
+//          List<string> list_2_template = new List<string>();
+//          List<string> list_3_template = new List<string>();
+//          List<string> list_4_template = new List<string>();
+//          List<string> list_5_template = new List<string>();
+//          List<string> list_6_template = new List<string>();
+//          List<string> list_7_template = new List<string>();
             
             foreach (Base pb in final_list)
             {
@@ -99,14 +120,14 @@ namespace DXFInterface
                 if (pb.BallastBlockValue == 1)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 1, pb.Center);
-                    list_1_template.Add(TableTemplatingFunction(newId, 1));
+                    //list_1_template.Add(TableTemplatingFunction(newId, 1));
 
                 }
                     
                 else if (pb.BallastBlockValue == 2)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 2, pb.Center);
-                    list_2_template.Add(TableTemplatingFunction(newId, 2));
+                    //list_2_template.Add(TableTemplatingFunction(newId, 2));
 
                 }
                    
@@ -114,32 +135,32 @@ namespace DXFInterface
                 else if (pb.BallastBlockValue == 3)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 3, pb.Center);
-                    list_3_template.Add(TableTemplatingFunction(newId, 3));
+                    //list_3_template.Add(TableTemplatingFunction(newId, 3));
 
                 }
                    
                 else if (pb.BallastBlockValue == 4)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 4, pb.Center);
-                    list_4_template.Add(TableTemplatingFunction(newId, 4));
+                    //list_4_template.Add(TableTemplatingFunction(newId, 4));
 
                 }
                 else if (pb.BallastBlockValue == 5)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 5, pb.Center);
-                    list_5_template.Add(TableTemplatingFunction(newId, 5));
+                    //list_5_template.Add(TableTemplatingFunction(newId, 5));
 
                 }
                 else if (pb.BallastBlockValue == 6)
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 6, pb.Center);
-                    list_6_template.Add(TableTemplatingFunction(newId, 6));
+                    //list_6_template.Add(TableTemplatingFunction(newId, 6));
 
                 }
                 else
                 {
                     ent_string = ent_string + EntitiesTemplatingFunction(newId, 7, pb.Center);
-                    list_7_template.Add(TableTemplatingFunction(newId, 7));
+                    //list_7_template.Add(TableTemplatingFunction(newId, 7));
 
                 }
                 if (pb != final_list[final_list.Count - 1 ])
@@ -150,17 +171,42 @@ namespace DXFInterface
 
 
             }
-            tables_dic.Add(1, list_1_template);
-            tables_dic.Add(2, list_2_template);
-            tables_dic.Add(3, list_3_template);
-            tables_dic.Add(4, list_4_template);
-            tables_dic.Add(5, list_5_template);
-            tables_dic.Add(6, list_6_template);
-            tables_dic.Add(7, list_7_template
-                );
-            TexttoFile(tables_dic ,ent_string); 
+
+            ent_string = ent_string + Environment.NewLine;
+          foreach (Base pb in final_list)
+          {
+              rand_num = rand_num + 1;
+              string formated_number = String.Format("{0:00000}", rand_num);
+              string newId = uniqueId + formated_number;
+              ent_string = ent_string + EntitiesTextTemplatingFunction(newId, pb.Center, Math.Round(pb.UnroundedBallastBlockValue, 3));
+              if (pb != final_list[final_list.Count - 1])
+              {
+                  ent_string = ent_string + Environment.NewLine;
+              }
+          }
+            ent_string = ent_string + Environment.NewLine;
+
+            foreach (EcoPanel x in PanelList)
+          {
+              rand_num = rand_num + 1;
+              string formated_number = String.Format("{0:00000}", rand_num);
+              string newId = uniqueId + formated_number;
+              ent_string = ent_string + EntitiesTextTemplatingFunction(newId, x.Center, Math.Round(x.ValueFromExcel, 3));
+              if (x != PanelList[PanelList.Count - 1])
+              {
+                  ent_string = ent_string + Environment.NewLine;
+              }
+          }
+            //          tables_dic.Add(1, list_1_template);
+            //          tables_dic.Add(2, list_2_template);
+            //          tables_dic.Add(3, list_3_template);
+            //          tables_dic.Add(4, list_4_template);
+            //          tables_dic.Add(5, list_5_template);
+            //          tables_dic.Add(6, list_6_template);
+            //          tables_dic.Add(7, list_7_template);
+            TexttoFile(ent_string); 
         }
-        private void TexttoFile(Dictionary<int, List<string>> tables_dic, string entities_string)
+        private void TexttoFile(string entities_string)
         {
            
             int count = 0;

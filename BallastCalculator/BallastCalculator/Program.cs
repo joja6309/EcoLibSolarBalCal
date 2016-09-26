@@ -102,7 +102,7 @@ namespace BallastCalculator
 
             List<Base> final_bases = grid.PanelBaseList;
 
-            dxfInterface.GenerateFileOut(final_bases);
+            dxfInterface.GenerateFileOut(final_bases, PanelList);
             //List<string> matches = dxfInterface.ScanForPanels(); 
             //foreach 
 
