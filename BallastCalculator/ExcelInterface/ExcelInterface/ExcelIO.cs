@@ -6,6 +6,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
 using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
+using Dimensions;
 
 namespace ExcelInterface
 {
@@ -349,7 +350,7 @@ namespace ExcelInterface
 //           workbook.Close(true);
 //           excelApp.Quit();
 //       }
-        public void RUNIO(bool land, List<Dimensions.EcoPanel> PanelList)
+        public void RUNIO(bool land, List<EcoPanel> PanelList)
         {
             var excelApp = new Application();
             foreach (var panel in PanelList )

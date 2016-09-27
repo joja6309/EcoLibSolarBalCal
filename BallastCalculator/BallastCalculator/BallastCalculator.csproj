@@ -115,6 +115,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DropDownList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DropDownList.Designer.cs">
+      <DependentUpon>DropDownList.cs</DependentUpon>
+    </Compile>
     <Compile Include="PanelGrid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,8 +138,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="little_logo.png" />
+    <None Include="Resources\%24this.Icon.ico" />
+    <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DropDownList.resx">
+      <DependentUpon>DropDownList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserGUI.resx">
       <DependentUpon>UserGUI.cs</DependentUpon>
     </EmbeddedResource>

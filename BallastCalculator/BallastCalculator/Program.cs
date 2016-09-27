@@ -16,7 +16,9 @@ namespace BallastCalculator
         public static string excelPath;
         public static string dxfPath;
         public static string outPath;
-        public static string panelName;
+        public static string panelName = "";
+        public static string panelType;
+        public static List<string> panelNames; 
 
         static void SetExcelPath(string path)
         {
@@ -34,11 +36,13 @@ namespace BallastCalculator
         {
             panelName = panel;
         }
+        
+       
     }
+
 
     class Program
     {
-
 
         [STAThread]
         static void Main(string[] args)
@@ -50,16 +54,17 @@ namespace BallastCalculator
             string output_path = FilePathContainer.outPath;
             string excel_path = FilePathContainer.excelPath;
             string panelName = FilePathContainer.panelName;
-            bool land;
             ExcelIO ExInterface = new ExcelIO(excel_path);
             ExInterface.ProcessFirstSheet();
-
-            Console.WriteLine("Processing First Sheet...");
-            land = ExInterface.land;
+            var land = ExInterface.land;
             var bal = ExInterface.bal;
-            DxfIO dxfInterface = new DxfIO(file_path, output_path, panelName, land);
-            //Console.WriteLine("Complete!");
-            //Console.WriteLine("Parsing DXF input... ");
+            DxfIO dxfInterface = new DxfIO(file_path, output_path, land);
+            if (panelName == "")
+            {
+                FilePathContainer.panelNames = dxfInterface.ScanForPanels();
+                Application.Run(new DropDownList());
+                dxfInterface.SetBlockTitle(FilePathContainer.panelName);
+            }
             dxfInterface.ParseFile();
             BasicDimensions BlockPerimeter = dxfInterface.GetValuesFromBlockSection();
             IFIPerimeter IFIboarder = dxfInterface.GetIFIValues();
@@ -67,17 +72,15 @@ namespace BallastCalculator
             BlockPerimeter.CalculateCenter();
             IFIboarder.CalculateCenter();
             IFIboarder.SetCorners();
-            //Console.WriteLine("Complete!");
-
             foreach (EcoPanel EcoPanel in PanelList)
             {
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
             }
             //Console.WriteLine("Reading/Writing Excel..."); 
-            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList, bal);
+            //PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList, bal);
 
-            ExcelIO.RUNIO(land, PanelList);
+            //ExInterface.RUNIO(land, PanelList);
 
 //          foreach (var panel in grid.PanelList )
 //          {
@@ -100,13 +103,13 @@ namespace BallastCalculator
 //
 //          }
 
-            Console.WriteLine("Complete!");
+            //Console.WriteLine("Complete!");
     
-            grid.RunBasePanelCalculations();
+            //grid.RunBasePanelCalculations();
 
-            List<Base> final_bases = grid.PanelBaseList;
+            //List<Base> final_bases = grid.PanelBaseList;
 
-            dxfInterface.GenerateFileOut(final_bases, PanelList);
+            //dxfInterface.GenerateFileOut(final_bases, PanelList);
             //List<string> matches = dxfInterface.ScanForPanels(); 
             //foreach 
 

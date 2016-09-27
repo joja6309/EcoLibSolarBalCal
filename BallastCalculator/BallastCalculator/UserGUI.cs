@@ -182,7 +182,6 @@ namespace BallastCalculator
             }
             else
             {
-                FilePathContainer.panelName = textBox10.Text;
                 FilePathContainer.outPath = DefaultTextBox.Text;
                 FilePathContainer.excelPath = excelTextBox.Text;
                 FilePathContainer.dxfPath = dxfTextBox.Text; 
@@ -241,20 +240,7 @@ namespace BallastCalculator
         {
 
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Input Panel Name: ",this.textBox10.Text);
-            panelStorage = this.textBox10.Text;
-        }
-
-        private void textBox10_TextChanged(object sender, EventArgs e)
-        {
-            FilePathContainer.panelName = textBox10.Text;
-            panelStorage = this.textBox10.Text;
-
-        }
-
+        
         private void textBox11_TextChanged_1(object sender, EventArgs e)
         {
 

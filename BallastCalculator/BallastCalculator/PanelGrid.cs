@@ -182,7 +182,6 @@ namespace BallastCalculator
             mod_values.Add(1);
 
             return mod_values;
-                return mod_values;
         }
         private void CalculatePanelCorners(EcoPanel EcoPanel)
         {

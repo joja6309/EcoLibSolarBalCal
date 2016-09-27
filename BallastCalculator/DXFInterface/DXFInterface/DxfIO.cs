@@ -25,15 +25,20 @@ namespace DXFInterface
         private IFIPerimeter EntitiesIFI = new IFIPerimeter();
         private List<EcoPanel> EntitiesPanelList = new List<EcoPanel>();
         private readonly bool isLandScape;
-        public DxfIO(string inputfilePath, string outputfilename, string panelName, bool land)
+        public DxfIO(string inputfilePath, string outputfilename, bool land)
         { 
             _outputFilePath = outputfilename;
             _inputFilePath = inputfilePath;
             _inputFile = File.ReadAllLines(_inputFilePath);
-            BlockTitle = panelName;
             isLandScape = land;
 
+
         }
+        public void SetBlockTitle(string panelName)
+        {
+            BlockTitle = panelName; 
+        }
+       
         private FileStream CreateFile()
         {
             FileStream fs = new FileStream(_outputFilePath, FileMode.OpenOrCreate, FileAccess.Write);
@@ -417,14 +422,20 @@ namespace DXFInterface
         }
         public List<string> ScanForPanels()
         {
+           
             List<string > listOflines = new List<string>();
             foreach(var line in _inputFile)
             {
-                if(line.Contains("deg10") | line.Contains("deg5"))
+                if(line.Contains("10deg") | line.Contains("5deg"))
                 {
                     listOflines.Add(line);
                 }
             }
+            foreach(var x in listOflines)
+            {
+                Console.WriteLine(x);
+            }
+            Console.ReadKey();
 
             return listOflines;
         }

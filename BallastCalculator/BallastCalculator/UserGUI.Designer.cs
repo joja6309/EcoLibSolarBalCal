@@ -59,8 +59,6 @@ namespace BallastCalculator
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -127,7 +125,7 @@ namespace BallastCalculator
             // 
             this.excelButton.BackColor = System.Drawing.SystemColors.ControlDark;
             this.excelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.excelButton.Location = new System.Drawing.Point(369, 155);
+            this.excelButton.Location = new System.Drawing.Point(365, 137);
             this.excelButton.Name = "excelButton";
             this.excelButton.Size = new System.Drawing.Size(198, 26);
             this.excelButton.TabIndex = 6;
@@ -139,7 +137,7 @@ namespace BallastCalculator
             // outPutButton
             // 
             this.outPutButton.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.outPutButton.Location = new System.Drawing.Point(369, 112);
+            this.outPutButton.Location = new System.Drawing.Point(365, 94);
             this.outPutButton.Name = "outPutButton";
             this.outPutButton.Size = new System.Drawing.Size(202, 23);
             this.outPutButton.TabIndex = 9;
@@ -244,27 +242,6 @@ namespace BallastCalculator
             this.textBox9.Text = "Saved Panel Name: ";
             this.textBox9.TextChanged += new System.EventHandler(this.textBox9_TextChanged);
             // 
-            // textBox10
-            // 
-            this.textBox10.Location = new System.Drawing.Point(458, 83);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(212, 20);
-            this.textBox10.TabIndex = 21;
-            this.textBox10.Text = "-- Enter Panel Block Name Here --";
-            this.textBox10.TextChanged += new System.EventHandler(this.textBox10_TextChanged);
-            // 
-            // textBox11
-            // 
-            this.textBox11.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox11.Location = new System.Drawing.Point(352, 86);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(91, 13);
-            this.textBox11.TabIndex = 22;
-            this.textBox11.TabStop = false;
-            this.textBox11.Text = "Enter Panel Name: ";
-            this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged_1);
-            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -283,8 +260,6 @@ namespace BallastCalculator
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 206);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox10);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.textBox8);
             this.Controls.Add(this.textBox7);
@@ -327,8 +302,6 @@ namespace BallastCalculator
         private TextBox textBox7;
         private TextBox textBox8;
         private TextBox textBox9;
-        private TextBox textBox10;
-        private TextBox textBox11;
         private CheckBox checkBox1;
     }
 }
