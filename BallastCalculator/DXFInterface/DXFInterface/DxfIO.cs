@@ -252,11 +252,11 @@ namespace DXFInterface
             foreach (string x in _inputFile)
             {
 
-                if (x.Contains("BLOCKS"))
+                if (x.Contains("SECTION") && (_inputFile[index + 2].Contains("BLOCKS")))
                 {
-                    block_start = index;
+                    block_start = index + 2;
                     blocks_hit = true;
-
+                    Console.WriteLine(block_start);
                 }
                 if (blocks_hit)
                 {
@@ -264,14 +264,14 @@ namespace DXFInterface
                     {
                         block_end = index;
                         blocks_hit = false;
+                        Console.WriteLine(block_end);
                     }
                 }
 
-                if (x.Contains("ENTITIES"))
+                if (x.Contains("SECTION") && (_inputFile[index + 2].Contains("ENTITIES")))
                 {
-                    entity_start = index;
+                    entity_start = index + 2;
                     entities_hit = true;
-
                 }
                 if (entities_hit)
                 {
@@ -281,23 +281,18 @@ namespace DXFInterface
                         entities_hit = false;
                     }
                 }
-                if (x.Contains("TABLES") && (_inputFile[index + 2].Contains("TABLE")))
+                if (x.Contains("SECTION") && (_inputFile[index + 2].Contains("TABLES")))
                 {
-                    tables_start = index;
+                    tables_start = index + 2;
                     tables_hit = true;
-                    
-
-
                 }
                 if (tables_hit != false)
                 {
                     if (x.Contains("ENDSEC"))
                     {
                         tables_end = index;
-                        
+
                         tables_hit = false;
-
-
                     }
                 }
                 index += 1;
@@ -305,11 +300,11 @@ namespace DXFInterface
 
             ParseBlocks(block_start, block_end);
             ParseEntities(entity_start, entity_end);
-            List<string> scan = ScanForPanels(); 
-            foreach(var x in scan)
-            {
-                Console.WriteLine(x.ToString());
-            }
+          // List<string> scan = ScanForPanels(); 
+          // foreach(var x in scan)
+          // {
+          //     Console.WriteLine(x.ToString());
+          // }
             return;
 
         }
@@ -422,22 +417,16 @@ namespace DXFInterface
         }
         public List<string> ScanForPanels()
         {
-           
-            List<string > listOflines = new List<string>();
-            foreach(var line in _inputFile)
-            {
-                if(line.Contains("10deg") | line.Contains("5deg"))
-                {
-                    listOflines.Add(line);
-                }
-            }
-            foreach(var x in listOflines)
+            int flag = 0;
+            IEnumerable<string> listOflines  = _inputFile.Where(x => ((x.Contains("10") | x.Contains("5")) && (x.Contains("deg") | x.Contains("Deg") | x.Contains("DEG")))).Distinct();
+            List<string> panelNameList = listOflines.ToList();
+            foreach(var x in panelNameList)
             {
                 Console.WriteLine(x);
             }
             Console.ReadKey();
 
-            return listOflines;
+            return panelNameList;
         }
     }
 }

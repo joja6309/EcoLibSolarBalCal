@@ -18,7 +18,7 @@ namespace BallastCalculator
         public static string outPath;
         public static string panelName = "";
         public static string panelType;
-        public static List<string> panelNames; 
+        public static List<string> panelNames;
 
         static void SetExcelPath(string path)
         {
@@ -77,39 +77,18 @@ namespace BallastCalculator
                 EcoPanel.CalculatePanelCenter(BlockPerimeter.Center.Item1, BlockPerimeter.Center.Item2);
                 EcoPanel.SetPanelZones(IFIboarder);
             }
-            //Console.WriteLine("Reading/Writing Excel..."); 
-            //PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList, bal);
 
-            //ExInterface.RUNIO(land, PanelList);
+            PanelGrid grid = new PanelGrid(BlockPerimeter, PanelList, bal);
 
-//          foreach (var panel in grid.PanelList )
-//          {
-//              if (land)
-//              {
-//                  //KB DEBUG: uplift and sliding were backwards, fixed it.
-//                  ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-//                  panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
-//                  //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
-//
-//              }
-//              else
-//              {
-//                  //KB DEBUG: uplift and sliding were backwards, fixed it.
-//                  ExInterface.WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
-//                  panel.ValueFromExcel = ExInterface.CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
-//                  //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
-//
-//              }
-//
-//          }
+            ExInterface.RUNIO(land, PanelList);
 
-            //Console.WriteLine("Complete!");
+            Console.WriteLine("Complete!");
     
-            //grid.RunBasePanelCalculations();
+            grid.RunBasePanelCalculations();
 
-            //List<Base> final_bases = grid.PanelBaseList;
+            List<Base> final_bases = grid.PanelBaseList;
 
-            //dxfInterface.GenerateFileOut(final_bases, PanelList);
+            dxfInterface.GenerateFileOut(final_bases, PanelList);
             //List<string> matches = dxfInterface.ScanForPanels(); 
             //foreach 
 

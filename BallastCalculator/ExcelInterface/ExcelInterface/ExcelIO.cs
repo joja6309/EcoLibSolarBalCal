@@ -13,7 +13,7 @@ namespace ExcelInterface
     public class ExcelIO
     {
         private readonly string _filePath;
-        private readonly string _firstSheetName;
+        private readonly string _firstSheetName; //KB 9.29.16 - Is this for the engineering inputs? Can we hard code tab name as with the read operations? 
         public bool def;
         public bool land;
         public double bal;
@@ -34,7 +34,6 @@ namespace ExcelInterface
                 _firstSheetName = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().ElementAt(1).Name;
             }
         }
-
         public void ProcessFirstSheet()
         {
             def = CheckFirst("C32");
@@ -55,7 +54,7 @@ namespace ExcelInterface
                 column = "K";
             }
         }
-        public void WritetoSandU(string uplift, string sliding)
+        public void Write_U_and_S_To_Sheet(string uplift, string sliding) //KB 9.29.16 inserts uplift and sliding cells into appropriate excel sheet
         {
             InsertText(referenceSheet, upliftCell, uplift);
             InsertText(referenceSheet, slidingCell, sliding);
@@ -63,7 +62,7 @@ namespace ExcelInterface
             //Refresh();
             return;
         }
-        public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest) //KB DEBUG: changed to case style code, simpler to read/debug
+        public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest)
         {
             int startingCell_NE = 0;
             int startingCell_NW = 0;
@@ -217,17 +216,6 @@ namespace ExcelInterface
             return Convert.ToDouble(doubleCell);
 
         }
-//      public void Update()
-//      {
-//          using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
-//          {
-//              excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
-//              excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
-//              excelDoc.WorkbookPart.Workbook.Save();
-//
-//
-//          }
-//      }
         private WorksheetPart GetWorksheetPart(SpreadsheetDocument excelDoc, string sheetName)
         {
             Sheet sheet = excelDoc.WorkbookPart.Workbook.Descendants<Sheet>().SingleOrDefault(s => s.Name == sheetName);
@@ -323,67 +311,52 @@ namespace ExcelInterface
 
             return i;
         }
-
-        /// <see cref="IExcelDocument.UpdateCell" />
-        public void UpdateCell(string sheetName, string cellCoordinates, object cellValue)
+        public void RUNIO(bool land, List<EcoPanel> PanelList)//KB 9.29.16 forces sheet to recalculate on open, opens excel app, for each panel writes to excel, opens workbook, saves, closes workbook (this updates equation values), then closes excel app when done.
         {
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
-                // tell Excel to recalculate formulas next time it opens the doc
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
-
-                WorksheetPart worksheetPart = GetWorksheetPart(excelDoc, sheetName);
-                Cell cell = GetCell(worksheetPart, cellCoordinates);
-                cell.CellValue = new CellValue(cellValue.ToString());
-                worksheetPart.Worksheet.Save();
             }
-            
-        }
-
-        /// <summary>Refreshes an Excel document by opening it and closing in background by the Excep Application</summary>
-        /// <see cref="IExcelDocument.Refresh" />
-//       public void Refresh()
-//       {
-//           var excelApp = new Application();
-//           var workbook = excelApp.Workbooks.Open(_filePath,true );
-//           workbook.Close(true);
-//           excelApp.Quit();
-//       }
-        public void RUNIO(bool land, List<EcoPanel> PanelList)
-        {
             var excelApp = new Application();
-            foreach (var panel in PanelList )
+            int count = 1;
+            foreach (var panel in PanelList)
             {
                 if (land)
                 {
                     //KB DEBUG: uplift and sliding were backwards, fixed it.
-                    WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+                    Write_U_and_S_To_Sheet(panel.Uplift.ToString(), panel.Sliding.ToString());
                     var workbook = excelApp.Workbooks.Open(_filePath, true);
+                    workbook.Save();
                     workbook.Close(true);
                     panel.ValueFromExcel = CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
-                    //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+                    Console.WriteLine("Panel {2} of {1}, output Excel Value {0}", panel.ValueFromExcel, PanelList.Count, count);
+                    Console.WriteLine("Uplift Value :" + panel.Uplift);
+                    Console.WriteLine("Sliding Value :" + panel.Sliding);
+                    Console.WriteLine("Center :" + panel.Center);
                 }
                 else
                 {
                     //KB DEBUG: uplift and sliding were backwards, fixed it.
-                    WritetoSandU(panel.Uplift.ToString(), panel.Sliding.ToString());
+                    Write_U_and_S_To_Sheet(panel.Uplift.ToString(), panel.Sliding.ToString());
                     var workbook = excelApp.Workbooks.Open(_filePath, true);
+                    workbook.Save();
                     workbook.Close(true);
                     panel.ValueFromExcel = CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
-                    //Console.WriteLine("Output Excel Value {0}", panel.ValueFromExcel);
+                    Console.WriteLine("Panel {2} of {1}, output Excel Value {0}", panel.ValueFromExcel, PanelList.Count, count);
+                    Console.WriteLine("Uplift Value :" + panel.Uplift);
+                    Console.WriteLine("Sliding Value :" + panel.Sliding);
+                    Console.WriteLine("Center :" + panel.Center);
                 }
+                count = count + 1;
             }
             excelApp.Quit();
-            
-        }
-
+        } 
         private Cell GetCell(SpreadsheetDocument excelDoc, string sheetName, string cellCoordinates)
         {
             WorksheetPart worksheetPart = GetWorksheetPart(excelDoc, sheetName);
             return GetCell(worksheetPart, cellCoordinates);
         }
-
         private Cell GetCell(WorksheetPart worksheetPart, string cellCoordinates)
         {
             int rowIndex = int.Parse(cellCoordinates.Substring(1));
@@ -396,7 +369,6 @@ namespace ExcelInterface
             }
             return cell;
         }
-
         private Row GetRow(WorksheetPart worksheetPart, int rowIndex)
         {
             Row row = worksheetPart.Worksheet.GetFirstChild<SheetData>().
@@ -453,4 +425,41 @@ namespace ExcelInterface
     }
 }
 
+/// <see cref="IExcelDocument.UpdateCell" />
+//      public void UpdateCell(string sheetName, string cellCoordinates, object cellValue)
+//      {
+//          using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+//          {
+//              // tell Excel to recalculate formulas next time it opens the doc
+//              excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
+//              excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
+//
+//              WorksheetPart worksheetPart = GetWorksheetPart(excelDoc, sheetName);
+//              Cell cell = GetCell(worksheetPart, cellCoordinates);
+//              cell.CellValue = new CellValue(cellValue.ToString());
+//              worksheetPart.Worksheet.Save();
+//          }
+//          
+//      }
+///
+//      public void Update()
+//      {
+//          using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+//          {
+//              excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
+//              excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
+//              excelDoc.WorkbookPart.Workbook.Save();
+//
+//
+//          }
+//      }
+/// <summary>Refreshes an Excel document by opening it and closing in background by the Excep Application</summary>
+/// <see cref="IExcelDocument.Refresh" />
+//       public void Refresh()
+//       {
+//           var excelApp = new Application();
+//           var workbook = excelApp.Workbooks.Open(_filePath,true );
+//           workbook.Close(true);
+//           excelApp.Quit();
+//       }
 

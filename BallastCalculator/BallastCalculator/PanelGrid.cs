@@ -27,6 +27,48 @@ namespace BallastCalculator
         {
             PanelList = plist;
         }
+        public void RunIFILocationChecks()
+        {
+            foreach (var EcoPanel in PanelList)
+            {
+                E2W_LAND_COL_SET(EcoPanel);
+                E2W_PORT_COL_SET(EcoPanel);
+                N_LAND_Check(EcoPanel);
+                N_PORT_Check(EcoPanel);
+                S_PORT_Check(EcoPanel);
+                S_LAND_Check(EcoPanel);
+                W2E_LAND_Col_Set(EcoPanel);
+                W2E_PORT_Col_Set(EcoPanel);
+            }
+            {
+                PanelList = PanelList.OrderByDescending(x => x.Center.Item1).ToList();  // sort panel List largest to smallest x value
+                Set_E2WTruCol_LAND(PanelList);
+                Set_E2WTruCol_PORT(PanelList);
+                E2WPortCheck(PanelList);
+                E2WLandCheck(PanelList);
+
+                PanelList = PanelList.OrderBy(x => x.Center.Item1).ToList();            // sort panel list smallest to larges x value
+                Set_W2ETruCol_LAND(PanelList);
+                Set_W2ETruCol_PORT(PanelList);
+                W2ELandCheck(PanelList);
+                W2EPortCheck(PanelList);
+            }
+            PanelList = PanelList.OrderBy(x => x.Center.Item1).ThenByDescending(x => x.Center.Item2).ToList(); // organizes panel list for easier console output and debug (columns left to right, top to bottom of each column)
+        }
+        private void RunPanelCalculations()
+        {
+
+            foreach (EcoPanel EcoPanel in PanelList)
+            {
+                EcoPanel.CalculatePanelCenter(BlocksValues.Center.Item1, BlocksValues.Center.Item2);
+                EcoPanel.Uplift = GetUpliftValue(EcoPanel);
+                EcoPanel.Sliding = GetSlidingValue(EcoPanel);
+            }
+            RunIFILocationChecks();
+            BuildDirectionList();
+            CalculateBallastLocation();
+
+        }
         public void RunBasePanelCalculations()
         {
             foreach(EcoPanel panel in PanelList)
@@ -38,23 +80,6 @@ namespace BallastCalculator
                 CalculateBlockTotalValues(pb);
             }
         }
-       
-//IFI_Value(pulled from excel, per module)
-//ballastLoc variable(previously calculated, per module)...
-//-------------
-//| 1 | 2 | 3 |
-//-------------
-//| 4 | 5 | 6 |
-//-------------
-//| 7 | 8 | 9 |
-//-------------
-//ModNW - portion of IFI_Value sent to northwest corner of module
-//ModNE - portion of IFI_Value sent to northeast corner of module
-//ModSW - portion of IFI_Value sent to southwest corner of module
-//ModSE - portion of IFI_Value sent to southeast corner of module
-//northRow - modifier for north row feet(1.4 for now)
-//southRow - modifier for south row feet(1.6 for now)
-
         private List<double> CornerWeightContribution(int ballastLoc, double IFI_Value)
         {
             double ModNW = 0;
@@ -250,20 +275,6 @@ namespace BallastCalculator
             base_panel.UnroundedBallastBlockValue = (IFI_Base_Total / BallastValue) - 0.3; 
 
             base_panel.BallastBlockValue = Convert.ToInt32(Math.Ceiling(base_panel.UnroundedBallastBlockValue));
-
-        }
-        private void RunPanelCalculations()
-        {
-
-            foreach (EcoPanel EcoPanel in PanelList)
-            {
-                EcoPanel.CalculatePanelCenter(BlocksValues.Center.Item1, BlocksValues.Center.Item2);
-                EcoPanel.Uplift = GetUpliftValue(EcoPanel);
-                EcoPanel.Sliding = GetSlidingValue(EcoPanel);
-            }
-            RunIFILocationChecks();
-            BuildDirectionList();
-            CalculateBallastLocation();
 
         }
         private Tuple<double, double, int> GenerateNeighbor(int n, double x_start, double y_start, int direction)
@@ -765,7 +776,7 @@ namespace BallastCalculator
             }
         }
         private int GetUpliftValue(EcoPanel EcoPanel)
-        {
+        { //KB 9.29.16 - needs to be built out to avoid false positives when a break occurs in the array
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int input_n = 2;
@@ -805,7 +816,7 @@ namespace BallastCalculator
             return total_count;
         }
         private int GetSlidingValue(EcoPanel EcoPanel)
-        {
+        {//KB 9.29.16 - needs to be built out to avoid false positives when a break occurs in the array
             var x_start = EcoPanel.Center.Item1;
             var y_start = EcoPanel.Center.Item2;
             int input_n = 6;
@@ -842,35 +853,8 @@ namespace BallastCalculator
                     }
                 }
             }
+            //KB 9.29.16 - need to add count cap (perhaps 50?)
             return total_count;
-        }
-        public void RunIFILocationChecks()
-        {
-            foreach (var EcoPanel in PanelList)
-            {
-                E2W_LAND_COL_SET(EcoPanel);
-                E2W_PORT_COL_SET(EcoPanel);
-                N_LAND_Check(EcoPanel);
-                N_PORT_Check(EcoPanel);
-                S_PORT_Check(EcoPanel);
-                S_LAND_Check(EcoPanel);
-                W2E_LAND_Col_Set(EcoPanel);
-                W2E_PORT_Col_Set(EcoPanel);
-            }
-            {
-                PanelList = PanelList.OrderByDescending(x => x.Center.Item1).ToList();  // sort panel List largest to smallest x value
-                Set_E2WTruCol_LAND(PanelList);
-                Set_E2WTruCol_PORT(PanelList);
-                E2WPortCheck(PanelList);
-                E2WLandCheck(PanelList);
-
-                PanelList = PanelList.OrderBy(x => x.Center.Item1).ToList();            // sort panel list smallest to larges x value
-                Set_W2ETruCol_LAND(PanelList);
-                Set_W2ETruCol_PORT(PanelList);
-                W2ELandCheck(PanelList);
-                W2EPortCheck(PanelList);
-            }
-            PanelList = PanelList.OrderBy(x => x.Center.Item1).ThenByDescending(x =>x.Center.Item2).ToList(); // organizes panel list for easier console output and debug (columns left to right, top to bottom of each column)
         }
         public List<EcoPanel> GetPanels()
         {
@@ -880,38 +864,38 @@ namespace BallastCalculator
         {
             return PanelBaseList;
         }
-        public void PrintPanelData()
-        {
-            Console.WriteLine("EcoPanel/Entities Values:");
-            Console.WriteLine("======================");
-            foreach (var x in PanelList)
-            {
-                Console.WriteLine("EcoPanel Number {0}: ", x.PanelID);
-                Console.WriteLine("X value: {0}", x.Xvalue.ToString());
-                Console.WriteLine("Y Value: {0} ", x.Yvalue.ToString());
-                Console.WriteLine("Center Value: {0}", x.Center.ToString());
-                Console.WriteLine("North East Zone: {0}", x.NE_Zone.ToString());
-                Console.WriteLine("North West Zone: {0}", x.NW_Zone.ToString());
-                Console.WriteLine("IFI Location Variables: ");
-                Console.WriteLine("W2E Port Position: {0}", x.IFI_W2E_Port);
-                Console.WriteLine("W2E Land Position: {0}", x.IFI_W2E_Land);
-                Console.WriteLine("E2W Port Position: {0}", x.IFI_E2W_Port);
-                Console.WriteLine("E2W Land Position: {0}", x.IFI_E2W_Land);
-                Console.WriteLine("North Land Position: {0}", x.IFI_NORTH_Land);
-                Console.WriteLine("South Land Position: {0}", x.IFI_SOUTH_Land);
-                Console.WriteLine("Ballast Location: {0}", x.BallastLocation);
-                Console.WriteLine("Direction List: ");
-                Console.WriteLine("=================");
-                foreach (var d in x.DirectionList)
-                {
-                    Console.WriteLine(d);
-                }
-                Console.WriteLine("=================");
-                Console.WriteLine("\n");
-                Console.ReadKey();
-            }
-            return;
-        }
+//        public void PrintPanelData()
+//        {
+//            Console.WriteLine("EcoPanel/Entities Values:");
+//            Console.WriteLine("======================");
+//            foreach (var x in PanelList)
+//            {
+//                Console.WriteLine("EcoPanel Number {0}: ", x.PanelID);
+//                Console.WriteLine("X value: {0}", x.Xvalue.ToString());
+//                Console.WriteLine("Y Value: {0} ", x.Yvalue.ToString());
+//                Console.WriteLine("Center Value: {0}", x.Center.ToString());
+//                Console.WriteLine("North East Zone: {0}", x.NE_Zone.ToString());
+//                Console.WriteLine("North West Zone: {0}", x.NW_Zone.ToString());
+//                Console.WriteLine("IFI Location Variables: ");
+//                Console.WriteLine("W2E Port Position: {0}", x.IFI_W2E_Port);
+//                Console.WriteLine("W2E Land Position: {0}", x.IFI_W2E_Land);
+//                Console.WriteLine("E2W Port Position: {0}", x.IFI_E2W_Port);
+//                Console.WriteLine("E2W Land Position: {0}", x.IFI_E2W_Land);
+//                Console.WriteLine("North Land Position: {0}", x.IFI_NORTH_Land);
+//                Console.WriteLine("South Land Position: {0}", x.IFI_SOUTH_Land);
+//                Console.WriteLine("Ballast Location: {0}", x.BallastLocation);
+//                Console.WriteLine("Direction List: ");
+//                Console.WriteLine("=================");
+//                foreach (var d in x.DirectionList)
+//                {
+//                    Console.WriteLine(d);
+//                }
+//                Console.WriteLine("=================");
+//                Console.WriteLine("\n");
+//                Console.ReadKey();
+//            }
+//            return;
+//        }
         //private void CalculateBlockTotalValues(Base base_panel)
         //{
         //    double IFI_Base_Total = 0;

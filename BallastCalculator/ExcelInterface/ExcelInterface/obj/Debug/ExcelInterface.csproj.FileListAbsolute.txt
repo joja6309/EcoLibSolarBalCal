@@ -80,3 +80,5 @@ C:\Users\kbasa\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\ExcelInterfa
 C:\Users\kbasa\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\ExcelInterface\ExcelInterface\obj\Debug\ExcelInterface.pdb
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\ExcelInterface\ExcelInterface\bin\Debug\Dimension.dll
 C:\Users\Owner\Desktop\EcoLibriumSolar\BallastCalculator\ExcelInterface\ExcelInterface\bin\Debug\Dimension.pdb
+C:\Users\kbasa\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\ExcelInterface\ExcelInterface\bin\Debug\Dimension.dll
+C:\Users\kbasa\Documents\GitHub\EcoLibSolarBalCal\BallastCalculator\ExcelInterface\ExcelInterface\bin\Debug\Dimension.pdb
