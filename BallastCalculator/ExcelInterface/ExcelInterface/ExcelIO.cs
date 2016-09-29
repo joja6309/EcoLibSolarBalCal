@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System;
+using System.Diagnostics; 
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -7,6 +8,9 @@ using DocumentFormat.OpenXml;
 using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using Dimensions;
+using System.Threading.Tasks;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace ExcelInterface
 {
@@ -27,7 +31,7 @@ namespace ExcelInterface
         public ExcelIO(string filePath)
         {
             _filePath = filePath;
-            
+
             using (
                 SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
@@ -54,15 +58,15 @@ namespace ExcelInterface
                 column = "K";
             }
         }
-        public void Write_U_and_S_To_Sheet(string uplift, string sliding) //KB 9.29.16 inserts uplift and sliding cells into appropriate excel sheet
+        public void Write_U_and_S_To_Sheet(string excel_file_path, string uplift, string sliding) //KB 9.29.16 inserts uplift and sliding cells into appropriate excel sheet
         {
-            InsertText(referenceSheet, upliftCell, uplift);
-            InsertText(referenceSheet, slidingCell, sliding);
+            InsertText(excel_file_path, referenceSheet, upliftCell, uplift);
+            InsertText(excel_file_path, referenceSheet, slidingCell, sliding);
             //Update();
             //Refresh();
             return;
         }
-        public double CellIO(int NE_Zone, int NW_Zone, int IFINorth, int IFISouth, int IFIEast, int IFIWest)
+        public double CellIO(EcoPanel panel)
         {
             int startingCell_NE = 0;
             int startingCell_NW = 0;
@@ -70,118 +74,137 @@ namespace ExcelInterface
             int e2wmod = 0;
             int w2emod = 0;
             int defmod = 0;
+            Console.WriteLine(panel.PanelID);
+
             List<int> ColumnPositions = new List<int>();
-           
+            int IFINorth, IFISouth, IFIEast, IFIWest;
+            if (land)
+            {
+                IFINorth = panel.IFI_NORTH_Land;
+                IFIEast = panel.IFI_E2W_Land;
+                IFISouth = panel.IFI_SOUTH_Land;
+                IFIWest = panel.IFI_W2E_Land;
+            }
+            else
+            {
+                IFINorth = panel.IFI_NORTH_Port;
+                IFIEast = panel.IFI_E2W_Port;
+                IFISouth = panel.IFI_SOUTH_Port;
+                IFIWest = panel.IFI_W2E_Port;
+
+            }
+
             if (!def)
-                           defmod = 52;
-            
-                       switch (NW_Zone)
-                       {
-                           case 1:
-                               startingCell_NW = WDeflector_Refzones[0];
-                               break;
-                           case 2:
-                               startingCell_NW = WDeflector_Refzones[1];
-                               break;
-                           case 3:
-                               startingCell_NW = WDeflector_Refzones[2];
-                               break;
-                           case 4:
-                               startingCell_NW = WDeflector_Refzones[3];
-                               break;
-                           case 5:
-                               startingCell_NW = WDeflector_Refzones[4];
-                               break;
-                       }
-            
-                       switch (NE_Zone)
-                       {
-                           case 1:
-                               startingCell_NE = WDeflector_Refzones[0];
-                               break;
-                           case 2:
-                               startingCell_NE = WDeflector_Refzones[1];
-                               break;
-                           case 3:
-                               startingCell_NE = WDeflector_Refzones[2];
-                               break;
-                           case 4:
-                               startingCell_NE = WDeflector_Refzones[3];
-                               break;
-                           case 5:
-                               startingCell_NE = WDeflector_Refzones[4];
-                               break;
-                       }
-            
-                       switch (IFINorth)
-                       {
-                           case 0:
-                               nmod = 0;
-                               break;
-                           case 1:
-                               nmod = 2;
-                               break;
-                           case 2:
-                               nmod = 4;
-                               break;
-                       }
-            
-                       switch (IFIEast)
-                       {
-                           case 1:
-                               {
-                                    e2wmod = 0;
-                                    int tempe = startingCell_NE + defmod + nmod + e2wmod;
+                defmod = 52;
+
+            switch (panel.NW_Zone)
+            {
+                case 1:
+                    startingCell_NW = WDeflector_Refzones[0];
+                    break;
+                case 2:
+                    startingCell_NW = WDeflector_Refzones[1];
+                    break;
+                case 3:
+                    startingCell_NW = WDeflector_Refzones[2];
+                    break;
+                case 4:
+                    startingCell_NW = WDeflector_Refzones[3];
+                    break;
+                case 5:
+                    startingCell_NW = WDeflector_Refzones[4];
+                    break;
+            }
+
+            switch (panel.NE_Zone)
+            {
+                case 1:
+                    startingCell_NE = WDeflector_Refzones[0];
+                    break;
+                case 2:
+                    startingCell_NE = WDeflector_Refzones[1];
+                    break;
+                case 3:
+                    startingCell_NE = WDeflector_Refzones[2];
+                    break;
+                case 4:
+                    startingCell_NE = WDeflector_Refzones[3];
+                    break;
+                case 5:
+                    startingCell_NE = WDeflector_Refzones[4];
+                    break;
+            }
+
+            switch (IFINorth)
+            {
+                case 0:
+                    nmod = 0;
+                    break;
+                case 1:
+                    nmod = 2;
+                    break;
+                case 2:
+                    nmod = 4;
+                    break;
+            }
+
+            switch (IFIEast)
+            {
+                case 1:
+                    {
+                        e2wmod = 0;
+                        int tempe = startingCell_NE + defmod + nmod + e2wmod;
                         ColumnPositions.Add(tempe);
-                                    break;
-                               }
-                           case 2:
-                               {
-                                    e2wmod = 1;
-                                    int tempe = startingCell_NE + defmod + nmod + e2wmod;
+                        break;
+                    }
+                case 2:
+                    {
+                        e2wmod = 1;
+                        int tempe = startingCell_NE + defmod + nmod + e2wmod;
                         ColumnPositions.Add(tempe);
-                                    break;
-                               }
-                       }
-            
-                       switch (IFIWest)
-                       {
-                           case 1:
-                               {
-                                   w2emod = 0;
-                        int tempw = startingCell_NW + defmod + nmod + w2emod;
-                        ColumnPositions.Add(tempw);
-                                   break;
-                               }
-                           case 2:
-                               {
-                                   w2emod = 1;
+                        break;
+                    }
+            }
+
+            switch (IFIWest)
+            {
+                case 1:
+                    {
+                        w2emod = 0;
                         int tempw = startingCell_NW + defmod + nmod + w2emod;
                         ColumnPositions.Add(tempw);
                         break;
-                               }
-                       }
-            
-                       if (IFISouth == 0)
-                       {
-                            int tempsw = startingCell_NW + defmod + 6 + w2emod;
-                            int tempse = startingCell_NE + defmod + 6 + e2wmod;
-                            ColumnPositions.Add(tempse);
-                            ColumnPositions.Add(tempsw);
-                       }
+                    }
+                case 2:
+                    {
+                        w2emod = 1;
+                        int tempw = startingCell_NW + defmod + nmod + w2emod;
+                        ColumnPositions.Add(tempw);
+                        break;
+                    }
+            }
+
+            if (IFISouth == 0)
+            {
+                int tempsw = startingCell_NW + defmod + 6 + w2emod;
+                int tempse = startingCell_NE + defmod + 6 + e2wmod;
+                ColumnPositions.Add(tempse);
+                ColumnPositions.Add(tempsw);
+            }
 
             List<double> Results = new List<double>();
             foreach (var position in ColumnPositions)
             {
                 var return_cell = ReadCell(referenceSheet, column + position.ToString());
+                Console.WriteLine(return_cell);
                 Results.Add(Convert.ToDouble(return_cell));
             }
 
-           
+
             double final_value = Results.Max();
 
             return final_value;
-        }    
+        }
         public bool CheckFirst(string cellCo)
         {
             int outInt = 0;
@@ -229,7 +252,7 @@ namespace ExcelInterface
         public string ReadCell(string sheetName, string cellCoordinates)
         {
             string string_cell = null;
-          
+
             using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
             {
                 WorksheetPart wbpart = GetWorksheetPart(excelDoc, sheetName);
@@ -248,12 +271,15 @@ namespace ExcelInterface
                 return "0";
             }
         }
-        public void InsertText(string sheetName, Tuple<string, uint> cellCO, string text)
+        public void InsertText(string filePath, string sheetName, Tuple<string, uint> cellCO, string text)
         {
             // Open the document for editing.
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+
+
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(filePath, true))
             {
-                // Get the SharedStringTablePart. If it does not exist, create a new one.
+                //Get the SharedStringTablePart.If it does not exist, create a new one.
+
                 SharedStringTablePart shareStringPart;
                 if (excelDoc.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0)
                 {
@@ -281,6 +307,7 @@ namespace ExcelInterface
                 // Save the new worksheet.
                 worksheetPart.Worksheet.Save();
             }
+           
         }
         // Given text and a SharedStringTablePart, creates a SharedStringItem with the specified text 
         // and inserts it into the SharedStringTablePart. If the item already exists, returns its index.
@@ -311,46 +338,114 @@ namespace ExcelInterface
 
             return i;
         }
-        public void RUNIO(bool land, List<EcoPanel> PanelList)//KB 9.29.16 forces sheet to recalculate on open, opens excel app, for each panel writes to excel, opens workbook, saves, closes workbook (this updates equation values), then closes excel app when done.
+        private bool GrantAccess(string fullPath)
         {
-            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+            DirectoryInfo dInfo = new DirectoryInfo(fullPath);
+            DirectorySecurity dSecurity = dInfo.GetAccessControl();
+            dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+            dInfo.SetAccessControl(dSecurity);
+            return true;
+        }
+        private void DeleteDirectory(string desktop_path)
+        {
+            File.SetAttributes(desktop_path, FileAttributes.Normal);
+            DirectoryInfo dir = new DirectoryInfo(desktop_path);
+
+
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dirc in dir.GetDirectories())
+            {
+                dirc.Delete(true);
+            }
+        }
+        private string BuildHiddenDirectories(List<EcoPanel> PanelList)
+        {
+            var desktop_path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            desktop_path = desktop_path + @"\ExcelCopies";
+            if (Directory.Exists(desktop_path))
+            {
+
+                DeleteDirectory(desktop_path);
+            }
+            DirectoryInfo di = Directory.CreateDirectory(desktop_path);
+            foreach (var panel in PanelList)
+            {
+                File.Copy(_filePath, Path.Combine(desktop_path, panel.PanelID.ToString() + Path.GetFileName(_filePath)));
+                panel.ExcelFilePath = Path.Combine(desktop_path, panel.PanelID.ToString() + Path.GetFileName(_filePath));
+
+            }
+            return desktop_path;
+
+        }
+        private void RunPolyExcelReadandWrite(List<EcoPanel> PanelList)
+        {
+
+
+            Parallel.ForEach<EcoPanel>(PanelList, panel => ReadandWrite(panel));
+
+            Console.WriteLine("Results: ");
+            foreach (EcoPanel panel in PanelList)
+            {
+                Console.WriteLine("=============");
+                Console.WriteLine(panel.PanelID);
+                Console.WriteLine(panel.ValueFromExcel);
+                Console.WriteLine("=============");
+            }
+            Console.ReadKey();
+
+        }
+        public void ReadandWrite(EcoPanel panel)
+        {
+            using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(panel.ExcelFilePath, true))
             {
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
                 excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
             }
             var excelApp = new Application();
-            int count = 1;
-            foreach (var panel in PanelList)
+            if (land)
             {
-                if (land)
-                {
-                    //KB DEBUG: uplift and sliding were backwards, fixed it.
-                    Write_U_and_S_To_Sheet(panel.Uplift.ToString(), panel.Sliding.ToString());
-                    var workbook = excelApp.Workbooks.Open(_filePath, true);
-                    workbook.Save();
-                    workbook.Close(true);
-                    panel.ValueFromExcel = CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Land, panel.IFI_SOUTH_Land, panel.IFI_E2W_Land, panel.IFI_W2E_Land);
-                    Console.WriteLine("Panel {2} of {1}, output Excel Value {0}", panel.ValueFromExcel, PanelList.Count, count);
-                    Console.WriteLine("Uplift Value :" + panel.Uplift);
-                    Console.WriteLine("Sliding Value :" + panel.Sliding);
-                    Console.WriteLine("Center :" + panel.Center);
-                }
-                else
-                {
-                    //KB DEBUG: uplift and sliding were backwards, fixed it.
-                    Write_U_and_S_To_Sheet(panel.Uplift.ToString(), panel.Sliding.ToString());
-                    var workbook = excelApp.Workbooks.Open(_filePath, true);
-                    workbook.Save();
-                    workbook.Close(true);
-                    panel.ValueFromExcel = CellIO(panel.NE_Zone, panel.NW_Zone, panel.IFI_NORTH_Port, panel.IFI_SOUTH_Port, panel.IFI_E2W_Port, panel.IFI_W2E_Port);
-                    Console.WriteLine("Panel {2} of {1}, output Excel Value {0}", panel.ValueFromExcel, PanelList.Count, count);
-                    Console.WriteLine("Uplift Value :" + panel.Uplift);
-                    Console.WriteLine("Sliding Value :" + panel.Sliding);
-                    Console.WriteLine("Center :" + panel.Center);
-                }
-                count = count + 1;
+                //KB DEBUG: uplift and sliding were backwards, fixed it.
+                Write_U_and_S_To_Sheet(panel.ExcelFilePath, panel.Uplift.ToString(), panel.Sliding.ToString());
+                var workbook = excelApp.Workbooks.Open(panel.ExcelFilePath, true);
+                workbook.Save();
+                workbook.Close(true);
+                panel.ValueFromExcel = CellIO(panel);
+
             }
-            excelApp.Quit();
+            else
+            {
+                //KB DEBUG: uplift and sliding were backwards, fixed it.
+                Write_U_and_S_To_Sheet(panel.ExcelFilePath, panel.Uplift.ToString(), panel.Sliding.ToString());
+                var workbook = excelApp.Workbooks.Open(panel.ExcelFilePath, true);
+                workbook.Save();
+                workbook.Close(true);
+                panel.ValueFromExcel = CellIO(panel);
+
+            }
+        }
+
+        //Console.WriteLine("Panel ID{0}", panel.PanelID); 
+        //Console.WriteLine("Panel")
+
+    
+
+        public void RUNIO(bool land, List<EcoPanel> PanelList)//KB 9.29.16 forces sheet to recalculate on open, opens excel app, for each panel writes to excel, opens workbook, saves, closes workbook (this updates equation values), then closes excel app when done.
+        {
+            //using (SpreadsheetDocument excelDoc = SpreadsheetDocument.Open(_filePath, true))
+            //{
+            //    excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
+            //    excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
+            //}
+            
+           string directory_path =  BuildHiddenDirectories(PanelList);
+           
+            RunPolyExcelReadandWrite(PanelList);
+
+            DeleteDirectory(directory_path);
+          
         } 
         private Cell GetCell(SpreadsheetDocument excelDoc, string sheetName, string cellCoordinates)
         {

@@ -276,6 +276,7 @@ namespace Dimensions
 
             }
             public double ValueFromExcel = 0;
+        public string ExcelFilePath;
         
         }
         public class Base : BasicDimensions
