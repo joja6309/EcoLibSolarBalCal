@@ -256,7 +256,7 @@ namespace DXFInterface
                 {
                     block_start = index + 2;
                     blocks_hit = true;
-                    Console.WriteLine(block_start);
+                    //Console.WriteLine(block_start);
                 }
                 if (blocks_hit)
                 {
@@ -264,7 +264,7 @@ namespace DXFInterface
                     {
                         block_end = index;
                         blocks_hit = false;
-                        Console.WriteLine(block_end);
+                        //Console.WriteLine(block_end);
                     }
                 }
 

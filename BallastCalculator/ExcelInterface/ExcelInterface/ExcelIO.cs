@@ -74,7 +74,7 @@ namespace ExcelInterface
             int e2wmod = 0;
             int w2emod = 0;
             int defmod = 0;
-            Console.WriteLine(panel.PanelID);
+            Console.WriteLine("Panel ID:{0}",panel.PanelID);
 
             List<int> ColumnPositions = new List<int>();
             int IFINorth, IFISouth, IFIEast, IFIWest;
@@ -196,13 +196,13 @@ namespace ExcelInterface
             foreach (var position in ColumnPositions)
             {
                 var return_cell = ReadCell(referenceSheet, column + position.ToString());
-                Console.WriteLine(return_cell);
+                //Console.WriteLine(return_cell);
                 Results.Add(Convert.ToDouble(return_cell));
             }
 
 
             double final_value = Results.Max();
-
+            Console.WriteLine("Excel Value{0}:", final_value);
             return final_value;
         }
         public bool CheckFirst(string cellCo)
@@ -382,9 +382,12 @@ namespace ExcelInterface
         }
         private void RunPolyExcelReadandWrite(List<EcoPanel> PanelList)
         {
-
-
-            Parallel.ForEach<EcoPanel>(PanelList, panel => ReadandWrite(panel));
+            
+            //Parallel.ForEach<EcoPanel>(PanelList, panel => ReadandWrite(panel));
+            foreach(var panel in PanelList)
+            {
+                ReadandWrite(panel);
+            }
 
             Console.WriteLine("Results: ");
             foreach (EcoPanel panel in PanelList)
@@ -439,12 +442,21 @@ namespace ExcelInterface
             //    excelDoc.WorkbookPart.Workbook.CalculationProperties.ForceFullCalculation = true;
             //    excelDoc.WorkbookPart.Workbook.CalculationProperties.FullCalculationOnLoad = true;
             //}
-            
-           string directory_path =  BuildHiddenDirectories(PanelList);
+
+            //string directory_path =  BuildHiddenDirectories(PanelList);
+            var desktop_path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+            File.Copy(_filePath, Path.Combine(desktop_path, "COPY" + Path.GetFileName(_filePath)));
+            string excel_path = Path.Combine(desktop_path, "COPY" + Path.GetFileName(_filePath));
+
+           foreach (var panel in PanelList)
+            {
+                panel.ExcelFilePath = excel_path; 
+            }
            
             RunPolyExcelReadandWrite(PanelList);
 
-            DeleteDirectory(directory_path);
+            //DeleteDirectory(directory_path);
           
         } 
         private Cell GetCell(SpreadsheetDocument excelDoc, string sheetName, string cellCoordinates)
