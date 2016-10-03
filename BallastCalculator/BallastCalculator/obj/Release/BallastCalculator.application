@@ -7,14 +7,14 @@
     <framework targetVersion="4.5.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="BallastCalculator.exe.manifest" size="14280">
+    <dependentAssembly dependencyType="install" codebase="BallastCalculator.exe.manifest" size="13987">
       <assemblyIdentity name="BallastCalculator.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>gB+5ejtbZ2mEeP1kI9r3bb05HpDL5miCmOAhJ0YEKwM=</dsig:DigestValue>
+        <dsig:DigestValue>1GdAyUiv8Yt7gWZJvnCtja5gseqD7iRyztsow9X2p1w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

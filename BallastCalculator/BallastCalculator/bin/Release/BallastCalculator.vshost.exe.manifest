@@ -42,11 +42,6 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
-      <assemblyIdentity name="Ac32BitAppServer" version="1.0.0.0" publicKeyToken="7208EDF2A10162B1" language="neutral" processorArchitecture="msil" />
-    </dependentAssembly>
-  </dependency>
-  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AcCoreMgd.dll" size="372224">
       <assemblyIdentity name="accoremgd" version="21.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -174,7 +169,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/hBBKgQMd83azpTsZRuTgikAAA96wg81CD30XUfkXxk=</dsig:DigestValue>
+        <dsig:DigestValue>EBkEEvWMnzBS8NkITa9h27O8ND11X7W4X62nH13wsPg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -222,7 +217,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>OR7t7tYdEoYL+0TV/qkggdvxA/oStvNTPE53f/c9ZpM=</dsig:DigestValue>
+        <dsig:DigestValue>Z1+5a+FApU897KpvXgVpED6+FAzthLI7s9jBMmrdzvo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

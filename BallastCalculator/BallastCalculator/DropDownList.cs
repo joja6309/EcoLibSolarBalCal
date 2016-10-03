@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO; 
 
 namespace BallastCalculator
 {
@@ -35,6 +36,20 @@ namespace BallastCalculator
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string strPath = Environment.GetFolderPath(
+                     System.Environment.SpecialFolder.DesktopDirectory);
+            string final_path = strPath + "/" + "saved_paths.txt";
+            if (File.Exists(final_path))
+            {
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(final_path))
+                {
+                    
+                    sw.WriteLine("Panel:{0}", FilePathContainer.panelName);
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
             this.Close();
 
         }
